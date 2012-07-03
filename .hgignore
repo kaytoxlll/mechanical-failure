@@ -1,0 +1,4 @@
+syntax: glob
+constants.pyc
+images.pyc
+sprites.pyc

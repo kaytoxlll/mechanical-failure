@@ -1,0 +1,45 @@
+from os.path import join
+import pygame
+from pygame.locals import *
+
+# Game variables
+FPS = 60
+ANIMTIMERSLOW = 60
+ANIMTIMERMEDIUM = 30
+ANIMYIMERFAST = 15
+TILESIZE = 32
+CENTERTILEWIDTH = 16
+BORDERTILEWIDTH = 8
+
+# Derived variables
+CENTERWIDTH = TILESIZE*CENTERTILEWIDTH
+CENTERHEIGHT = CENTERWIDTH
+SCREENHEIGHT = CENTERWIDTH
+BORDERWIDTH = TILESIZE*BORDERTILEWIDTH
+CENTERXSTART = BORDERWIDTH
+CENTERXEND = CENTERWIDTH + BORDERWIDTH
+CENTERYSTART = 0
+CENTERYEND = CENTERHEIGHT
+SCREENWIDTH = CENTERWIDTH+(BORDERWIDTH*2)
+CENTERCENTER = (CENTERXSTART+(CENTERWIDTH/2), CENTERYSTART+(CENTERWIDTH/2))
+
+# Functions
+
+# Music
+def songPlay(song):
+    songfile = join("data", "music", song)
+    pygame.mixer.music.load(songfile)
+    pygame.mixer.music.play(-1, 0.0)
+
+def songStop():
+    pygame.mixer.music.stop()
+
+def songPause():
+    pygame.mixer.music.pause()
+
+def songUnpause():
+    pygame.mixer.music.unpause()
+
+def songFadeout():
+    pygame.mixer.music.fadeout(1000)
+
