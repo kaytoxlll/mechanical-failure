@@ -1,7 +1,5 @@
 syntax: glob
-constants.pyc
-images.pyc
-sprites.pyc
+*.pyc
 lib/*
 build/*
 bin/*
