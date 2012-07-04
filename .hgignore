@@ -1,4 +1,5 @@
 syntax: glob
+notes.txt
 *.pyc
 lib/*
 build/*
