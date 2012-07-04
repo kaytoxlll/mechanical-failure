@@ -1,5 +1,25 @@
 from constants import *
 
+"""
+todo: this file should maintain a dictionary of each file the game uses.
+by default it will load all images when the game starts.
+the dictionary key for each file (Surface) will be the file name minus
+the extension (i.e. heroFront -> heroFront.bmp
+each file needs a unique name.
+
+functions:
+primary use will be querying the dictionary (not a function)
+possibly init functions for different dictionaries (for each area)
+and delete funtions (or just del) to free memory
+
+possible problems:
+only one copy of each image means the origin cannot be modiied, such
+as by rotating an arrow image.
+if this causes loading performance problems it can later be made to 
+load images for certain areas, plus images common to all areas, such 
+as the hero.
+"""
+
 """Each function returns a dictionary mapping image names to Surface"""
 
 def loadImage(imagename): #deprecate

@@ -1,6 +1,12 @@
 from images import *
 from math import fabs
 
+"""
+needs vector class for movement
+need to be more object oriented:
+move destination, vector, etc to brain
+"""
+
 class NPC(pygame.sprite.Sprite):
     """Sprite class for civilians"""
     def __init__(self, name, pos): #pos = (x,y)
@@ -64,4 +70,5 @@ class PC(CombatNPC):
         CombatNPC.__init__(self, name, pos)
         self.images.update(imagesPC(self.name))
         
-        
+        def update():
+            pass

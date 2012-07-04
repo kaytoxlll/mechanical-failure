@@ -1,5 +1,11 @@
 from constants import *
 
+"""
+need ai.py to be file for generic superclass of state/state machine.
+seperate py file for each state machine.
+there might be a better way.
+"""
+
 class State:
     """AI behavior state (i.e. roaming, sniping, fighting, fleeing)"""
     def __init__(self, name, npc):

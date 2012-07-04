@@ -2,6 +2,17 @@ from os.path import join
 import pygame
 from pygame.locals import *
 
+"""
+variables set up the screen like this:
+-------------
+| |       | |
+| |       | |
+-------------
+where the side rectangles are for HUD
+
+todo: make music its own library, along with SFX
+"""
+
 # Game variables
 FPS = 60
 ANIMTIMERSLOW = 60

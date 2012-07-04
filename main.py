@@ -3,6 +3,12 @@ from gameobjects.vector2 import *
 #from constants import *
 from sprites import *
 
+"""
+this is very out of date and will likely have bits of its code
+salvages, then this file will be thrown away and replaced with something
+with a more descriptive name for the file to execute, like "playgame.py".
+"""
+
 # initialization
 pygame.init()
 clock = pygame.time.Clock()
