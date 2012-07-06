@@ -55,4 +55,4 @@ def imagesCombatNPC(name):
         }
 
 def imagesPC(name):
-    return {"gotItem":loadSpriteImage(name, "gotItem.bmp")}
+    return {"frontItem":loadSpriteImage(name, "frontItem.bmp")}
