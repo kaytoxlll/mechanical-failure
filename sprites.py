@@ -1,5 +1,6 @@
 from images import *
 from math import fabs
+from vector import Vector
 
 """
 needs vector class for movement
