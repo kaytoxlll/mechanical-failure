@@ -1,7 +1,7 @@
-""" All credit for the code in this class goes to Will McGugan,
-    author of "Game Development with Python and Pygame", I just
-    rewrote it here to get a better understanding of vectors in
-    game mechanics, and to comment.
+"""All credit for the code in this class goes to Will McGugan,
+author of "Game Development with Python and Pygame", I just
+rewrote it here to get a better understanding of vectors in
+game mechanics, and to comment.
 """
 
 import math
@@ -17,15 +17,15 @@ class Vector(object):
 
     @classmethod
     def from_points(cls, p1, p2):
-        """ calling convention: vector = Vector.from_points(p1 ,p2)
-            where x and y are tuple points: p1 = (x,y)
-            cls = self (more or less)
-            Returns a Vector
+        """calling convention: vector = Vector.from_points(p1 ,p2)
+        where x and y are tuple points: p1 = (x,y)
+        cls = self (more or less)
+        Returns a Vector
         """
         return cls(p2[0]-p1[0], p2[1]-p1[1])
 
     def get_magnitude(self):
-        """ Returns the length of the vector
+        """Returns the length of the vector
         """
         return math.sqrt(self.x**2 + self.y**2)
 
@@ -37,29 +37,29 @@ class Vector(object):
         self.y /= magnitude
 
     def __add__(self, rhs):
-        """ Adds two vectors, using operator overloading
-            example: vec3 = vec1 + vec2
-            Returns a Vector
+        """Adds two vectors, using operator overloading
+        example: vec3 = vec1 + vec2
+        Returns a Vector
         """
         return Vector(self.x + rhs.x, self.y + rhs.y)
 
     def __sub__(self, rhs):
-        """ Subtract two vectors (see 'add')
+        """Subtract two vectors (see 'add')
         """
         return Vector(self.x - rhs.x, self.y - rhs.y)
 
     def __neg__(self):
-        """ Returns the opposite vector: -(1,1) = (-1,-1)
+        """Returns the opposite vector: -(1,1) = (-1,-1)
         """
         return Vector(-self.x, -self.y)
 
     def __mul__(self, scalar):
-        """ Returns the vector multiplied by the single number
+        """Returns the vector multiplied by the single number
         """
         return Vector(self.x*scalar, self.y*scalar)
 
     def __div__(self, scalar):
-        """ Returns the vector divided by the scalar
+        """Returns the vector divided by the scalar
         """
         return Vector(self.x/scalar, self.y/scalar)
 
