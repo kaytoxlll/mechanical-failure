@@ -1,5 +1,4 @@
 import sys
-from gameobjects.vector2 import *
 #from constants import *
 from sprites import *
 
@@ -11,13 +10,9 @@ with a more descriptive name for the file to execute, like "playgame.py".
 
 # initialization
 pygame.init()
-clock = pygame.time.Clock()
+#clock = pygame.time.Clock()
 window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 pygame.display.set_caption("Mechanical Failure")
-heroStand = loadImage("hero-front-standing.bmp")
-#heroPose = heroStand
-#heroWalk1 = loadImage('hero-front-walk1.bmp')
-#heroWalk2 = loadImage('hero-front-walk2.bmp')
 tile = loadImage("boards.bmp")
 pygame.display.set_icon(heroStand)
 ground = pygame.Surface((CENTERWIDTH, CENTERHEIGHT))

@@ -39,5 +39,3 @@ class VillagerBrain(Brain):
         self.setState("waiting")
 
 
-
-    

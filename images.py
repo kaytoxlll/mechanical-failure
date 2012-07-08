@@ -6,7 +6,7 @@ def loadAllImages():
     """ Returns a dictionary of all the sprites used in the game.
         Dictionary maps a string key to the Surface image.
         usage: data/images/hero/frontStand.bmp
-        will be images["hero.frontStand.bmp"]
+        will be images["herofrontStand"]
     """
     images = {}
     path = join(getcwd(), "data", "images")
@@ -16,7 +16,7 @@ def loadAllImages():
         subdirectories = listdir(subpath)
         for imagefile in subdirectories:
             image = pygame.image.load(join(subpath, imagefile))
-            images[directory+'.'+imagefile] = image
+            images[directory+imagefile[0:len(imagefile)-4]] = image
     return images
 
 #test
