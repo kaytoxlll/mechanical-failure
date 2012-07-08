@@ -134,14 +134,18 @@ class PC(CombatNPC):
         # update movement rectangle
         vect = Vector(x, y).normalize()
         dist = vect * self.speed
-        newrect = self.rect.move(dist)
-        if newrect.bottom > CENTERYEND:
-            newrect = self.rect # reset the rect if out of bounds
+        oldrect = self.rect
+        self.rect.move_ip(dist)
+         # reset the rect if out of bounds
+        if pygame.sprite.spritecollideany(self, solidSprites):
+            self.rect = oldrect
+        elif newrect.bottom > CENTERYEND:
+            self.rect = oldrect
         elif newrect.top < CENTERYSTART:
-            newrect = self.rect
-        if newrect.left < CENTERXSTART:
-            newrect = self.rect
+            self.rect = oldrect
+        elif newrect.left < CENTERXSTART:
+            self.rect = oldrect
         elif newrect.right > CENTERXEND:
-            newrect = self.rect
-        self.rect = newrect
+            self.rect = oldrect
+        # finalize
         self.animate()
