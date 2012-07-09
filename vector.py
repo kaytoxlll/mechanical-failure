@@ -1,3 +1,5 @@
+# Bailey Mihajlich
+
 """All credit for the code in this class goes to Will McGugan,
 author of "Game Development with Python and Pygame", I just
 rewrote it here to get a better understanding of vectors in

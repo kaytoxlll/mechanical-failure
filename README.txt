@@ -9,3 +9,7 @@ Requirements:
 
 To Run the game:
 	Double-click on main.py
+
+Gameplay Instructions:
+	Use WASD keys to move your character.
+	Press SPACE to active a pose.

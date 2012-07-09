@@ -1,3 +1,5 @@
+# Bailey Mihajlich
+
 from constants import *
 from vector import Vector
 from brain import *
