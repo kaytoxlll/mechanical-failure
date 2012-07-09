@@ -4,7 +4,10 @@ from constants import *
 from vector import Vector
 from math import fabs
 import pygame
-from random import seed, randrange
+from random import seed, randrange, choice
+
+MINTIME = 30 # time for moving or waiting
+MAXTIME = 120
 
 """need ai.py to be file for generic superclass of state/state machine.
 seperate py file for each state machine.
@@ -47,27 +50,48 @@ class Wandering(State):
     """
     def __init__(self, npc):
         State.__init__(self, "wandering", npc)
+        self.movetime = None # int frame count
+        self.directions = [(0.0, -1.0), # north
+                           (0.0, 1.0), # south
+                           (1.0, 0.0), # east
+                           (-1.0, 0.0), # west
+                           (DIAGONAL, -DIAGONAL), # ne
+                           (DIAGONAL, DIAGONAL), # se
+                           (-DIAGONAL, DIAGONAL), # sw
+                           (-DIAGONAL, -DIAGONAL)] # nw
+        self.vector = None
 
     def doActions(self, group):
-        return move(self.npc, group)
+        """Attempt to move the npc
+        Return False if the move is blocked
+        """
+        newrect = self.npc.rect.move()
+        for s in group:
+            if newrect.colliderect(s.rect):
+                return False
+        self.npc.rect = newrect
+        self.timer -= 1
+        return True
 
-    """If the point has been reached, begin waiting.
-    Returns the name of the new state, else None
-    """
     def checkConditions(self, group):
-        if self.npc.rect.collidepoint(self.npc.destination):
+        """If the point has been reached, begin waiting.
+        Returns the name of the new state, else None
+        """
+        if self.npc.rect.collidepoint(self.npc.destination) or timer <= 0:
             return "waiting"
         else:
             return None
 
     def entryActions(self, group):
+        seed()
         self.npc.moving = True
-        setRandomDestination(self.npc, group)
+        self.movetime = randrange(MINTIME, MAXTIME)
+        self.vector = Vector(*choice(self.directions))
+        #setRandomDestination(self.npc, group)
 
     def exitActions(self, group):
         self.npc.moving = False
         self.npc.vector = None
-        self.npc.destination = None
 
 class Waiting(State):
     """Wait for a random number of frames
@@ -89,18 +113,19 @@ class Waiting(State):
     def entryActions(self, Group):
         self.npc.moving = False
         seed()
-        self.timer = randrange(30, 120)
+        self.timer = randrange(MINTIME, MAXTIME)
 
     def exitActions(self, Group):
         pass
 
 # Helper functions
 
+#deprecated
 
-"""Checks to see if there is a straight path to the target tuple
-Returns True if valid, else False
-"""
 def validPath(sprite, solidGroup, destpoint):
+    """Check to see if there is a straight path to the target tuple
+    Returns True if valid, else False
+    """
     valid = True
     testrect = sprite.rect.copy()
     vector = Vector.from_points((testrect.centerx, testrect.centery), destpoint)
@@ -116,10 +141,11 @@ def validPath(sprite, solidGroup, destpoint):
         distance = Vector.from_points(testrect.center, destpoint).get_magnitude()
     return valid
 
-"""Helper function to find a valid (oocupyable) point on the map.
-Modifies npc's destination, vector.
-"""
+#deprecated
 def setRandomDestination(npc, solidGroup):
+    """Helper function to find a valid (oocupyable) point on the map.
+    Modifies npc's destination, vector.
+    """
     collision = True
     while collision:
         dest = (randrange(CENTERXSTART, CENTERXEND),
@@ -132,6 +158,7 @@ def setRandomDestination(npc, solidGroup):
     npc.vector = Vector(dest[0]-npc.rect.centerx,
                         dest[1]-npc.rect.centery).normalize()
 
+#deprecated
 def move(npc, solidGroup):
     """Attempt to move the npc based on its vector.
     Return False if the move fails, else True

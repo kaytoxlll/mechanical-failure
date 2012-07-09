@@ -29,6 +29,7 @@ class Brain:
             return
         if self.activeState.doActions(spriteGroup) is False:
             self.setState(safeState.name)
+            return
         newStateName = self.activeState.checkConditions(spriteGroup)
         if newStateName is not None:
             self.setState(newStateName, spriteGroup)
@@ -42,5 +43,3 @@ class VillagerBrain(Brain):
         self.addState(Waiting(npc))
         self.setState("waiting", spriteGroup)
         self.safeState = self.states["waiting"]
-
-
