@@ -55,14 +55,14 @@ newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] + 100)
 barrel3 = Obstacle("barrel", "terrain", images, newpos, True)
 mapGroup.add(barrel, barrel2, barrel3)
 # set up npc
-newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
-rat = NPC("Ratty", "rat", images, newpos, solidGroup)
-npcGroup.add(rat)
+#newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
+#rat = NPC("Ratty", "rat", images, newpos, solidGroup)
+#npcGroup.add(rat)
 # set up groups
-characterGroup.add(npcGroup)
+#characterGroup.add(npcGroup)
 solidGroup.add(mapGroup)
 solidGroup.add(characterGroup)
-solidGroup.add(npcGroup)
+#solidGroup.add(npcGroup)
 
 while True:
     # handle game events
@@ -79,7 +79,7 @@ while True:
 
     # update the sprites
     hero.update(solidGroup)
-    npcGroup.update(solidGroup)
+    #npcGroup.update(solidGroup)
 
     # update the screen
     drawground(window, tile)
