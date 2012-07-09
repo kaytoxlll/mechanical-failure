@@ -24,6 +24,11 @@ class Vector(object):
         """
         return cls(p2[0]-p1[0], p2[1]-p1[1])
 
+    def as_tuple(self):
+        """Returns the points as a Python sequence length 2
+        """
+        return (self.x, self.y)
+
     def get_magnitude(self):
         """Returns the length of the vector
         """
@@ -33,8 +38,11 @@ class Vector(object):
         """ Sets x and y to have a magniture of 1
         """
         magnitude = self.get_magnitude()
+        if magnitude == 0:
+            return
         self.x /= magnitude
         self.y /= magnitude
+        return self
 
     def __add__(self, rhs):
         """Adds two vectors, using operator overloading
@@ -64,6 +72,7 @@ class Vector(object):
         return Vector(self.x/scalar, self.y/scalar)
 
 #test
+"""
 vec1 = Vector(25, 10)
 print "vec1 =", vec1
 vec2 = Vector.from_points((25,10), (30,15))
@@ -76,3 +85,4 @@ print 'vec2 - vec2 =', vec1-vec2
 print '-vec1 =', -vec1
 print 'vec1 * 10 =', vec1*10
 print 'vec1 / 2 =', vec1/2
+"""

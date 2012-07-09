@@ -1,6 +1,11 @@
 import sys
-#from constants import *
+from constants import *
 from sprites import *
+from images import *
+import pygame
+
+# testing
+from os.path import join
 
 """
 this is very out of date and will likely have bits of its code
@@ -9,60 +14,17 @@ with a more descriptive name for the file to execute, like "playgame.py".
 """
 
 # initialization
+images = loadAllImages()
 pygame.init()
-#clock = pygame.time.Clock()
+clock = pygame.time.Clock()
 window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 pygame.display.set_caption("Mechanical Failure")
-tile = loadImage("boards.bmp")
-pygame.display.set_icon(heroStand)
+tile = images["terrain" + "boards"]
+pygame.display.set_icon(images["misc" + "logo"])
 ground = pygame.Surface((CENTERWIDTH, CENTERHEIGHT))
 
 # music
-songPlay("title.mp3")
-
-# sprites
-class TestSprite(pygame.sprite.Sprite):
-    def __init__(self, initial_pos, stand, walk1, walk2):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = stand
-        self.rect = self.image.get_rect()
-        self.rect.topleft = initial_pos
-        self.timer = 15
-        self.stand = stand
-        self.walk1 = walk1
-        self.walk2 = walk2
-        self.speed = 3
-
-    def update(self, vector): # updates rec position and image animation
-        #movement
-        moving = True
-        if vector.x == 0.0 and vector.y == 0.0:
-            moving = False
-        else:
-            distance = vector * self.speed
-            newrect = self.rect.move(distance)
-            if (newrect.bottom > CENTERYEND):
-                moving = False
-                newrect = self.rect
-            elif (newrect.top < CENTERYSTART):
-                moving = False
-                newrect = self.rect
-            if (newrect.left < CENTERXSTART):
-                moving = False
-                newrect = self.rect
-            elif (newrect.right > CENTERXEND):
-                moving = False
-                newrect = self.rect
-            self.rect = newrect
-        #animation
-        self.timer -= 1
-        if self.timer == 0: self.timer = 15
-        if moving and self.timer == 15: #update every 15 frames
-            if self.image == self.walk1:
-                self.image = self.walk2
-            else:
-                self.image = self.walk1
-        elif not moving: self.image = self.stand
+songPlay("town.mp3")
 
 def drawground(surface, image):
     x= CENTERXSTART
@@ -77,8 +39,30 @@ def drawground(surface, image):
         x=CENTERXSTART
 
 # set up variables
-hero = PC("hero", (CENTERCENTER))
-heroGroup = pygame.sprite.RenderUpdates(hero)
+solidGroup = pygame.sprite.Group()
+characterGroup = pygame.sprite.Group()
+mapGroup = pygame.sprite.Group()
+npcGroup = pygame.sprite.Group()
+# set up pc
+hero = PC("Cole", images, CENTERCENTER, pygame.sprite.Group(), 100, 0)
+characterGroup.add(hero)
+# set up map obstacles
+newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] - 100)
+barrel = Obstacle("barrel", "terrain", images, newpos, True)
+newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] - 100)
+barrel2 = Obstacle("barrel", "terrain", images, newpos, True)
+newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] + 100)
+barrel3 = Obstacle("barrel", "terrain", images, newpos, True)
+mapGroup.add(barrel, barrel2, barrel3)
+# set up npc
+newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
+rat = NPC("Ratty", "rat", images, newpos, solidGroup)
+npcGroup.add(rat)
+# set up groups
+characterGroup.add(npcGroup)
+solidGroup.add(mapGroup)
+solidGroup.add(characterGroup)
+solidGroup.add(npcGroup)
 
 while True:
     # handle game events
@@ -91,25 +75,14 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-    # calculate hero movement vector
-    pressed_keys = pygame.key.get_pressed()
-    key_direction = Vector2(0,0)
-    if pressed_keys[K_a]:
-        key_direction.x = -1
-    elif pressed_keys[K_d]:
-        key_direction.x = 1
-    if pressed_keys[K_w]:
-        key_direction.y = -1
-    elif pressed_keys[K_s]:
-        key_direction.y = 1
-    key_direction.normalize()
+    
 
     # update the sprites
-    hero.update(key_direction)
+    hero.update(solidGroup)
+    npcGroup.update(solidGroup)
 
     # update the screen
-    #window.fill((255, 255, 255))
     drawground(window, tile)
-    heroGroup.draw(window)
+    solidGroup.draw(window)
     pygame.display.update()
     clock.tick(FPS)

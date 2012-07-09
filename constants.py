@@ -16,7 +16,7 @@ todo: make music its own library, along with SFX
 # Game variables
 FPS = 60
 ATTACKTIMER = 60 # used for attacks
-ANIMATETIMER = 15 # used for movement animations
+ANIMATETIMER = 20 # used for movement animations
 TILESIZE = 32
 CENTERTILEWIDTH = 16
 BORDERTILEWIDTH = 8

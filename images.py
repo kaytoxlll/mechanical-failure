@@ -20,4 +20,6 @@ def loadAllImages():
     return images
 
 #test
+"""
 print loadAllImages()
+"""

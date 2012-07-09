@@ -3,19 +3,20 @@ from states import *
 class Brain:
     """Collection of States that transitions between them
     """
-    def __init__(self, npc):
+    def __init__(self, npc, spriteGroup):
         self.states = {}
         self.activeState = None
+        self.safeState = None # when a state fails, go back to this
         self.npc = npc
 
     def addState(self, state):
         self.states[state.name] = state
 
-    def setState(self, stateName):
+    def setState(self, stateName, spriteGroup):
         if self.activeState is not None:
-            self.activeState.exitActions()
+            self.activeState.exitActions(spriteGroup)
         self.activeState = self.states[stateName]
-        self.activeState.entryActions()
+        self.activeState.entryActions(spriteGroup)
 
     """Handles the AI calculations and has the
     Sprite perform actions, call this each frame
@@ -24,18 +25,20 @@ class Brain:
     def think(self, spriteGroup):
         if self.activeState is None:
             return
-        self.activeState.doActions(spriteGroup)
-        newStateName = self.activeState.checkConditions()
+        if self.activeState.doActions(spriteGroup) is False:
+            self.setState(safeState.name)
+        newStateName = self.activeState.checkConditions(spriteGroup)
         if newStateName is not None:
-            self.setState(newStateName)
+            self.setState(newStateName, spriteGroup)
 
 class VillagerBrain(Brain):
     """AI for villager, enables wandering and waiting
     """
-    def __init__(self, npc):
-        Brain.__init__(self, npc)
-        self.addState(Wandering())
-        self.addState(Waiting())
-        self.setState("waiting")
+    def __init__(self, npc, spriteGroup):
+        Brain.__init__(self, npc, spriteGroup)
+        self.addState(Wandering(npc))
+        self.addState(Waiting(npc))
+        self.setState("waiting", spriteGroup)
+        self.safeState = self.states["waiting"]
 
 
