@@ -83,6 +83,7 @@ class NPC(pygame.sprite.Sprite):
 
     def update(self, solidSprites):
         self.brain.think(solidSprites)
+        self.animate()
 
 class CombatNPC(NPC):
     """Sprite class for NPCs that can fight

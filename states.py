@@ -50,24 +50,33 @@ class Wandering(State):
     """
     def __init__(self, npc):
         State.__init__(self, "wandering", npc)
-        self.movetime = None # int frame count
-        self.directions = [(0.0, -1.0), # north
-                           (0.0, 1.0), # south
-                           (1.0, 0.0), # east
-                           (-1.0, 0.0), # west
-                           (DIAGONAL, -DIAGONAL), # ne
-                           (DIAGONAL, DIAGONAL), # se
-                           (-DIAGONAL, DIAGONAL), # sw
-                           (-DIAGONAL, -DIAGONAL)] # nw
+        self.timer = None # int frame count
+        self.directions = {(0.0, -1.0):"back", # north
+                           (0.0, 1.0):"front", # south
+                           (1.0, 0.0):"right", # east
+                           (-1.0, 0.0):"left", # west
+                           (DIAGONAL, -DIAGONAL):"back", # ne
+                           (DIAGONAL, DIAGONAL):"front", # se
+                           (-DIAGONAL, DIAGONAL):"front", # sw
+                           (-DIAGONAL, -DIAGONAL):"back"} # nw
         self.vector = None
 
     def doActions(self, group):
         """Attempt to move the npc
         Return False if the move is blocked
         """
-        newrect = self.npc.rect.move()
+        distance = self.vector * self.npc.speed
+        newrect = self.npc.rect.move(*distance.as_tuple())
+        if newrect.bottom > CENTERYEND:
+            return False
+        elif newrect.top < CENTERYSTART:
+            return False
+        elif newrect.left < CENTERXSTART:
+            return False
+        elif newrect.right > CENTERXEND:
+            return False
         for s in group:
-            if newrect.colliderect(s.rect):
+            if newrect.colliderect(s.rect) and self.npc.name is not s.name:
                 return False
         self.npc.rect = newrect
         self.timer -= 1
@@ -77,7 +86,7 @@ class Wandering(State):
         """If the point has been reached, begin waiting.
         Returns the name of the new state, else None
         """
-        if self.npc.rect.collidepoint(self.npc.destination) or timer <= 0:
+        if self.timer <= 0:
             return "waiting"
         else:
             return None
@@ -85,8 +94,10 @@ class Wandering(State):
     def entryActions(self, group):
         seed()
         self.npc.moving = True
-        self.movetime = randrange(MINTIME, MAXTIME)
-        self.vector = Vector(*choice(self.directions))
+        self.timer = randrange(MINTIME, MAXTIME)
+        heading = choice(self.directions.keys())
+        self.vector = Vector(*heading)
+        self.npc.facing = self.directions[heading]
         #setRandomDestination(self.npc, group)
 
     def exitActions(self, group):

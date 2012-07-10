@@ -28,7 +28,7 @@ class Brain:
         if self.activeState is None:
             return
         if self.activeState.doActions(spriteGroup) is False:
-            self.setState(safeState.name)
+            self.setState(self.safeState.name, spriteGroup)
             return
         newStateName = self.activeState.checkConditions(spriteGroup)
         if newStateName is not None:
