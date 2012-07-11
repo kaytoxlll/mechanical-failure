@@ -1,5 +1,6 @@
 # Copyright (c) 2012 Bailey Mihajlich
 # Licensed under the GNU GPL v.2
+# See license.txt for licence information
 
 from constants import *
 from vector import Vector

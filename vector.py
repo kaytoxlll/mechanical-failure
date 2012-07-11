@@ -1,10 +1,12 @@
-# Bailey Mihajlich
+# Copyright (C) 2012 Bailey Mihajlich
 # Licensed under the GNU GPL v.2
+# See license.txt for licence information
 
-"""All credit for the code in this class goes to Will McGugan,
+"""Special credit for the code in this class goes to Will McGugan,
 author of "Game Development with Python and Pygame", I just
 rewrote it here to get a better understanding of vectors in
-game mechanics, and to comment.
+game mechanics, and to comment. Original Vector2 class published
+under the New BSD License.
 """
 
 import math
