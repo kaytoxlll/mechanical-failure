@@ -1,4 +1,4 @@
-# Bailey Mihajlich
+# Copyright (c) 2012 Bailey Mihajlich
 
 import sys
 from constants import *

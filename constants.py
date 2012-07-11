@@ -1,4 +1,4 @@
-# Bailey Mihajlich
+# Copyright (c) 2012 Bailey Mihajlich
 
 from os.path import join
 import pygame

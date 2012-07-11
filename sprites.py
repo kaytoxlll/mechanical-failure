@@ -1,4 +1,4 @@
-# Bailey Mihajlich
+# Copyright (c) 2012 Bailey Mihajlich
 
 from constants import *
 from vector import Vector
