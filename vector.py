@@ -1,4 +1,5 @@
 # Bailey Mihajlich
+# Licensed under the GNU GPL v.2
 
 """All credit for the code in this class goes to Will McGugan,
 author of "Game Development with Python and Pygame", I just

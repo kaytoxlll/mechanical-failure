@@ -1,4 +1,5 @@
 # Copyright (c) 2012 Bailey Mihajlich
+# Licensed under the GNU GPL v.2
 
 import sys
 from constants import *

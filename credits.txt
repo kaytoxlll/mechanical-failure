@@ -1,10 +1,13 @@
+# Copyright (c) 2012 Bailey Mihajlich
+# Licensed under the GNU GPL v.2
+
 Bailey Mihajlich 	- Programming and Game Design
 Lucy Mihajlich 		- Art and Game Design
 WrathGames Studio 	- Music
-p0ss 				- Music
+p0ss 			- Music
 artisticdude		- Music
 elerya			- Music
 Bart Kelsey		- Sound Effects
 Fernando Carmona	- Sound Effects
 MetalSanityOff		- Sound Effects
-dklon				- Sound Effects
+dklon			- Sound Effects
