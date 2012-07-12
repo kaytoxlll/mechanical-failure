@@ -6,8 +6,7 @@ from os.path import join
 import pygame
 from pygame.locals import *
 
-"""
-variables set up the screen like this:
+"""variables set up the screen like this:
 -------------
 | |       | |
 | |       | |

@@ -78,8 +78,20 @@ class Wandering(State):
         """
         if self.timer <= 0:
             return "waiting"
-        else:
-            return None
+        spaceahead = (self.vector * TILESIZE).as_tuple()
+        newrect = self.npc.rect.move(*spaceahead)
+        if newrect.bottom > CENTERYEND:
+            return "waiting"
+        elif newrect.top < CENTERYSTART:
+            return "waiting"
+        elif newrect.left < CENTERXSTART:
+            return "waiting"
+        elif newrect.right > CENTERXEND:
+            return "waiting"
+        for s in group:
+            if newrect.colliderect(s.rect) and self.npc.name is not s.name:
+                return "waiting"
+        return None
 
     def entryActions(self, group):
         seed()
