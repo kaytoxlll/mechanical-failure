@@ -8,7 +8,7 @@ from math import fabs
 import pygame
 from random import seed, randrange, choice
 
-MINTIME = 30 # time for moving or waiting
+MINTIME = 30 # time for moving or waiting (sort of like a 'turn')
 MAXTIME = 120
 
 """need ai.py to be file for generic superclass of state/state machine.
@@ -88,7 +88,6 @@ class Wandering(State):
         heading = choice(self.directions.keys())
         self.vector = Vector(*heading)
         self.npc.facing = self.directions[heading]
-        #setRandomDestination(self.npc, group)
 
     def exitActions(self, group):
         self.npc.moving = False
@@ -118,58 +117,3 @@ class Waiting(State):
 
     def exitActions(self, Group):
         pass
-
-# Helper functions
-
-#deprecated
-def validPath(sprite, solidGroup, destpoint):
-    """Check to see if there is a straight path to the target tuple
-    Returns True if valid, else False
-    """
-    valid = True
-    testrect = sprite.rect.copy()
-    vector = Vector.from_points((testrect.centerx, testrect.centery), destpoint)
-    vector = vector.normalize() * 10
-    distance = Vector.from_points(testrect.center, destpoint).get_magnitude()
-    while (valid and distance > 20):
-        testrect.move_ip(vector.x, vector.y)
-        for sprite in solidGroup:
-            if testrect.colliderect(sprite.rect):
-                valid = False
-                continue
-        # set up loop testing condition: distance to destination
-        distance = Vector.from_points(testrect.center, destpoint).get_magnitude()
-    return valid
-
-#deprecated
-def setRandomDestination(npc, solidGroup):
-    """Helper function to find a valid (oocupyable) point on the map.
-    Modifies npc's destination, vector.
-    """
-    collision = True
-    while collision:
-        dest = (randrange(CENTERXSTART, CENTERXEND),
-                randrange(CENTERYSTART, CENTERYEND))
-        for sprite in solidGroup:
-            if sprite.rect.collidepoint(dest):
-                break # from for loop
-        collision = not validPath(npc, solidGroup, dest)
-    npc.destination = dest
-    npc.vector = Vector(dest[0]-npc.rect.centerx,
-                        dest[1]-npc.rect.centery).normalize()
-
-#deprecated
-def move(npc, solidGroup):
-    """Attempt to move the npc based on its vector.
-    Return False if the move fails, else True
-    """
-    if npc.vector is not None:
-        distance = npc.vector * npc.speed
-        newrect = npc.rect.move(*distance.as_tuple())
-        for solidsprite in solidGroup:
-            if newrect.colliderect(solidsprite.rect):
-                if solidsprite == npc:
-                    continue
-                return False
-        npc.rect = newrect
-        return True
