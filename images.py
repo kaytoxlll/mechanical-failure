@@ -23,7 +23,5 @@ def loadAllImages():
             images[directory+imagefile[0:len(imagefile)-4]] = image
     return images
 
-#test
-"""
-print loadAllImages()
-"""
+# test
+#print loadAllImages()

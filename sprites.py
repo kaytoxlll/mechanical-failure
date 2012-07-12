@@ -25,6 +25,28 @@ class Obstacle(pygame.sprite.Sprite):
     def update(self):
         pass
 
+    def hit(self, damage):
+        pass
+
+class MeleeAttack(pygame.sprite.Sprite):
+    """Sprite for an attack, such as a sword swing
+    """
+    def __init__(self, reference, images, damage):
+        pygame.sprite.Sprite__init__(self)
+        self.damage = damage
+        pass # handle images
+
+class RangedAttack(pygame.sprite.Sprite):
+    """Sprite for a ranged attack, like a bullet or grenade
+    """
+    def __init__(self, reference, images, damage, vector, speed=5, time=999):
+        pygame.sprite.Sprite.__init__(self)
+        self.damage = damage
+        self.vector = vector.normalize()
+        self.speed = speed
+        self.time = time
+        pass # handle images
+
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
        Sprite class for civilians
@@ -47,6 +69,9 @@ class NPC(pygame.sprite.Sprite):
         self.animtimer = 0 # increment to timermax, then reset to 0
         self.stuntimermax = ANIMATETIMER
         self.stuntimer = 0 # increment to stuntimermax then reset to 0
+
+    def hit(self, damage):
+        pass
 
     def move(self, vector, solidSprites):
         """Attempt to move the sprite based on the vector.
@@ -112,13 +137,16 @@ class NPC(pygame.sprite.Sprite):
 class CombatNPC(NPC):
     """Sprite class for NPCs that can fight
     """
-    def __init__(self, name, reference, images, pos, spriteGroup, hp, armor):
+    def __init__(self, name, reference, images, pos, 
+                 spriteGroup, hp, armor, meleeDamage, rangedDamage):
         NPC.__init__(self, name, reference, images, pos, spriteGroup)
         self.attacking = False
         self.hp = hp
         self.armor = armor
         self.attacktimermax = ATTACKTIMER
-        self.attacktimer = 0 
+        self.attacktimer = 0
+        self.meleeDamage = meleeDamage
+        self.rangedDamage = rangedDamage
 
     def update(self, solidSprites):
         pass
