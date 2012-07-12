@@ -17,34 +17,34 @@ there might be a better way.
 """
 
 class State:
-    """AI behavior state (i.e. roaming, sniping, fighting, fleeing)
-    """
     def __init__(self, name, npc):
+        """AI behavior state (i.e. roaming, sniping, fighting, fleeing)
+        """
         self.name = name #identifying name of the state
         self.npc = npc #npc this state is working on
 
-    """Actions performed each frame
-    Return False if the action fails, else True
-    """
     def doActions(self, spriteGroup):
+        """Actions performed each frame
+        Return False if the action fails, else True
+        """
         pass
 
-    """Check to see if another state should be entered
-    Return string name of the new state, else None
-    """
     def checkConditions(self, spriteGroup):
+        """Check to see if another state should be entered
+        Return string name of the new state, else None
+        """
         pass
 
-    """Actions to perform when this state is entered.
-    Modifies npc variables.
-    """
     def entryActions(self, spriteGroup):
+        """Actions to perform when this state is entered.
+        Modifies npc variables.
+        """
         pass
 
-    """Actions to perform when before exiting this state.
-    modifies npc variables.
-    """
     def exitActions(self, spriteGroup):
+        """Actions to perform when before exiting this state.
+        modifies npc variables.
+        """
         pass
 
 class Wandering(State):
@@ -67,20 +67,8 @@ class Wandering(State):
         """Attempt to move the npc
         Return False if the move is blocked
         """
-        distance = self.vector * self.npc.speed
-        newrect = self.npc.rect.move(*distance.as_tuple())
-        if newrect.bottom > CENTERYEND:
+        if self.npc.move(self.vector, group) <> "success":
             return False
-        elif newrect.top < CENTERYSTART:
-            return False
-        elif newrect.left < CENTERXSTART:
-            return False
-        elif newrect.right > CENTERXEND:
-            return False
-        for s in group:
-            if newrect.colliderect(s.rect) and self.npc.name is not s.name:
-                return False
-        self.npc.rect = newrect
         self.timer -= 1
         return True
 
@@ -134,7 +122,6 @@ class Waiting(State):
 # Helper functions
 
 #deprecated
-
 def validPath(sprite, solidGroup, destpoint):
     """Check to see if there is a straight path to the target tuple
     Returns True if valid, else False

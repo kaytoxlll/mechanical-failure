@@ -50,8 +50,35 @@ class NPC(pygame.sprite.Sprite):
         self.timermax = ANIMATETIMER
         self.timer = 0 # increment to timermax, then reset to 0
 
-    """Update the sprite to match current action
+    def move(self, vector, solidSprites):
+    """Attempt to move the sprite based on the vector.
+    Modifies the moving flag accordingly.
+    If there is a collision with the solid sprites or the map edge,
+    return "success", else return the name of the collided-with object.
+    This could also be an edge, i.e. "west" for the left edge of the screen.
     """
+    distance = vector.normalize() * self.speed
+    newrect = self.rect.move(*distance.as_tuple())
+    if newrect.bottom > CENTERYEND:
+        self.moving = False
+        return "south"
+    elif newrect.top < CENTERYSTART:
+        self.moving = False
+        return "north"
+    elif newrect.left < CENTERXSTART:
+        self.moving = False
+        return "west"
+    elif newrect.right > CENTERXEND:
+        self.moving = False
+        return "east"
+    for s in group:
+        if newrect.colliderect(s.rect) and self.name is not s.name:
+            self.moving = False
+            return s.name
+    self.rect = newrect
+    self.moving = True
+    return "success"
+
     def animate(self, action=None):
         """Determines the current image to use and assigns it to self.image
            action = "Stand", "Walk1", etc
@@ -148,29 +175,6 @@ class PC(CombatNPC):
             self.moving = True
         # update movement rectangle
         vect = Vector(x, y)
-        vect.normalize()
-        dist = vect * self.speed
-        newrect = self.rect.move(*dist.as_tuple())
-        # reset the rect if out of bounds
-        for s in solidSprites:
-            if newrect.colliderect(s.rect):
-                if s == self:
-                    continue
-                newrect = self.rect
-                self.moving = False
-                break
-        if newrect.bottom > CENTERYEND:
-            newrect = self.rect
-            self.moving = False
-        elif newrect.top < CENTERYSTART:
-            newrect = self.rect
-            self.moving = False
-        elif newrect.left < CENTERXSTART:
-            newrect = self.rect
-            self.moving = False
-        elif newrect.right > CENTERXEND:
-            newrect = self.rect
-            self.moving = False
-        self.rect = newrect
+        moveval = self.move(vect, solidSprites)
         # finalize
         self.animate()
