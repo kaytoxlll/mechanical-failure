@@ -37,78 +37,73 @@ class NPC(pygame.sprite.Sprite):
         self.facing = "front"
         self.action = "Stand" # Stand, Walk1, Walk2
         self.image = self.images[self.ref + self.facing + self.action]
-        self.walk1 = self.images[self.ref + self.facing + "Walk1"]
-        self.walk2 = self.images[self.ref + self.facing + "Stand"]
-        self.anim = True # boolean, used to swap animations
+        self.anim = True # boolean, used to swap movement animations
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
-        self.destination = None #Tuple
-        self.vector = None #Vector, normalized
         self.speed = 2.5
         self.brain = VillagerBrain(self, spriteGroup)
         self.moving = False
-        self.timermax = ANIMATETIMER
-        self.timer = 0 # increment to timermax, then reset to 0
+        self.animtimermax = ANIMATETIMER
+        self.animtimer = 0 # increment to timermax, then reset to 0
+        self.stuntimermax = ANIMATETIMER
+        self.stuntimer = 0 # increment to stuntimermax then reset to 0
 
     def move(self, vector, solidSprites):
-    """Attempt to move the sprite based on the vector.
-    Modifies the moving flag accordingly.
-    If there is a collision with the solid sprites or the map edge,
-    return "success", else return the name of the collided-with object.
-    This could also be an edge, i.e. "west" for the left edge of the screen.
-    """
-    distance = vector.normalize() * self.speed
-    newrect = self.rect.move(*distance.as_tuple())
-    if newrect.bottom > CENTERYEND:
-        self.moving = False
-        return "south"
-    elif newrect.top < CENTERYSTART:
-        self.moving = False
-        return "north"
-    elif newrect.left < CENTERXSTART:
-        self.moving = False
-        return "west"
-    elif newrect.right > CENTERXEND:
-        self.moving = False
-        return "east"
-    for s in group:
-        if newrect.colliderect(s.rect) and self.name is not s.name:
+        """Attempt to move the sprite based on the vector.
+        Modifies the moving flag accordingly.
+        If there is a collision with the solid sprites or the map edge,
+        return "success", else return the name of the collided-with object.
+        This could also be an edge, i.e. "west" for the left edge of the screen.
+        """
+        distance = vector.normalize() * self.speed
+        newrect = self.rect.move(*distance.as_tuple())
+        if newrect.bottom > CENTERYEND:
             self.moving = False
-            return s.name
-    self.rect = newrect
-    self.moving = True
-    return "success"
+            return "south"
+        elif newrect.top < CENTERYSTART:
+            self.moving = False
+            return "north"
+        elif newrect.left < CENTERXSTART:
+            self.moving = False
+            return "west"
+        elif newrect.right > CENTERXEND:
+            self.moving = False
+            return "east"
+        for s in group:
+            if newrect.colliderect(s.rect) and self.name is not s.name:
+                self.moving = False
+                return s.name
+        self.rect = newrect
+        self.moving = True
+        return "success"
 
     def animate(self, action=None):
         """Determines the current image to use and assigns it to self.image
-           action = "Stand", "Walk1", etc
+        action = "Stand", "Walk1", etc
         """
         if action is not None:
             # update image and reset timer
             self.action = action
             self.image = self.images[self.ref + self.action]
-            self.timer = ANIMATETIMER - ATTACKTIMER
+            self.animtimer = ANIMATETIMER - ATTACKTIMER
             return
-        # update facing
-        self.walk1 = self.images[self.ref + self.facing + "Walk1"]
-        self.walk2 = self.images[self.ref + self.facing + "Walk2"]
-        if self.timer == self.timermax and self.moving == True:
-            # full timer (0/1)
+        if self.animtimer == self.animtimermax and self.moving == True:
+            # full timer (1/1), update walk animation
             if self.anim:
-                self.image = self.walk1
+                self.image = self.images[self.ref + self.facing + "Walk1"]
             else:
-                self.image = self.walk2
+                self.image = self.images[self.ref + self.facing + "Walk2"]
             self.anim = not self.anim
-        elif self.timer == self.timermax / 2 and self.moving:
-            # half timer (0.5/1)
+        elif self.animtimer == self.animtimermax / 2 and self.moving:
+            # half timer (0.5/1), update stand animation
             self.image = self.images[self.ref + self.facing + "Stand"]
         elif self.moving == False:
             self.image = self.images[self.ref + self.facing + "Stand"]
         # update timer
-        if self.timer == self.timermax:
-            self.timer = 0
+        if self.animtimer == self.animtimermax:
+            self.animtimer = 0
         else:
-            self.timer += 1
+            self.animtimer += 1
 
     def update(self, solidSprites):
         self.brain.think(solidSprites)
@@ -133,8 +128,6 @@ class PC(CombatNPC):
     """
     def __init__(self, name, images, pos, spriteGroup, hp, armor):
         CombatNPC.__init__(self, name, "hero", images, pos, spriteGroup, hp, armor)
-        self.stuntimermax = ANIMATETIMER
-        self.stuntimer = 0 # increment to max then reset to 0
 
     def update(self, solidSprites):
         """Update the hero sprite based on the user's iteraction
