@@ -44,7 +44,7 @@ class Vector(object):
         """
         magnitude = self.get_magnitude()
         if magnitude == 0:
-            return
+            return self
         self.x /= magnitude
         self.y /= magnitude
         return self

@@ -76,13 +76,19 @@ class NPC(pygame.sprite.Sprite):
     def move(self, vector, solidSprites):
         """Attempt to move the sprite based on the vector.
         Modifies the moving flag accordingly.
-        If there is a collision with the solid sprites or the map edge,
+        If there is no collision with the solid sprites or the map edge,
+        or there is no distance to move,
         return "success", else return the name of the collided-with object.
         This could also be an edge, i.e. "west" for the left edge of the screen.
         """
+        if vector is None or (vector.x==0.0 and vector.y==0.0):
+            # no distance to move
+            self.moving = False
+            return "success"
         distance = vector.normalize() * self.speed
         newrect = self.rect.move(*distance.as_tuple())
         if newrect.bottom > CENTERYEND:
+            # test for edge of screen collisions
             self.moving = False
             return "south"
         elif newrect.top < CENTERYSTART:
@@ -94,7 +100,8 @@ class NPC(pygame.sprite.Sprite):
         elif newrect.right > CENTERXEND:
             self.moving = False
             return "east"
-        for s in group:
+        for s in solidSprites:
+            # test for solid sprite collision
             if newrect.colliderect(s.rect) and self.name is not s.name:
                 self.moving = False
                 return s.name
@@ -154,8 +161,9 @@ class CombatNPC(NPC):
 class PC(CombatNPC):
     """Sprite class for the Player Character
     """
-    def __init__(self, name, images, pos, spriteGroup, hp, armor):
-        CombatNPC.__init__(self, name, "hero", images, pos, spriteGroup, hp, armor)
+    def __init__(self, name, images, pos, spriteGroup, hp, armor, meleeDamage, rangedDamage):
+        CombatNPC.__init__(self, name, "hero", images, pos,
+                           spriteGroup, hp, armor, meleeDamage, rangedDamage)
 
     def update(self, solidSprites):
         """Update the hero sprite based on the user's iteraction

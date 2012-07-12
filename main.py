@@ -48,7 +48,7 @@ characterGroup = pygame.sprite.Group()
 mapGroup = pygame.sprite.Group()
 npcGroup = pygame.sprite.Group()
 # set up pc
-hero = PC("Cole", images, CENTERCENTER, pygame.sprite.Group(), 100, 0)
+hero = PC("Cole", images, CENTERCENTER, pygame.sprite.Group(), 100, 0, 0, 0)
 characterGroup.add(hero)
 # set up map obstacles
 newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] - 100)
