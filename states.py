@@ -24,8 +24,9 @@ class State:
         self.npc = npc #npc this state is working on
 
     def doActions(self, spriteGroup):
-        """Actions performed each frame
-        Return False if the action fails, else True
+        """Actions performed each frame.
+        Returns sprite group of new sprites, possible empty
+        Throws AIError if the action fails.
         """
         pass
 
@@ -65,12 +66,13 @@ class Wandering(State):
 
     def doActions(self, group):
         """Attempt to move the npc
-        Return False if the move is blocked
+        Returns an empty group.
+        Throws AIError if the move fails
         """
         if self.npc.move(self.vector, group) <> "success":
-            return False
+            raise AIError(self.npc.name+" wandering move failed.")
         self.timer -= 1
-        return True
+        return pygame.sprite.Group()
 
     def checkConditions(self, group):
         """If the point has been reached, begin waiting.
@@ -113,8 +115,12 @@ class Waiting(State):
         self.timer = 0
 
     def doActions(self, group):
+        """Countdown the wait timer.
+        Returns an empty group.
+        Does not throw AIException because it cannot fail.
+        """
         self.timer -= 1
-        return True
+        return pygame.sprite.Group()
 
     def checkConditions(self, group):
         if self.timer < 0:

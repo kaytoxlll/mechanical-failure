@@ -24,17 +24,22 @@ class Brain:
 
     """Handles the AI calculations and has the
     Sprite perform actions, call this each frame
-    of the game loop
+    of the game loop.
+    Returns a group of new sprites, maybe empty
     """
     def think(self, spriteGroup):
+        newsprites = pygame.sprite.Group()
         if self.activeState is None:
             return
-        if self.activeState.doActions(spriteGroup) is False:
+        try:
+            newsprites.add(self.activeState.doActions(spriteGroup))
+        except AIError:
             self.setState(self.safeState.name, spriteGroup)
-            return
+            return newsprites
         newStateName = self.activeState.checkConditions(spriteGroup)
         if newStateName is not None:
             self.setState(newStateName, spriteGroup)
+        return newsprites
 
 class VillagerBrain(Brain):
     """AI for villager, enables wandering and waiting

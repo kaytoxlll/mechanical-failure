@@ -18,7 +18,8 @@ todo: make music its own library, along with SFX
 
 # Game variables
 FPS = 60
-ATTACKTIMER = 60 # used for attacks
+WAITTIMER = 30 # used for attack waiting time
+ATTACKTIMER = 10 # how long a weapon attack lasts
 ANIMATETIMER = 20 # used for movement animations
 TILESIZE = 32
 CENTERTILEWIDTH = 16
@@ -38,6 +39,13 @@ SCREENWIDTH = CENTERWIDTH+(BORDERWIDTH*2)
 CENTERCENTER = (CENTERXSTART+(CENTERWIDTH/2), CENTERYSTART+(CENTERWIDTH/2))
 
 # Functions
+
+# Exceptions
+class AIError(Exception):
+    """AI Error when an action fails.
+    """
+    def __init__(self, msg=None):
+        self.msg = msg
 
 # Music
 def songPlay(song):

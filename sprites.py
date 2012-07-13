@@ -5,6 +5,7 @@
 from constants import *
 from vector import Vector
 from brain import *
+from attacks import *
 import pygame
 import random
 
@@ -27,6 +28,7 @@ class Obstacle(pygame.sprite.Sprite):
 
     def update(self):
         """Do what you do, which is probably nothing.
+        Return any new sprites created as a group.
         """
         pass
 
@@ -50,8 +52,9 @@ class NPC(pygame.sprite.Sprite):
         self.anim = True # boolean, used to swap movement animations
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
-        self.attack = None # i.e. 
-        self.shots = [] # ranged attacks in motion
+        self.weapon = None
+        self.attack = None # i.e. GroupSingle(MeleeAttack)
+        self.shots = pygame.sprite.Group() # ranged attacks in motion
         self.speed = 2.5
         self.hp = 100
         self.str = 0 # Strength, melee damage
@@ -61,11 +64,14 @@ class NPC(pygame.sprite.Sprite):
         self.dropchance = 50 # percent chance that items will drop
         self.brain = VillagerBrain(self)
         self.moving = False
-        self.attacked = False # reset each frame
+        self.attacked = False # reset each frame, acts as a "danger sense"
         self.animtimermax = ANIMATETIMER
         self.animtimer = 0 # increment to timermax, then reset to 0
         self.stuntimermax = ANIMATETIMER
         self.stuntimer = 0 # increment to stuntimermax then reset to 0
+        self.attacktimermax = ATTACKTIMER
+        self.attacktimer = 0 # increments to attacktimermax, then reset to 0
+        # can only attack if attacktimer == 0
 
     def space_ahead(self):
         """Returns a rectangle space directly in front of the npc.
@@ -73,25 +79,46 @@ class NPC(pygame.sprite.Sprite):
         x = 0
         y = 0
         if self.facing == "front":
-            x = TILESIZE
-        elif self.facing == "back":
-            x = -TILESIZE
-        elif self.facing == "left":
-            y = -TILESIZE
-        elif self.facing == "right":
             y = TILESIZE
+        elif self.facing == "back":
+            y = -TILESIZE
+        elif self.facing == "left":
+            x = -TILESIZE
+        elif self.facing == "right":
+            x = TILESIZE
         return self.rect.move(x,y)
+
+    def mattack(self):
+        """Execute a melee attack.
+        Returns the new attack.
+        """
+        self.attacktimer = 1
+        self.attack = pygame.sprite.GroupSingle(
+            MeleeAttack(self, self.weapon, self.images))
+        return self.attack
+
+    def rattack(self):
+        """Execute a ranged attack, based on the mouse pos.
+        Returns the new attack.
+        """
+        self.attacktimer = 1
+        self.attack = pygame.sorite.GroupSingle(
+            RangedAttack(self, self.weapon, self.images))
+        (x, y) = pygame.mouse.get_pos()
+        newshot = Shot("bullet", self.images, self, (x,y))
+        self.shots.add(newshot)
+        newsprites = pygame.sprite.Group((self.attack, newshot))
+        return newsprites
 
     def hit(self, damage):
         """Just got hit by an attack.
         """
         self.attacked = True
-        pass
-
-    def attack(self, target):
-        """Not sure if I want to keep this method yet...
-        """
-        target.hit()
+        self.hp - damage
+        if self.hp < 1:
+            self.attack.kill()
+            self.shots.kill()
+            self.die()
         pass
 
     def move(self, vector, solidSprites):
@@ -131,11 +158,12 @@ class NPC(pygame.sprite.Sprite):
         """Determines the current image to use and assigns it to self.image
         action = "Stand", "Walk1", etc
         """
+        if self.attacktimer > 0:
+            return
         if action is not None:
             # update image and reset timer
             self.action = action
-            self.image = self.images[self.ref + self.action]
-            self.animtimer = ANIMATETIMER - ATTACKTIMER
+            self.image = self.images[self.ref + self.facing + action]
             return
         if self.animtimer == self.animtimermax and self.moving == True:
             # full timer (1/1), update walk animation
@@ -158,63 +186,22 @@ class NPC(pygame.sprite.Sprite):
     def update(self, solidSprites):
         """Process actions for the sprite each frame,
         Includes AI directives and animations.
+        Returns a group of new sprites, maybe empty.
         """
-        self.brain.think(solidSprites)
+        # update attack timer
+        if self.attacktimer == self.attacktimermax:
+            self.attacktimer = 0
+        elif self.attacktimer > 0:
+            self.attacktimer += 1
+        newsprites = self.brain.think(solidSprites)
         self.animate()
         self.attacked = False
+        return newsprites
 
     def die(self):
         """The sprite had died.
-        Returns dropped item, or None if no item is dropped
+        Returns dropped item, or None if no item is dropped.
         """
         self.kill()
         pass
 
-class PC(NPC):
-    """Sprite class for the Player Character
-    """
-    def __init__(self, name, images, pos):
-        NPC.__init__(self, name, "hero", images, pos)
-
-    def update(self, solidSprites):
-        """Update the hero sprite based on the user's iteraction
-        """
-        # check stunned timer first
-        if self.stuntimer > 0:
-            if self.stuntimer >= self.stuntimermax:
-                self.stuntimer = 0
-                return
-            self.stuntimer += 1
-            return
-        # reset variables
-        self.moving = False
-        x = 0
-        y = 0
-        # perform actions for each key press
-        pressed = pygame.key.get_pressed()
-        if pressed[K_SPACE]:
-            # for now, pressing SPACE animates a pose and stuns
-            self.animate("Item")
-            self.stuntimer = 1
-            return
-        if pressed[K_a]: # left
-            x = -1
-            self.facing = "left"
-            self.moving = True
-        elif pressed[K_d]: # right
-            x = 1
-            self.facing = "right"
-            self.moving = True
-        if pressed[K_w]: # up
-            y = -1
-            self.facing = "back"
-            self.moving = True
-        elif pressed[K_s]: # down
-            y = 1
-            self.facing = "front"
-            self.moving = True
-        # update movement rectangle
-        vect = Vector(x, y)
-        moveval = self.move(vect, solidSprites)
-        # finalize
-        self.animate()

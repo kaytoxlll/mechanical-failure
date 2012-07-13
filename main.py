@@ -5,6 +5,7 @@
 import sys
 from constants import *
 from sprites import *
+from pc import *
 from monsters import *
 from images import *
 import pygame
@@ -45,12 +46,10 @@ def drawground(surface, image):
 
 # set up variables
 solidGroup = pygame.sprite.Group()
-characterGroup = pygame.sprite.Group()
 mapGroup = pygame.sprite.Group()
-npcGroup = pygame.sprite.Group()
+attackGroup = pygame.sprite.Group()
 # set up pc
 hero = PC("Cole", images, CENTERCENTER)
-characterGroup.add(hero)
 # set up map obstacles
 newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] - 100)
 barrel = Obstacle("barrel", "terrain", images, newpos, True)
@@ -62,12 +61,10 @@ mapGroup.add(barrel, barrel2, barrel3)
 # set up npc
 newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
 rat = Rat(images, newpos)
-npcGroup.add(rat)
 # set up groups
-characterGroup.add(npcGroup)
 solidGroup.add(mapGroup)
-solidGroup.add(characterGroup)
-solidGroup.add(npcGroup)
+solidGroup.add(hero)
+solidGroup.add(rat)
 
 while True:
     # handle game events
@@ -81,8 +78,11 @@ while True:
                 sys.exit()
 
     # update the sprites
-    hero.update(solidGroup)
-    npcGroup.update(solidGroup)
+    attackGroup.add(hero.update(solidGroup))
+    solidGroup.add(attackGroup)
+    attackGroup.add(rat.update(solidGroup))
+    solidGroup.add(attackGroup)
+    attackGroup.update(solidGroup)
 
     # update the screen
     drawground(window, tile)
