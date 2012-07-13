@@ -7,7 +7,7 @@ from states import *
 class Brain:
     """Collection of States that transitions between them
     """
-    def __init__(self, npc, spriteGroup):
+    def __init__(self, npc):
         self.states = {}
         self.activeState = None
         self.safeState = None # when a state fails, go back to this
@@ -16,7 +16,7 @@ class Brain:
     def addState(self, state):
         self.states[state.name] = state
 
-    def setState(self, stateName, spriteGroup):
+    def setState(self, stateName, spriteGroup=None):
         if self.activeState is not None:
             self.activeState.exitActions(spriteGroup)
         self.activeState = self.states[stateName]
@@ -39,9 +39,9 @@ class Brain:
 class VillagerBrain(Brain):
     """AI for villager, enables wandering and waiting
     """
-    def __init__(self, npc, spriteGroup):
-        Brain.__init__(self, npc, spriteGroup)
+    def __init__(self, npc):
+        Brain.__init__(self, npc)
         self.addState(Wandering(npc))
         self.addState(Waiting(npc))
-        self.setState("waiting", spriteGroup)
+        self.setState("waiting")
         self.safeState = self.states["waiting"]

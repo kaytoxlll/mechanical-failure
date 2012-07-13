@@ -35,7 +35,7 @@ class State:
         """
         pass
 
-    def entryActions(self, spriteGroup):
+    def entryActions(self, spriteGroup=None):
         """Actions to perform when this state is entered.
         Modifies npc variables.
         """
@@ -122,7 +122,7 @@ class Waiting(State):
         else:
             return None
 
-    def entryActions(self, Group):
+    def entryActions(self, Group=None):
         self.npc.moving = False
         seed()
         self.timer = randrange(MINTIME, MAXTIME)

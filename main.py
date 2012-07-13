@@ -5,6 +5,7 @@
 import sys
 from constants import *
 from sprites import *
+from monsters import *
 from images import *
 import pygame
 
@@ -48,7 +49,7 @@ characterGroup = pygame.sprite.Group()
 mapGroup = pygame.sprite.Group()
 npcGroup = pygame.sprite.Group()
 # set up pc
-hero = PC("Cole", images, CENTERCENTER, pygame.sprite.Group(), 100, 0, 0, 0)
+hero = PC("Cole", images, CENTERCENTER)
 characterGroup.add(hero)
 # set up map obstacles
 newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] - 100)
@@ -60,7 +61,7 @@ barrel3 = Obstacle("barrel", "terrain", images, newpos, True)
 mapGroup.add(barrel, barrel2, barrel3)
 # set up npc
 newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
-rat = NPC("Ratty", "rat", images, newpos, solidGroup)
+rat = Rat(images, newpos)
 npcGroup.add(rat)
 # set up groups
 characterGroup.add(npcGroup)

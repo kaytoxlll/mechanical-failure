@@ -6,8 +6,11 @@ from constants import *
 from vector import Vector
 from brain import *
 import pygame
+import random
 
-"""needs combatnpc.update()
+"""To do:
+update hit() methods
+update or remove attack() methods
 """
 
 class Obstacle(pygame.sprite.Sprite):
@@ -23,35 +26,20 @@ class Obstacle(pygame.sprite.Sprite):
         self.solid = solid # boolean
 
     def update(self):
+        """Do what you do, which is probably nothing.
+        """
         pass
 
     def hit(self, damage):
+        """Just got hit by an attack.
+        """
         pass
-
-class MeleeAttack(pygame.sprite.Sprite):
-    """Sprite for an attack, such as a sword swing
-    """
-    def __init__(self, reference, images, damage):
-        pygame.sprite.Sprite__init__(self)
-        self.damage = damage
-        pass # handle images
-
-class RangedAttack(pygame.sprite.Sprite):
-    """Sprite for a ranged attack, like a bullet or grenade
-    """
-    def __init__(self, reference, images, damage, vector, speed=5, time=999):
-        pygame.sprite.Sprite.__init__(self)
-        self.damage = damage
-        self.vector = vector.normalize()
-        self.speed = speed
-        self.time = time
-        pass # handle images
 
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
-       Sprite class for civilians
+    Sprite class for civilians
     """
-    def __init__(self, name, reference, images, pos, spriteGroup): #pos = (x,y), images = dictionary 
+    def __init__(self, name, reference, images, pos): #pos = (x,y), images = dictionary 
         pygame.sprite.Sprite.__init__(self)
         self.name = name # i.e. Bob
         self.ref = reference # i.e. VillagerMan
@@ -62,33 +50,60 @@ class NPC(pygame.sprite.Sprite):
         self.anim = True # boolean, used to swap movement animations
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
+        self.attack = None # i.e. 
+        self.shots = [] # ranged attacks in motion
         self.speed = 2.5
-        self.brain = VillagerBrain(self, spriteGroup)
+        self.hp = 100
+        self.str = 0 # Strength, melee damage
+        self.dex = 0 # Dexterity, ranged damage
+                     # if str (dex) == 0 then cannot attack
+        self.item = None # item dropped if killed
+        self.dropchance = 50 # percent chance that items will drop
+        self.brain = VillagerBrain(self)
         self.moving = False
+        self.attacked = False # reset each frame
         self.animtimermax = ANIMATETIMER
         self.animtimer = 0 # increment to timermax, then reset to 0
         self.stuntimermax = ANIMATETIMER
         self.stuntimer = 0 # increment to stuntimermax then reset to 0
 
+    def space_ahead(self):
+        """Returns a rectangle space directly in front of the npc.
+        """
+        x = 0
+        y = 0
+        if self.facing == "front":
+            x = TILESIZE
+        elif self.facing == "back":
+            x = -TILESIZE
+        elif self.facing == "left":
+            y = -TILESIZE
+        elif self.facing == "right":
+            y = TILESIZE
+        return self.rect.move(x,y)
+
     def hit(self, damage):
+        """Just got hit by an attack.
+        """
+        self.attacked = True
+        pass
+
+    def attack(self, target):
+        """Not sure if I want to keep this method yet...
+        """
+        target.hit()
         pass
 
     def move(self, vector, solidSprites):
         """Attempt to move the sprite based on the vector.
         Modifies the moving flag accordingly.
-        If there is no collision with the solid sprites or the map edge,
-        or there is no distance to move,
+        If there is a collision with the solid sprites or the map edge,
         return "success", else return the name of the collided-with object.
         This could also be an edge, i.e. "west" for the left edge of the screen.
         """
-        if vector is None or (vector.x==0.0 and vector.y==0.0):
-            # no distance to move
-            self.moving = False
-            return "success"
         distance = vector.normalize() * self.speed
         newrect = self.rect.move(*distance.as_tuple())
         if newrect.bottom > CENTERYEND:
-            # test for edge of screen collisions
             self.moving = False
             return "south"
         elif newrect.top < CENTERYSTART:
@@ -100,8 +115,7 @@ class NPC(pygame.sprite.Sprite):
         elif newrect.right > CENTERXEND:
             self.moving = False
             return "east"
-        for s in solidSprites:
-            # test for solid sprite collision
+        for s in group:
             if newrect.colliderect(s.rect) and self.name is not s.name:
                 self.moving = False
                 return s.name
@@ -138,32 +152,27 @@ class NPC(pygame.sprite.Sprite):
             self.animtimer += 1
 
     def update(self, solidSprites):
+        """Process actions for the sprite each frame,
+        Includes AI directives and animations.
+        """
         self.brain.think(solidSprites)
         self.animate()
+        self.attacked = False
 
-class CombatNPC(NPC):
-    """Sprite class for NPCs that can fight
-    """
-    def __init__(self, name, reference, images, pos, 
-                 spriteGroup, hp, armor, meleeDamage, rangedDamage):
-        NPC.__init__(self, name, reference, images, pos, spriteGroup)
-        self.attacking = False
-        self.hp = hp
-        self.armor = armor
-        self.attacktimermax = ATTACKTIMER
-        self.attacktimer = 0
-        self.meleeDamage = meleeDamage
-        self.rangedDamage = rangedDamage
+    def die(self):
+        """The sprite had died.
+        Returns dropped item, or None if no item is dropped
+        """
+        self.kill()
+        random.seed()
+        if randint(0, 100) <= self.dropchance:
+            
 
-    def update(self, solidSprites):
-        pass
-
-class PC(CombatNPC):
+class PC(NPC):
     """Sprite class for the Player Character
     """
-    def __init__(self, name, images, pos, spriteGroup, hp, armor, meleeDamage, rangedDamage):
-        CombatNPC.__init__(self, name, "hero", images, pos,
-                           spriteGroup, hp, armor, meleeDamage, rangedDamage)
+    def __init__(self, name, images, pos):
+        NPC.__init__(self, name, "hero", images, pos)
 
     def update(self, solidSprites):
         """Update the hero sprite based on the user's iteraction
