@@ -101,6 +101,10 @@ class NPC(pygame.sprite.Sprite):
         return "success", else return the name of the collided-with object.
         This could also be an edge, i.e. "west" for the left edge of the screen.
         """
+        if vector is None or (vector.x==0.0 and vector.y==0.0):
+            # no distance to move
+            self.moving = False
+            return "success" 
         distance = vector.normalize() * self.speed
         newrect = self.rect.move(*distance.as_tuple())
         if newrect.bottom > CENTERYEND:
@@ -115,7 +119,7 @@ class NPC(pygame.sprite.Sprite):
         elif newrect.right > CENTERXEND:
             self.moving = False
             return "east"
-        for s in group:
+        for s in solidSprites:
             if newrect.colliderect(s.rect) and self.name is not s.name:
                 self.moving = False
                 return s.name
@@ -164,9 +168,7 @@ class NPC(pygame.sprite.Sprite):
         Returns dropped item, or None if no item is dropped
         """
         self.kill()
-        random.seed()
-        if randint(0, 100) <= self.dropchance:
-            
+        pass
 
 class PC(NPC):
     """Sprite class for the Player Character
