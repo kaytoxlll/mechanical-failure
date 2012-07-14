@@ -18,8 +18,9 @@ todo: make music its own library, along with SFX
 
 # Game variables
 FPS = 60
-WAITTIMER = 30 # used for attack waiting time
-ATTACKTIMER = 10 # how long a weapon attack lasts
+FLINCHTIMER = 10 # after getting hit, time period of invulnerability
+WAITTIMER = 24 # used for attack waiting time
+ATTACKTIMER = 8 # how long a weapon attack lasts
 ANIMATETIMER = 20 # used for movement animations
 TILESIZE = 32
 CENTERTILEWIDTH = 16

@@ -19,22 +19,9 @@ class PC(NPC):
         """Update the hero sprite based on the user's iteraction.
         Returns a group of new sprites, maybe empty.
         """
-        action = None # tracks what the hero does for the animation at the end
         newsprites = pygame.sprite.Group()
-        # update attack timer
-        if self.attacktimer == self.attacktimermax:
-            self.attacktimer = 0
-        elif self.attacktimer > 0:
-            self.attacktimer += 1
-        # check stunned timer
-        if self.stuntimer > 0:
-            if self.stuntimer == self.stuntimermax:
-                self.stuntimer = 0
-                return
-            self.stuntimer += 1
-            return
-        # reset variables
-        self.moving = False
+        if self.tick() is False:
+            return newsprites
         x = 0
         y = 0
         # perform actions for each key press
@@ -64,12 +51,11 @@ class PC(NPC):
             self.moving = True
         # perform actions for mouse buttons pressed
         (mousebutton1, mousebutton2, mousebutton3) = pygame.mouse.get_pressed()
-        if mousebutton1 and self.attacktimer == 0:
-            action = "Attack"
+        if mousebutton1:
             newsprites.add(self.mattack())
         # update movement rectangle
         vect = Vector(x, y)
         moveval = self.move(vect, solidSprites)
         # finalize
-        self.animate(action)
+        self.animate()
         return newsprites

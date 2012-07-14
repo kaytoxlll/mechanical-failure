@@ -17,10 +17,11 @@ class Attack(pygame.sprite.Sprite):
     """
     def __init__(self, npc, reference=None, images=None):
         pygame.sprite.Sprite.__init__(self)
-        self.name = "attack"
+        self.name = npc.name # prevents collision when moving
         self.ref = reference # i.e. wrench
         #self.images = images
-        #self.image = None
+        self.image = pygame.Surface((1,1))
+        self.image.set_alpha(0)
         self.rect = npc.space_ahead()
         self.damage = npc.str
         self.npc = npc
@@ -41,7 +42,8 @@ class Attack(pygame.sprite.Sprite):
         # check for collisions
         hitlist = pygame.sprite.spritecollide(self, solidSprites, False)
         for s in hitlist:
-            s.hit(self.damage)
+            if s.name is not self.name:
+                s.hit(self.damage)
         # update timer
         self.timer += 1
         self.animate()
@@ -50,7 +52,7 @@ class Attack(pygame.sprite.Sprite):
         """Change the weapons current image.
         This default attack has no image.
         """
-        pass
+        self.image.set_alpha(0)
 
     def hit(self, damage):
         """This attack has been hit by another attack.
@@ -62,7 +64,9 @@ class MeleeAttack(Attack):
     def __init__(self, npc, reference, images):
         Attack.__init__(self, npc, reference, images)
         self.images = images
-        self.image = images[reference + npc.facing + "1"] # i.e. wrenchfront1
+        if reference <> None:
+            self.image = images[reference + npc.facing + "1"] # i.e. wrenchfront1
+
         
     def animate(self):
         """Update the swinging animation.

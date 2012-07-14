@@ -52,7 +52,8 @@ class NPC(pygame.sprite.Sprite):
         self.anim = True # boolean, used to swap movement animations
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
-        self.weapon = None
+        self.weapon = None # melee weapon, i.e. "wrench"
+        self.gun = None # "pistol"
         self.attack = None # i.e. GroupSingle(MeleeAttack)
         self.shots = pygame.sprite.Group() # ranged attacks in motion
         self.speed = 2.5
@@ -65,11 +66,13 @@ class NPC(pygame.sprite.Sprite):
         self.brain = VillagerBrain(self)
         self.moving = False
         self.attacked = False # reset each frame, acts as a "danger sense"
+        self.flinchtimermax = FLINCHTIMER
+        self.flinchtimer = 0
         self.animtimermax = ANIMATETIMER
         self.animtimer = 0 # increment to timermax, then reset to 0
         self.stuntimermax = ANIMATETIMER
         self.stuntimer = 0 # increment to stuntimermax then reset to 0
-        self.attacktimermax = ATTACKTIMER
+        self.attacktimermax = WAITTIMER
         self.attacktimer = 0 # increments to attacktimermax, then reset to 0
         # can only attack if attacktimer == 0
 
@@ -79,31 +82,40 @@ class NPC(pygame.sprite.Sprite):
         x = 0
         y = 0
         if self.facing == "front":
-            y = TILESIZE
+            y = self.rect.height
         elif self.facing == "back":
-            y = -TILESIZE
+            y = -self.rect.height
         elif self.facing == "left":
-            x = -TILESIZE
+            x = -self.rect.width
         elif self.facing == "right":
-            x = TILESIZE
+            x = self.rect.width
         return self.rect.move(x,y)
 
     def mattack(self):
         """Execute a melee attack.
         Returns the new attack.
         """
+        if self.attacktimer <> 0:
+            return pygame.sprite.Group()
+        self.action = "Attack"
         self.attacktimer = 1
-        self.attack = pygame.sprite.GroupSingle(
-            MeleeAttack(self, self.weapon, self.images))
+        if self.weapon == None:
+            self.attack = pygame.sprite.GroupSingle(Attack(self))
+        else:
+            self.attack = pygame.sprite.GroupSingle(
+                MeleeAttack(self, self.weapon, self.images))
         return self.attack
 
     def rattack(self):
         """Execute a ranged attack, based on the mouse pos.
         Returns the new attack.
         """
+        if self.attacktimer <> 0:
+            return pygame.sprite.Group()
+        self.action = "Attack"
         self.attacktimer = 1
         self.attack = pygame.sorite.GroupSingle(
-            RangedAttack(self, self.weapon, self.images))
+            RangedAttack(self, self.gun, self.images))
         (x, y) = pygame.mouse.get_pos()
         newshot = Shot("bullet", self.images, self, (x,y))
         self.shots.add(newshot)
@@ -113,6 +125,7 @@ class NPC(pygame.sprite.Sprite):
     def hit(self, damage):
         """Just got hit by an attack.
         """
+        print "hit"
         self.attacked = True
         self.hp - damage
         if self.hp < 1:
@@ -154,16 +167,15 @@ class NPC(pygame.sprite.Sprite):
         self.moving = True
         return "success"
 
-    def animate(self, action=None):
+    def animate(self):
         """Determines the current image to use and assigns it to self.image
         action = "Stand", "Walk1", etc
         """
-        if self.attacktimer > 0:
-            return
-        if action is not None:
+        if self.action is not None:
             # update image and reset timer
-            self.action = action
-            self.image = self.images[self.ref + self.facing + action]
+            self.image = self.images[self.ref + self.facing + self.action]
+            return
+        if self.attack is not None and self.attack.sprite.timer > 0:
             return
         if self.animtimer == self.animtimermax and self.moving == True:
             # full timer (1/1), update walk animation
@@ -183,16 +195,34 @@ class NPC(pygame.sprite.Sprite):
         else:
             self.animtimer += 1
 
-    def update(self, solidSprites):
-        """Process actions for the sprite each frame,
-        Includes AI directives and animations.
-        Returns a group of new sprites, maybe empty.
+    def tick(self):
+        """Update variables independent of subclass.
+        Call this at the start of each update.
+        Return False if stunned (do not continue turn)
         """
         # update attack timer
         if self.attacktimer == self.attacktimermax:
             self.attacktimer = 0
         elif self.attacktimer > 0:
             self.attacktimer += 1
+        # check stun timer
+        if self.stuntimer > 0:
+            if self.stuntimer == self.stuntimermax:
+                self.stuntimer = 0
+                return False
+            self.stuntimer += 1
+            return newsprites
+        # reset variables
+        self.moving = False
+        self.action = None
+        return True
+
+    def update(self, solidSprites):
+        """Process actions for the sprite each frame,
+        Includes AI directives and animations.
+        Returns a group of new sprites, maybe empty.
+        """
+        self.tick()
         newsprites = self.brain.think(solidSprites)
         self.animate()
         self.attacked = False
