@@ -52,13 +52,13 @@ attackGroup = pygame.sprite.Group()
 # set up pc
 hero = PC("Cole", images, CENTERCENTER)
 # set up map obstacles
-newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] - 100)
-barrel = Obstacle("barrel", "terrain", images, newpos, True)
+newpos = (CENTERX-TILESIZE*3, CENTERYSTART)
+house = Obstacle("house1", "terrain", images, newpos, True)
 newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] - 100)
-barrel2 = Obstacle("barrel", "terrain", images, newpos, True)
+barrel = Obstacle("barrel", "terrain", images, newpos, True)
 newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] + 100)
-barrel3 = Obstacle("barrel", "terrain", images, newpos, True)
-mapGroup.add(barrel, barrel2, barrel3)
+barrel2 = Obstacle("barrel", "terrain", images, newpos, True)
+mapGroup.add(barrel, barrel2, house)
 # set up npc
 newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
 rat = Rat(images, newpos)

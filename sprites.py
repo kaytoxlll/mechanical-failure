@@ -2,6 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
+from math import fabs
 from constants import *
 from vector import Vector
 from brain import *
@@ -32,10 +33,10 @@ class Obstacle(pygame.sprite.Sprite):
         """
         pass
 
-    def hit(self, damage):
+    def hit(self, attack, solidSprites=None, frompoint=None):
         """Just got hit by an attack.
         """
-        pass
+        return True
 
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
@@ -76,6 +77,8 @@ class NPC(pygame.sprite.Sprite):
         self.stuntimer = 0 # increment to stuntimermax then reset to 0
         self.attacktimermax = WAITTIMER
         self.attacktimer = 0 # increments to attacktimermax, then reset to 0
+        self.guntimermax = GUNTIMER
+        self.guntimer = 0
         # can only attack if attacktimer == 0
 
     def space_ahead(self):
@@ -110,27 +113,37 @@ class NPC(pygame.sprite.Sprite):
         """Execute a ranged attack, based on the mouse pos.
         Returns the new attack.
         """
-        if self.attacktimer <> 0:
+        if self.guntimer <> 0:
             return pygame.sprite.Group()
+        # update facing to match shooting direction
+        (x,y) = pygame.mouse.get_pos()
+        if fabs(self.rect.centerx-x) > fabs(self.rect.centery-y):
+            if x < self.rect.centerx:
+                self.facing = "left"
+            else:
+                self.facing = "right"
+        else:
+            if y < self.rect.centery:
+                self.facing = "back"
+            else:
+                self.facing = "front"
+        sfxPlay("shotgun.wav")
         self.action = "Attack"
-        self.attacktimer = 1
-        self.attack = pygame.sorite.GroupSingle(
+        self.guntimer = 1
+        self.attack = pygame.sprite.GroupSingle(
             RangedAttack(self, self.gun, self.images))
-        (x, y) = pygame.mouse.get_pos()
-        newshot = Shot("bullet", self.images, self, (x,y))
+        newshot = Shot(self, "bullet", self.images, (x,y))
         self.shots.add(newshot)
         newsprites = pygame.sprite.Group((self.attack, newshot))
         return newsprites
 
-    def hit(self, damage):
+    def hit(self, attack, solidSprites, frompoint):
         """Just got attacked.
         Returns True if the attack hits, else False.
         """
         if self.flinchtimer > 0:
             return False
-        self.flinchtimer = 1
-        self.attacked = True
-        self.hp -= damage
+        self.hp -= attack.damage
         if self.hp < 1:
             if self.attack is not None:
                 self.attack.sprite.kill()
@@ -139,10 +152,41 @@ class NPC(pygame.sprite.Sprite):
             self.die()
             sfxPlay(self.sfxdead)
         else:
+            self.flinchtimer = 1
+            self.attacked = True
             sfxPlay(self.sfxhurt)
+            vect = Vector.from_points(frompoint, self.rect.center).normalize()
+            self.knockback(vect, solidSprites, attack)
         return True
 
-    def move(self, vector, solidSprites):
+    def knockback(self, vector, solidSprites, attack, velocity=KNOCKBACK):
+        """Push the npc back until it hits a solid object.
+        """
+        if vector is None or (vector.x==0.0 and vector.y==0.0):
+            return
+        vector.normalize()
+        distance = vector * velocity
+        for i in range(velocity):
+            newrect = self.rect.move(*distance.as_tuple())
+            if newrect.bottom > CENTERYEND:
+                break
+            elif newrect.top < CENTERYSTART:
+                break
+            elif newrect.left < CENTERXSTART:
+                break
+            elif newrect.right > CENTERXEND:
+                break
+            collision = False
+            for s in solidSprites:
+                if newrect.colliderect(s.rect) and self.name is not s.name \
+                   and s.name is not attack.name:
+                    collision = True
+                    break
+            if collision == True:
+                break
+            self.rect = newrect
+
+    def move(self, vector, solidSprites, velocity=None):
         """Attempt to move the sprite based on the vector.
         Modifies the moving flag accordingly.
         If there is a collision with the solid sprites or the map edge,
@@ -153,7 +197,10 @@ class NPC(pygame.sprite.Sprite):
             # no distance to move
             self.moving = False
             return "success" 
-        distance = vector.normalize() * self.speed
+        if velocity is not None:
+            distance = vector * velocity
+        else:
+            distance = vector * self.speed
         newrect = self.rect.move(*distance.as_tuple())
         if newrect.bottom > CENTERYEND:
             self.moving = False
@@ -217,13 +264,17 @@ class NPC(pygame.sprite.Sprite):
             self.attacktimer = 0
         elif self.attacktimer > 0:
             self.attacktimer += 1
+        if self.guntimer == self.guntimermax:
+            self.guntimer = 0
+        elif self.guntimer > 0:
+            self.guntimer += 1
         # check stun timer
         if self.stuntimer > 0:
+            self.stuntimer += 1
             if self.stuntimer == self.stuntimermax:
                 self.stuntimer = 0
+            else:
                 return False
-            self.stuntimer += 1
-            return newsprites
         # reset variables
         self.moving = False
         self.action = None

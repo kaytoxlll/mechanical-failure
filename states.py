@@ -100,7 +100,7 @@ class Wandering(State):
         self.npc.moving = True
         self.timer = randrange(MINTIME, MAXTIME)
         heading = choice(self.directions.keys())
-        self.vector = Vector(*heading)
+        self.vector = Vector(*heading).normalize()
         self.npc.facing = self.directions[heading]
 
     def exitActions(self, group):

@@ -35,9 +35,9 @@ class PC(NPC):
         if pressed[K_SPACE]:
             # for now, pressing SPACE animates a pose and stuns
             self.facing = "front"
-            action = "Item"
+            self.action = "Item"
             self.stuntimer = 1
-            self.animate(action)
+            self.animate()
             return newsprites
         if pressed[K_a]: # left
             x = -1
@@ -59,9 +59,11 @@ class PC(NPC):
         (mousebutton1, mousebutton2, mousebutton3) = pygame.mouse.get_pressed()
         if mousebutton1:
             newsprites.add(self.mattack())
+        if mousebutton3:
+            newsprites.add(self.rattack())
         # update movement rectangle
         vect = Vector(x, y)
-        moveval = self.move(vect, solidSprites)
+        moveval = self.move(vect.normalize(), solidSprites)
         # finalize
         self.animate()
         return newsprites

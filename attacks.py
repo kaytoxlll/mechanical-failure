@@ -25,6 +25,7 @@ class Attack(pygame.sprite.Sprite):
         self.npc = npc
         self.timermax = ATTACKTIMER
         self.timer = 0 # counts up to timermax, then attack is over
+        self.hit = False # flag for hit detection, to prevent multihits
 
     def update(self, solidSprites):
         """Align the attack with the npc's rect,
@@ -39,10 +40,12 @@ class Attack(pygame.sprite.Sprite):
         self.rect = self.npc.space_ahead()
         # check for collisions
         hitlist = pygame.sprite.spritecollide(self, solidSprites, False)
-        for s in hitlist:
-            if s.name is not self.name:
-                if s.hit(self.damage):
-                    sfxPlay("meleehit.wav")
+        if self.hit == False:
+            for s in hitlist:
+                if s.name is not self.name:
+                    if s.hit(self, solidSprites, self.npc.rect.center):
+                        self.hit = True
+                        sfxPlay("meleehit.wav")
         # update timer
         self.timer += 1
         self.animate()
@@ -53,7 +56,7 @@ class Attack(pygame.sprite.Sprite):
         """
         self.image.set_alpha(0)
 
-    def hit(self, damage):
+    def hit(self, attack, solidSprites, frompoint):
         """This attack has been hit by another attack.
         All of this game's sprites need this.
         """
@@ -83,7 +86,9 @@ class RangedAttack(Attack):
     """
     def __init__(self, npc, reference, images):
         Attack.__init__(self, npc, reference, images)
-        self.image = images[reference + npc.facing]
+        self.image = pygame.Surface((32,32))
+        self.image.set_alpha(0)
+        #self.image = images[reference + npc.facing]
 
     def update(self, solidSprites):
         """Don't worry about hit detection, just time the attack.
@@ -96,7 +101,7 @@ class RangedAttack(Attack):
         # update position
         self.rect = self.npc.space_ahead()
         # update timer
-        timer += 1
+        self.timer += 1
         self.animate()
 
     def animate(self):
@@ -109,40 +114,37 @@ class Shot(pygame.sprite.Sprite):
     """
     def __init__(self, npc, reference, images, dest):
         pygame.sprite.Sprite.__init__(self)
-        self.damage = damage
+        self.npc = npc
+        self.name = npc.name
+        self.damage = npc.dex
         self.vector = Vector.from_points(npc.rect.center, dest).normalize()
-        self.speed = 5
+        self.speed = 15
         self.image = images["ammo" + reference]
         self.rect = self.image.get_rect()
-        x, y = 0
+        x = 0
+        y = 0
         # start the shot in the center of the tile in front of the npc
-        if npc.facing == "front":
-            y = TILESIZE
-        elif npc.facing == "back":
-            y = -TILESIZE
-        elif npc.facing == "left":
-            x = -TILESIZE
-        elif npc.facing == "right":
-            x = TILESIZE
-        self.rect.center = (npc.rect.centerx + x, npc.rect.centery + y)
+        startrect = npc.space_ahead()
+        self.rect.center = startrect.center
 
     def update(self, solidSprites):
         """Move the shot and handle collisions.
         """
         distance = self.vector * self.speed
         self.rect.move_ip(*distance.as_tuple())
-        for s in pygame.sprite.spritecollide(self, solidSprites):
+        for s in pygame.sprite.spritecollide(self, solidSprites, False):
             # handle the first target hit by the shot
-            s.hit(self.damage)
-            self.kill()
-            return
+            if s.name is not self.name:
+                s.hit(self, solidSprites, self.npc.rect.center)
+                self.kill()
+                return
         if self.rect.bottom > CENTERYEND or \
         self.rect.top < CENTERYSTART or \
         self.rect.left < CENTERXSTART or \
         self.rect.right > CENTERXEND:
             self.kill()
 
-    def hit(self, damage=0):
+    def hit(self, attack, solidSprites, frompoint):
         """This shot got hit by an attack.
         """
         self.kill()
