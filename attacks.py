@@ -20,8 +20,6 @@ class Attack(pygame.sprite.Sprite):
         self.name = npc.name # prevents collision when moving
         self.ref = reference # i.e. wrench
         #self.images = images
-        self.image = pygame.Surface((1,1))
-        self.image.set_alpha(0)
         self.rect = npc.space_ahead()
         self.damage = npc.str
         self.npc = npc
@@ -43,7 +41,8 @@ class Attack(pygame.sprite.Sprite):
         hitlist = pygame.sprite.spritecollide(self, solidSprites, False)
         for s in hitlist:
             if s.name is not self.name:
-                s.hit(self.damage)
+                if s.hit(self.damage):
+                    sfxPlay("meleehit.wav")
         # update timer
         self.timer += 1
         self.animate()
@@ -61,17 +60,22 @@ class Attack(pygame.sprite.Sprite):
         pass
 
 class MeleeAttack(Attack):
-    def __init__(self, npc, reference, images):
+    def __init__(self, npc, reference=None, images=None):
         Attack.__init__(self, npc, reference, images)
         self.images = images
-        if reference <> None:
+        if self.ref == None or self.images == None:
+            self.image = pygame.Surface((1,1))
+            self.image.set_alpha(0)
+        else:
             self.image = images[reference + npc.facing + "1"] # i.e. wrenchfront1
 
         
     def animate(self):
-        """Update the swinging animation.
+        """Update the swinging animation and sound.
         """
-        if self.timer == 5: # 1/2 max
+        if self.timer == self.timermax/2 and \
+           (self.ref <> None and self.images <> None):
+            # 1/2 max
             self.image = self.images[self.ref + self.npc.facing + "2"]
 
 class RangedAttack(Attack):

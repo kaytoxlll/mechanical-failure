@@ -20,7 +20,7 @@ todo: make music its own library, along with SFX
 FPS = 60
 FLINCHTIMER = 10 # after getting hit, time period of invulnerability
 WAITTIMER = 24 # used for attack waiting time
-ATTACKTIMER = 8 # how long a weapon attack lasts
+ATTACKTIMER = 8 # how long a weapon attack lasts, even number
 ANIMATETIMER = 20 # used for movement animations
 TILESIZE = 32
 CENTERTILEWIDTH = 16
@@ -47,6 +47,12 @@ class AIError(Exception):
     """
     def __init__(self, msg=None):
         self.msg = msg
+
+# Sound Effects
+
+def sfxPlay(sfx):
+    sfxfile = join("data", "sfx", sfx)
+    pygame.mixer.Sound(sfxfile).play()
 
 # Music
 def songPlay(song):

@@ -46,6 +46,8 @@ class NPC(pygame.sprite.Sprite):
         self.name = name # i.e. Bob
         self.ref = reference # i.e. VillagerMan
         self.images = images
+        self.sfxhurt = None
+        self.sfxdead = None
         self.facing = "front"
         self.action = "Stand" # Stand, Walk1, Walk2
         self.image = self.images[self.ref + self.facing + self.action]
@@ -57,7 +59,7 @@ class NPC(pygame.sprite.Sprite):
         self.attack = None # i.e. GroupSingle(MeleeAttack)
         self.shots = pygame.sprite.Group() # ranged attacks in motion
         self.speed = 2.5
-        self.hp = 100
+        self.hp = 10
         self.str = 0 # Strength, melee damage
         self.dex = 0 # Dexterity, ranged damage
                      # if str (dex) == 0 then cannot attack
@@ -97,13 +99,11 @@ class NPC(pygame.sprite.Sprite):
         """
         if self.attacktimer <> 0:
             return pygame.sprite.Group()
+        sfxPlay("meleemiss.wav")
         self.action = "Attack"
         self.attacktimer = 1
-        if self.weapon == None:
-            self.attack = pygame.sprite.GroupSingle(Attack(self))
-        else:
-            self.attack = pygame.sprite.GroupSingle(
-                MeleeAttack(self, self.weapon, self.images))
+        self.attack = pygame.sprite.GroupSingle(
+            MeleeAttack(self, self.weapon, self.images))
         return self.attack
 
     def rattack(self):
@@ -123,16 +123,24 @@ class NPC(pygame.sprite.Sprite):
         return newsprites
 
     def hit(self, damage):
-        """Just got hit by an attack.
+        """Just got attacked.
+        Returns True if the attack hits, else False.
         """
-        print "hit"
+        if self.flinchtimer > 0:
+            return False
+        self.flinchtimer = 1
         self.attacked = True
-        self.hp - damage
+        self.hp -= damage
         if self.hp < 1:
-            self.attack.kill()
-            self.shots.kill()
+            if self.attack is not None:
+                self.attack.sprite.kill()
+            for shot in self.shots:
+                shot.kill()
             self.die()
-        pass
+            sfxPlay(self.sfxdead)
+        else:
+            sfxPlay(self.sfxhurt)
+        return True
 
     def move(self, vector, solidSprites):
         """Attempt to move the sprite based on the vector.
@@ -200,7 +208,11 @@ class NPC(pygame.sprite.Sprite):
         Call this at the start of each update.
         Return False if stunned (do not continue turn)
         """
-        # update attack timer
+        # update timers
+        if self.flinchtimer == self.flinchtimermax:
+            self.flinchtimer = 0
+        elif self.flinchtimer > 0:
+            self.flinchtimer += 1
         if self.attacktimer == self.attacktimermax:
             self.attacktimer = 0
         elif self.attacktimer > 0:

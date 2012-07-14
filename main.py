@@ -20,8 +20,9 @@ with a more descriptive name for the file to execute, like "playgame.py".
 """
 
 # initialization
-images = loadAllImages()
 pygame.init()
+images = loadAllImages()
+pygame.mixer.init()
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 pygame.display.set_caption("Mechanical Failure")

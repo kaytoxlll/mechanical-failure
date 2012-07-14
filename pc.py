@@ -13,7 +13,13 @@ class PC(NPC):
     """
     def __init__(self, name, images, pos):
         NPC.__init__(self, name, "hero", images, pos)
+        self.speed = 2.5
+        self.hp = 100
+        self.str = 3
+        self.dex = 3
         self.weapon = "wrench"
+        self.sfxhurt = "malehurt.wav"
+        self.sfxdead = "maledead.wav"
 
     def update(self, solidSprites):
         """Update the hero sprite based on the user's iteraction.

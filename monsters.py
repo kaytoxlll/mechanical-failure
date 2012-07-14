@@ -10,5 +10,10 @@ class Rat(NPC):
     def __init__(self, images, pos):
         NPC.__init__(self, "Rat", "rat", images, pos)
         self.speed = 3.5
+        self.hp = 10
+        self.str = 1
+        self.dex = 0
+        self.sfxhurt = "rathurt.wav"
+        self.sfxdead = "ratdead.wav"
         # self.brain = ThiefBrain(self)
         
