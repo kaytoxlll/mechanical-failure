@@ -17,6 +17,7 @@ class Attack(pygame.sprite.Sprite):
     """
     def __init__(self, npc, reference=None, images=None):
         pygame.sprite.Sprite.__init__(self)
+        self.solid = True
         self.name = npc.name # prevents collision when moving
         self.ref = reference # i.e. wrench
         #self.images = images
@@ -30,7 +31,9 @@ class Attack(pygame.sprite.Sprite):
     def update(self, solidSprites):
         """Align the attack with the npc's rect,
         See if it hit anyone, and process the hit.
+        Return spritegroup of new sprites, else None
         """
+        newsprites = None
         if self.timer == self.timermax:
             # if the attack is over, kill it
             self.npc.attack = None
@@ -42,13 +45,15 @@ class Attack(pygame.sprite.Sprite):
         hitlist = pygame.sprite.spritecollide(self, solidSprites, False)
         if self.hit == False:
             for s in hitlist:
-                if s.name is not self.name:
-                    if s.hit(self, solidSprites, self.npc.rect.center):
+                if s.name is not self.name and s.solid:
+                    newsprites = s.hit(self, solidSprites, self.npc.rect.center)
+                    if newsprites is not None:
                         self.hit = True
                         sfxPlay("meleehit.wav")
         # update timer
         self.timer += 1
         self.animate()
+        return newsprites
 
     def animate(self):
         """Change the weapons current image.
@@ -59,8 +64,9 @@ class Attack(pygame.sprite.Sprite):
     def hit(self, attack, solidSprites, frompoint):
         """This attack has been hit by another attack.
         All of this game's sprites need this.
+        Return False if the attack misses, else spritegroup.
         """
-        pass
+        return False
 
 class MeleeAttack(Attack):
     def __init__(self, npc, reference=None, images=None):
@@ -76,19 +82,20 @@ class MeleeAttack(Attack):
     def animate(self):
         """Update the swinging animation and sound.
         """
-        if self.timer == self.timermax/2 and \
+        if self.timer >= self.timermax/2 and \
            (self.ref <> None and self.images <> None):
             # 1/2 max
             self.image = self.images[self.ref + self.npc.facing + "2"]
+        else:
+            self.image = self.images[self.ref + self.npc.facing + "1"]
 
 class RangedAttack(Attack):
     """Basically holding a gun in front of you.
     """
     def __init__(self, npc, reference, images):
         Attack.__init__(self, npc, reference, images)
-        self.image = pygame.Surface((32,32))
-        self.image.set_alpha(0)
-        #self.image = images[reference + npc.facing]
+        self.images = images
+        self.image = images[reference + npc.facing]
 
     def update(self, solidSprites):
         """Don't worry about hit detection, just time the attack.
@@ -107,13 +114,14 @@ class RangedAttack(Attack):
     def animate(self):
         """Put the gun away when the attack ends.
         """
-        pass
+        self.image = self.images[self.ref + self.npc.facing]
 
 class Shot(pygame.sprite.Sprite):
     """Sprite for a projectile, like a bullet.
     """
     def __init__(self, npc, reference, images, dest):
         pygame.sprite.Sprite.__init__(self)
+        self.solid = True
         self.npc = npc
         self.name = npc.name
         self.damage = npc.dex
@@ -129,15 +137,16 @@ class Shot(pygame.sprite.Sprite):
 
     def update(self, solidSprites):
         """Move the shot and handle collisions.
+        Return new sprites created, else None
         """
         distance = self.vector * self.speed
         self.rect.move_ip(*distance.as_tuple())
         for s in pygame.sprite.spritecollide(self, solidSprites, False):
             # handle the first target hit by the shot
-            if s.name is not self.name:
-                s.hit(self, solidSprites, self.npc.rect.center)
+            if s.name is not self.name and s.solid:
+                newsprites = s.hit(self, solidSprites, self.npc.rect.center)
                 self.kill()
-                return
+                return newsprites
         if self.rect.bottom > CENTERYEND or \
         self.rect.top < CENTERYSTART or \
         self.rect.left < CENTERXSTART or \
@@ -148,4 +157,5 @@ class Shot(pygame.sprite.Sprite):
         """This shot got hit by an attack.
         """
         self.kill()
+        return False
 

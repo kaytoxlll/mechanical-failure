@@ -36,7 +36,7 @@ class Obstacle(pygame.sprite.Sprite):
     def hit(self, attack, solidSprites=None, frompoint=None):
         """Just got hit by an attack.
         """
-        return True
+        return pygame.sprite.Group()
 
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
@@ -44,6 +44,8 @@ class NPC(pygame.sprite.Sprite):
     """
     def __init__(self, name, reference, images, pos): #pos = (x,y), images = dictionary 
         pygame.sprite.Sprite.__init__(self)
+        self.solid = True
+        self.dead = False
         self.name = name # i.e. Bob
         self.ref = reference # i.e. VillagerMan
         self.images = images
@@ -139,25 +141,26 @@ class NPC(pygame.sprite.Sprite):
 
     def hit(self, attack, solidSprites, frompoint):
         """Just got attacked.
-        Returns True if the attack hits, else False.
+        Returns None if the attack misses, else Spritegroup
         """
         if self.flinchtimer > 0:
-            return False
+            return None
         self.hp -= attack.damage
         if self.hp < 1:
             if self.attack is not None:
                 self.attack.sprite.kill()
             for shot in self.shots:
                 shot.kill()
-            self.die()
+            dropsprites = self.die()
             sfxPlay(self.sfxdead)
+            return dropsprites
         else:
             self.flinchtimer = 1
             self.attacked = True
             sfxPlay(self.sfxhurt)
             vect = Vector.from_points(frompoint, self.rect.center).normalize()
             self.knockback(vect, solidSprites, attack)
-        return True
+            return pygame.sprite.Group()
 
     def knockback(self, vector, solidSprites, attack, velocity=KNOCKBACK):
         """Push the npc back until it hits a solid object.
@@ -178,8 +181,8 @@ class NPC(pygame.sprite.Sprite):
                 break
             collision = False
             for s in solidSprites:
-                if newrect.colliderect(s.rect) and self.name is not s.name \
-                   and s.name is not attack.name:
+                if s.solid and newrect.colliderect(s.rect) and \
+                   self.name is not s.name and s.name is not attack.name:
                     collision = True
                     break
             if collision == True:
@@ -215,7 +218,8 @@ class NPC(pygame.sprite.Sprite):
             self.moving = False
             return "east"
         for s in solidSprites:
-            if newrect.colliderect(s.rect) and self.name is not s.name:
+            if s.solid and newrect.colliderect(s.rect) \
+               and self.name is not s.name:
                 self.moving = False
                 return s.name
         self.rect = newrect
@@ -256,6 +260,8 @@ class NPC(pygame.sprite.Sprite):
         Return False if stunned (do not continue turn)
         """
         # update timers
+        if self.dead:
+            return False
         if self.flinchtimer == self.flinchtimermax:
             self.flinchtimer = 0
         elif self.flinchtimer > 0:
@@ -285,7 +291,8 @@ class NPC(pygame.sprite.Sprite):
         Includes AI directives and animations.
         Returns a group of new sprites, maybe empty.
         """
-        self.tick()
+        if self.tick() is False:
+            return pygame.sprite.Group()
         newsprites = self.brain.think(solidSprites)
         self.animate()
         self.attacked = False
@@ -293,8 +300,8 @@ class NPC(pygame.sprite.Sprite):
 
     def die(self):
         """The sprite had died.
-        Returns dropped item, or None if no item is dropped.
         """
-        self.kill()
-        pass
+        self.dead = True
+        self.solid = False
+        self.image = self.images["terrain"+"blood1"]
 

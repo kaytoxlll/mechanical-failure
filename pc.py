@@ -18,6 +18,7 @@ class PC(NPC):
         self.str = 3
         self.dex = 3
         self.weapon = "wrench"
+        self.gun = "gun"
         self.sfxhurt = "malehurt.wav"
         self.sfxdead = "maledead.wav"
 
