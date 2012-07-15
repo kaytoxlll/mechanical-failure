@@ -8,7 +8,7 @@ from brain import *
 
 class Rat(NPC):
     def __init__(self, images, pos):
-        NPC.__init__(self, "Rat", "rat", images, pos)
+        NPC.__init__(self, "Rat", "rat", pos)
         self.speed = 3.5
         self.hp = 10
         self.str = 1

@@ -21,7 +21,6 @@ with a more descriptive name for the file to execute, like "playgame.py".
 
 # initialization
 pygame.init()
-images = loadAllImages()
 pygame.mixer.init()
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
@@ -46,9 +45,11 @@ def drawground(surface, image):
         x=CENTERXSTART
 
 # set up variables
-solidGroup = pygame.sprite.Group()
+global solidGroup
+backgroundGroup = pygame.sprite.Group()
 mapGroup = pygame.sprite.Group()
 attackGroup = pygame.sprite.Group()
+npcGroup = pygame.sprite.Group()
 # set up pc
 hero = PC("Cole", images, CENTERCENTER)
 # set up map obstacles
@@ -79,14 +80,21 @@ while True:
                 sys.exit()
 
     # update the sprites
-    attackGroup.add(hero.update(solidGroup))
-    solidGroup.add(attackGroup)
-    attackGroup.add(rat.update(solidGroup))
-    solidGroup.add(attackGroup)
-    attackGroup.update(solidGroup)
+    hero.update()
+    npcGroup.update()
+    attackGroup.update()
+
+    # update the groups from the queues
+    solidGroup.add(solidQ)
+    backgroundGroup.add(backgroundQ)
+    attackGroup.add(attackQ)
+    solidQ.empty()
+    backgroundQ.empty()
+    attackQ.empty()
 
     # update the screen
     drawground(window, tile)
+    backgroundGroup.draw(window)
     solidGroup.draw(window)
     pygame.display.update()
     clock.tick(FPS)

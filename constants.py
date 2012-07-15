@@ -16,20 +16,24 @@ where the side rectangles are for HUD
 todo: make music its own library, along with SFX
 """
 
-# Game variables
+# Game constants
 FPS = 60
+TILESIZE = 32
+CENTERTILEWIDTH = 16
+BORDERTILEWIDTH = 8
+DIAGONAL = 0.707106781187 # (1,1) vector normalized
+
+# sprite constants
 KNOCKBACK = 5
 FLINCHTIMER = 10 # after getting hit, time period of invulnerability
 WAITTIMER = 24 # used for attack waiting time
 ATTACKTIMER = 8 # how long a weapon attack lasts, even number
 GUNTIMER = 80
 ANIMATETIMER = 20 # used for movement animations
-TILESIZE = 32
-CENTERTILEWIDTH = 16
-BORDERTILEWIDTH = 8
-DIAGONAL = 0.707106781187 # (1,1) vector normalized
+MINTIME = 30 # time for moving or waiting (sort of like a 'turn')
+MAXTIME = 120
 
-# Derived variables
+# screen constants
 CENTERWIDTH = TILESIZE*CENTERTILEWIDTH
 CENTERHEIGHT = CENTERWIDTH
 SCREENHEIGHT = CENTERWIDTH
@@ -42,6 +46,18 @@ CENTERYEND = CENTERHEIGHT
 CENTERY = CENTERYEND - (CENTERHEIGHT/2)
 SCREENWIDTH = CENTERWIDTH+(BORDERWIDTH*2)
 CENTERCENTER = (CENTERXSTART+(CENTERWIDTH/2), CENTERYSTART+(CENTERWIDTH/2))
+
+# globals
+
+# global images
+images = loadAllImages()
+
+# global sprite groups
+solidGroup = pygame.sprite.Group()
+solidQ = pygame.sprite.Group()
+backgroundQ = pygame.sprite.Group()
+attackQ = pygame.sprite.Group()
+newitemQ = pygame.sprite.Group()
 
 # Functions
 

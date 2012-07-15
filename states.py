@@ -8,9 +8,6 @@ from math import fabs
 import pygame
 from random import seed, randrange, choice
 
-MINTIME = 30 # time for moving or waiting (sort of like a 'turn')
-MAXTIME = 120
-
 """need ai.py to be file for generic superclass of state/state machine.
 seperate py file for each state machine.
 there might be a better way.
@@ -23,26 +20,25 @@ class State:
         self.name = name #identifying name of the state
         self.npc = npc #npc this state is working on
 
-    def doActions(self, spriteGroup):
+    def doActions(self):
         """Actions performed each frame.
-        Returns sprite group of new sprites, possible empty
         Throws AIError if the action fails.
         """
         pass
 
-    def checkConditions(self, spriteGroup):
+    def checkConditions(self):
         """Check to see if another state should be entered
         Return string name of the new state, else None
         """
         pass
 
-    def entryActions(self, spriteGroup=None):
+    def entryActions(self):
         """Actions to perform when this state is entered.
         Modifies npc variables.
         """
         pass
 
-    def exitActions(self, spriteGroup):
+    def exitActions(self):
         """Actions to perform when before exiting this state.
         modifies npc variables.
         """
@@ -64,20 +60,20 @@ class Wandering(State):
                            (-DIAGONAL, -DIAGONAL):"back"} # nw
         self.vector = None
 
-    def doActions(self, group):
+    def doActions(self):
         """Attempt to move the npc
-        Returns an empty group.
         Throws AIError if the move fails
         """
-        if self.npc.move(self.vector, group) <> "success":
+        if self.npc.move(self.vector) <> "success":
             raise AIError(self.npc.name+" wandering move failed.")
         self.timer -= 1
-        return pygame.sprite.Group()
+        return
 
-    def checkConditions(self, group):
+    def checkConditions(self):
         """If the point has been reached, begin waiting.
         Returns the name of the new state, else None
         """
+        global solidGroup
         if self.timer <= 0:
             return "waiting"
         spaceahead = (self.vector * TILESIZE).as_tuple()
@@ -90,12 +86,12 @@ class Wandering(State):
             return "waiting"
         elif newrect.right > CENTERXEND:
             return "waiting"
-        for s in group:
+        for s in solidGroup:
             if newrect.colliderect(s.rect) and self.npc.name is not s.name:
                 return "waiting"
         return None
 
-    def entryActions(self, group):
+    def entryActions(self):
         seed()
         self.npc.moving = True
         self.timer = randrange(MINTIME, MAXTIME)
@@ -103,9 +99,8 @@ class Wandering(State):
         self.vector = Vector(*heading).normalize()
         self.npc.facing = self.directions[heading]
 
-    def exitActions(self, group):
+    def exitActions(self):
         self.npc.moving = False
-        self.npc.vector = None
 
 class Waiting(State):
     """Wait for a random number of frames
@@ -114,24 +109,29 @@ class Waiting(State):
         State.__init__(self, "waiting", npc)
         self.timer = 0
 
-    def doActions(self, group):
+    def doActions(self):
         """Countdown the wait timer.
-        Returns an empty group.
         Does not throw AIException because it cannot fail.
         """
         self.timer -= 1
-        return pygame.sprite.Group()
+        return
 
-    def checkConditions(self, group):
+    def checkConditions(self):
+        """Returns wandering if time is over, else None.
+        """
         if self.timer < 0:
             return "wandering"
         else:
             return None
 
-    def entryActions(self, Group=None):
+    def entryActions(self):
+        """Set up random amount of time to wait.
+        """
         self.npc.moving = False
         seed()
         self.timer = randrange(MINTIME, MAXTIME)
 
-    def exitActions(self, Group):
+    def exitActions(self):
+        """No actions needed.
+        """
         pass
