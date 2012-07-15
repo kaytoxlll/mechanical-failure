@@ -11,8 +11,8 @@ import pygame
 class PC(NPC):
     """Sprite class for the Player Character.
     """
-    def __init__(self, name, images, pos):
-        NPC.__init__(self, name, "hero", images, pos)
+    def __init__(self, name, pos):
+        NPC.__init__(self, name, "hero", pos)
         self.speed = 2.5
         self.hp = 100
         self.str = 3
@@ -22,13 +22,11 @@ class PC(NPC):
         self.sfxhurt = "malehurt.wav"
         self.sfxdead = "maledead.wav"
 
-    def update(self, solidSprites):
+    def update(self):
         """Update the hero sprite based on the user's iteraction.
-        Returns a group of new sprites, maybe empty.
         """
-        newsprites = pygame.sprite.Group()
-        if self.tick() is False:
-            return newsprites
+        if not self.tick():
+            return
         x = 0
         y = 0
         # perform actions for each key press
@@ -39,7 +37,7 @@ class PC(NPC):
             self.action = "Item"
             self.stuntimer = 1
             self.animate()
-            return newsprites
+            return
         if pressed[K_a]: # left
             x = -1
             self.facing = "left"
@@ -59,12 +57,12 @@ class PC(NPC):
         # perform actions for mouse buttons pressed
         (mousebutton1, mousebutton2, mousebutton3) = pygame.mouse.get_pressed()
         if mousebutton1:
-            newsprites.add(self.mattack())
+            self.mattack()
         if mousebutton3:
-            newsprites.add(self.rattack())
+            self.rattack()
         # update movement rectangle
         vect = Vector(x, y)
-        moveval = self.move(vect.normalize(), solidSprites)
+        moveval = self.move(vect.normalize())
         # finalize
         self.animate()
-        return newsprites
+        return

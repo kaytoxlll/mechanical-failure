@@ -35,8 +35,11 @@ class Obstacle(pygame.sprite.Sprite):
 
     def hit(self, attack, frompoint):
         """Just got hit by an attack.
+        Return True if the attack hit.
         """
-        pass
+        if self.solid:
+            return True
+        return False
 
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
@@ -105,7 +108,7 @@ class NPC(pygame.sprite.Sprite):
         sfxPlay("meleemiss.wav")
         self.action = "Attack"
         self.attacktimer = 1
-        self.attack = MeleeAttack(self, self.weapon, self.images)
+        self.attack = MeleeAttack(self, self.weapon)
         attackQ.add(self.attack)
         return
 
@@ -131,8 +134,8 @@ class NPC(pygame.sprite.Sprite):
         sfxPlay("shotgun.wav")
         self.action = "Attack"
         self.guntimer = 1
-        self.attack = RangedAttack(self, self.gun, self.images)
-        newshot = Shot(self, "bullet", self.images, (x,y))
+        self.attack = RangedAttack(self, self.gun)
+        newshot = Shot(self, "bullet", (x,y))
         attackQ.add(self.attack)
         attackQ.add(newshot)
         return
@@ -226,7 +229,7 @@ class NPC(pygame.sprite.Sprite):
             # update image and reset timer
             self.image = images[self.ref + self.facing + self.action]
             return
-        if self.attack is not None and self.attack.sprite.timer > 0:
+        if self.attack is not None and self.attack.timer > 0:
             return
         if self.animtimer == self.animtimermax and self.moving == True:
             # full timer (1/1), update walk animation
@@ -240,11 +243,6 @@ class NPC(pygame.sprite.Sprite):
             self.image = images[self.ref + self.facing + "Stand"]
         elif self.moving == False:
             self.image = images[self.ref + self.facing + "Stand"]
-        # update timer
-        if self.animtimer == self.animtimermax:
-            self.animtimer = 0
-        else:
-            self.animtimer += 1
 
     def tick(self):
         """Update variables independent of subclass.
@@ -252,6 +250,11 @@ class NPC(pygame.sprite.Sprite):
         Return False if stunned (do not continue turn)
         """
         # update timers
+        if self.animtimer == self.animtimermax:
+            self.animtimer = 0
+            self.action = None
+        else:
+            self.animtimer += 1
         if self.flinchtimer == self.flinchtimermax:
             self.flinchtimer = 0
         elif self.flinchtimer > 0:
@@ -273,7 +276,6 @@ class NPC(pygame.sprite.Sprite):
                 return False
         # reset variables
         self.moving = False
-        self.action = None
         return True
 
     def update(self):
@@ -294,6 +296,6 @@ class NPC(pygame.sprite.Sprite):
         # kill attack
         if self.attack is not None:
             self.attack.sprite.kill()
-        backgroundQ.add(Obstacle("blood1", "terrain", self.rect.topleft))
+        backgroundQ.add(Obstacle("blood1", "terrain", self.rect.topleft, False))
         self.kill()
 

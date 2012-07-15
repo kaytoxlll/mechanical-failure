@@ -20,7 +20,6 @@ with a more descriptive name for the file to execute, like "playgame.py".
 """
 
 # initialization
-pygame.init()
 pygame.mixer.init()
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
@@ -45,25 +44,25 @@ def drawground(surface, image):
         x=CENTERXSTART
 
 # set up variables
-global solidGroup
 backgroundGroup = pygame.sprite.Group()
 mapGroup = pygame.sprite.Group()
 attackGroup = pygame.sprite.Group()
 npcGroup = pygame.sprite.Group()
 # set up pc
-hero = PC("Cole", images, CENTERCENTER)
+hero = PC("Cole", CENTERCENTER)
 # set up map obstacles
 newpos = (CENTERX-TILESIZE*3, CENTERYSTART)
-house = Obstacle("house1", "terrain", images, newpos, True)
+house = Obstacle("house1", "terrain", newpos, True)
 newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] - 100)
-barrel = Obstacle("barrel", "terrain", images, newpos, True)
+barrel = Obstacle("barrel", "terrain", newpos, True)
 newpos = (CENTERCENTER[0] - 100, CENTERCENTER[1] + 100)
-barrel2 = Obstacle("barrel", "terrain", images, newpos, True)
+barrel2 = Obstacle("barrel", "terrain", newpos, True)
 mapGroup.add(barrel, barrel2, house)
 # set up npc
 newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
-rat = Rat(images, newpos)
+rat = Rat(newpos)
 # set up groups
+npcGroup.add(rat)
 solidGroup.add(mapGroup)
 solidGroup.add(hero)
 solidGroup.add(rat)
@@ -88,6 +87,7 @@ while True:
     solidGroup.add(solidQ)
     backgroundGroup.add(backgroundQ)
     attackGroup.add(attackQ)
+    solidGroup.add(attackQ)
     solidQ.empty()
     backgroundQ.empty()
     attackQ.empty()

@@ -41,7 +41,7 @@ class Attack(pygame.sprite.Sprite):
         hitlist = pygame.sprite.spritecollide(self, solidGroup, False)
         if self.hit == False:
             for s in hitlist:
-                if s.hit(self, self.npc.rect.center):
+                if s.name is not self.name and s.hit(self, self.npc.rect.center):
                     self.hit = True
                     sfxPlay("meleehit.wav")
                     break
@@ -65,7 +65,7 @@ class Attack(pygame.sprite.Sprite):
 
 class MeleeAttack(Attack):
     def __init__(self, npc, reference=None):
-        Attack.__init__(self, npc, reference)
+        Attack.__init__(self, npc)
         global images
         self.ref = reference
         self.damage = npc.str
@@ -81,9 +81,9 @@ class MeleeAttack(Attack):
         global images
         if self.timer >= self.timermax/2 and self.ref is not None:
             # 1/2 max
-            self.image = self.images[self.ref + self.npc.facing + "2"]
+            self.image = images[self.ref + self.npc.facing + "2"]
         else:
-            self.image = self.images[self.ref + self.npc.facing + "1"]
+            self.image = images[self.ref + self.npc.facing + "1"]
 
 class RangedAttack(Attack):
     """Basically holding a gun in front of you.
@@ -112,7 +112,7 @@ class RangedAttack(Attack):
         """Move the gun with the npc's facing
         """
         global images
-        self.image = self.images[self.ref + self.npc.facing]
+        self.image = images[self.ref + self.npc.facing]
 
 class Shot(pygame.sprite.Sprite):
     """Sprite for a projectile, like a bullet.
@@ -141,8 +141,8 @@ class Shot(pygame.sprite.Sprite):
         self.rect.move_ip(*distance.as_tuple())
         for s in pygame.sprite.spritecollide(self, solidGroup, False):
             # handle the first target hit by the shot
-            if s.name is not self.name and s.solid:
-                s.hit(self, solidSprites, self.npc.rect.center)
+            if s.name is not self.name:
+                s.hit(self, self.npc.rect.center)
                 self.kill()
                 return
         if self.rect.bottom > CENTERYEND or \

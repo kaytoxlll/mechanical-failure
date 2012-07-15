@@ -5,6 +5,7 @@
 from constants import *
 from os import getcwd, listdir
 from os.path import join
+import pygame
 
 def loadAllImages():
     """ Returns a dictionary of all the sprites used in the game.

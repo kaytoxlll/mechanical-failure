@@ -7,7 +7,7 @@ from sprites import *
 from brain import *
 
 class Rat(NPC):
-    def __init__(self, images, pos):
+    def __init__(self, pos):
         NPC.__init__(self, "Rat", "rat", pos)
         self.speed = 3.5
         self.hp = 10

@@ -2,6 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
+from images import *
 from os.path import join
 import pygame
 from pygame.locals import *
@@ -15,6 +16,8 @@ where the side rectangles are for HUD
 
 todo: make music its own library, along with SFX
 """
+
+pygame.init()
 
 # Game constants
 FPS = 60
@@ -49,15 +52,15 @@ CENTERCENTER = (CENTERXSTART+(CENTERWIDTH/2), CENTERYSTART+(CENTERWIDTH/2))
 
 # globals
 
-# global images
-images = loadAllImages()
-
 # global sprite groups
 solidGroup = pygame.sprite.Group()
 solidQ = pygame.sprite.Group()
 backgroundQ = pygame.sprite.Group()
 attackQ = pygame.sprite.Group()
 newitemQ = pygame.sprite.Group()
+
+# global images
+images = loadAllImages()
 
 # Functions
 
