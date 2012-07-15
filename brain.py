@@ -49,3 +49,13 @@ class VillagerBrain(Brain):
         self.addState(Waiting(npc))
         self.setState("waiting")
         self.safeState = self.states["waiting"]
+
+class FighterBrain(Brain):
+    """AI for mobs that melee attack the player and not much else."""
+    def __init__(self, npc):
+        Brain.__init__(self, npc)
+        self.addState(Seeking(npc))
+        self.addState(Attacking(npc))
+        self.setState(Wandering(npc, "seeking"))
+        self.setState("seeking")
+        self.safeState = self.states["wandering"]
