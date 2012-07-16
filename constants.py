@@ -20,8 +20,12 @@ todo: make music its own library, along with SFX
 pygame.init()
 
 # Game constants
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+FONT = pygame.SysFont(None, 16)
 FPS = 60
 TILESIZE = 32
+BOXSIZE = TILESIZE*3
 CENTERTILEWIDTH = 16
 BORDERTILEWIDTH = 8
 DIAGONAL = 0.707106781187 # (1,1) vector normalized
