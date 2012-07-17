@@ -3,6 +3,7 @@
 # See license.txt for licence information
 
 from math import fabs
+import globalvars
 from constants import *
 from vector import Vector
 from brain import *
@@ -20,9 +21,10 @@ class Obstacle(pygame.sprite.Sprite):
     """
     def __init__(self, name, reference, pos, solid):
         pygame.sprite.Sprite.__init__(self)
+        #global images
         self.ref = reference # i.e. terrain (directory)
         self.name = name # i.e. barrel (file name)
-        self.image = images[self.ref + self.name]
+        self.image = globalvars.images[self.ref + self.name]
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
         self.solid = solid # boolean
@@ -47,14 +49,14 @@ class NPC(pygame.sprite.Sprite):
     """
     def __init__(self, name, reference, pos): #pos = (x,y), images = dictionary 
         pygame.sprite.Sprite.__init__(self)
-        global images
+        #global images
         self.name = name # i.e. Bob
         self.ref = reference # i.e. VillagerMan
         self.sfxhurt = None
         self.sfxdead = None
         self.facing = "front"
         self.action = "Stand" # Stand, Walk1, Walk2
-        self.image = images[self.ref + self.facing + self.action]
+        self.image = globalvars.images[self.ref + self.facing + self.action]
         self.anim = True # boolean, used to swap movement animations
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
@@ -102,21 +104,21 @@ class NPC(pygame.sprite.Sprite):
         """Execute a melee attack.
         Adds the attack to the attackQ
         """
-        global attackQ
+        #global attackQ
         if self.attacktimer <> 0:
             return
         sfxPlay("meleemiss.wav")
         self.action = "Attack"
         self.attacktimer = 1
         self.attack = MeleeAttack(self, self.weapon)
-        attackQ.add(self.attack)
+        globalvars.attackQ.add(self.attack)
         return
 
     def rattack(self):
         """Execute a ranged attack, based on the mouse pos.
         Adds the attack to the attackQ
         """
-        global attackQ
+        #global attackQ
         if self.guntimer <> 0:
             return
         # update facing to match shooting direction
@@ -136,8 +138,8 @@ class NPC(pygame.sprite.Sprite):
         self.guntimer = 1
         self.attack = RangedAttack(self, self.gun)
         newshot = Shot(self, "bullet", (x,y))
-        attackQ.add(self.attack)
-        attackQ.add(newshot)
+        globalvars.attackQ.add(self.attack)
+        globalvars.attackQ.add(newshot)
         return
 
     def hit(self, attack, frompoint):
@@ -158,10 +160,10 @@ class NPC(pygame.sprite.Sprite):
             self.knockback(vect, attack)
         return True
 
-    def knockback(self, vector, attack, velocity=KNOCKBACK):
+    def knockback(self, vector, attack, velocity=5):
         """Push the npc back until it hits a solid object.
         """
-        global solidGroup
+        #global solidGroup
         if vector is None or (vector.x==0.0 and vector.y==0.0):
             return
         vector.normalize()
@@ -177,7 +179,7 @@ class NPC(pygame.sprite.Sprite):
             elif newrect.right > CENTERXEND:
                 break
             collision = False
-            for s in solidGroup:
+            for s in globalvars.solidGroup:
                 if newrect.colliderect(s.rect) and \
                    self.name is not s.name and s.name is not attack.name:
                     collision = True
@@ -193,7 +195,7 @@ class NPC(pygame.sprite.Sprite):
         return "success", else return the name of the collided-with object.
         This could also be an edge, i.e. "west" for the left edge of the screen.
         """
-        global solidGroup
+        #global solidGroup
         if vector is None or (vector.x==0.0 and vector.y==0.0):
             # no distance to move
             self.moving = False
@@ -212,37 +214,48 @@ class NPC(pygame.sprite.Sprite):
         elif newrect.right > CENTERXEND:
             self.moving = False
             return "east"
-        for s in solidGroup:
+        for s in globalvars.solidGroup:
             if newrect.colliderect(s.rect) and self.name is not s.name:
                 self.moving = False
                 return s.name
         self.rect = newrect
         self.moving = True
+        # update facing
+        if fabs(vector.x) > fabs(vector.y): # moving more side than up/down
+            if vector.x < 0:
+                self.facing = "left"
+            else:
+                self.facing = "right"
+        else:
+            if vector.y < 0:
+                self.facing = "back"
+            else:
+                self.facing = "front"
         return "success"
 
     def animate(self):
         """Determines the current image to use and assigns it to self.image
         action = "Stand", "Walk1", etc
         """
-        global images
+        #global images
         if self.action is not None:
             # update image and reset timer
-            self.image = images[self.ref + self.facing + self.action]
+            self.image = globalvars.images[self.ref + self.facing + self.action]
             return
         if self.attack is not None and self.attack.timer > 0:
             return
         if self.animtimer == self.animtimermax and self.moving == True:
             # full timer (1/1), update walk animation
             if self.anim:
-                self.image = images[self.ref + self.facing + "Walk1"]
+                self.image = globalvars.images[self.ref + self.facing + "Walk1"]
             else:
-                self.image = images[self.ref + self.facing + "Walk2"]
+                self.image = globalvars.images[self.ref + self.facing + "Walk2"]
             self.anim = not self.anim
         elif self.animtimer == self.animtimermax / 2 and self.moving:
             # half timer (0.5/1), update stand animation
-            self.image = images[self.ref + self.facing + "Stand"]
+            self.image = globalvars.images[self.ref + self.facing + "Stand"]
         elif self.moving == False:
-            self.image = images[self.ref + self.facing + "Stand"]
+            self.image = globalvars.images[self.ref + self.facing + "Stand"]
 
     def tick(self):
         """Update variables independent of subclass.
@@ -292,10 +305,10 @@ class NPC(pygame.sprite.Sprite):
         """The sprite had died.
         Updates backgroundQ with blood.
         """
-        global backgroundQ
+        #global backgroundQ
         # kill attack
         if self.attack is not None:
             self.attack.sprite.kill()
-        backgroundQ.add(Obstacle("blood1", "terrain", self.rect.topleft, False))
+        globalvars.backgroundQ.add(Obstacle("blood1", "terrain", self.rect.topleft, False))
         self.kill()
 

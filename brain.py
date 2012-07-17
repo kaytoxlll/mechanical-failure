@@ -56,6 +56,6 @@ class FighterBrain(Brain):
         Brain.__init__(self, npc)
         self.addState(Seeking(npc))
         self.addState(Attacking(npc))
-        self.setState(Wandering(npc, "seeking"))
+        self.addState(Wandering(npc, "seeking"))
         self.setState("seeking")
         self.safeState = self.states["wandering"]

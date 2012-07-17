@@ -3,6 +3,7 @@
 # See license.txt for licence information
 
 from constants import *
+import globalvars
 from vector import Vector
 from math import fabs
 import pygame
@@ -93,7 +94,7 @@ class Wandering(State):
             return state
         elif newrect.right > CENTERXEND:
             return state
-        for s in solidGroup:
+        for s in globalvars.solidGroup:
             if newrect.colliderect(s.rect) and self.npc.name is not s.name:
                 return state
         return None
@@ -109,11 +110,11 @@ class Wandering(State):
             self.vector = Vector(*heading).normalize()
             nextvect = self.vector * TILESIZE
             nextrect = self.npc.rect.move(*nextvect.as_tuple())
-            for s in solidGroup:
+            for s in globalvars.solidGroup:
                 if s.name is not self.npc.name and nextrect.colliderect(s.rect):
-                heading = None
-                break
-        self.npc.facing = self.directions[heading]
+                    heading = None
+                    break
+        #self.npc.facing = self.directions[heading]
 
     def exitActions(self):
         self.npc.moving = False
@@ -158,8 +159,8 @@ class Seeking(State):
     Transitions: attacking"""
     def __init__(self, npc):
         State.__init__(self, "seeking", npc)
-        global hero
-        self.target = hero
+        #global hero
+        self.target = globalvars.hero
 
     def doActions(self):
         """Move toward the hero.
@@ -172,9 +173,9 @@ class Seeking(State):
 
     def checkConditions(self):
         """If the hero is within range, return "attacking"."""
-        global hero
+        #global hero
         range = self.npc.space_ahead()
-        if range.colliderect(hero.rect):
+        if range.colliderect(globalvars.hero.rect):
             return "attacking"
         return None
 
@@ -182,7 +183,7 @@ class Seeking(State):
         pass
 
 
-class Attcking(State):
+class Attacking(State):
     """Moving toward the hero and attacking.
     Transitions: seeking
     """
@@ -191,17 +192,17 @@ class Attcking(State):
         
     def doActions(self):
         """Attack the hero when possible."""
-        global hero
+        #global hero
         reach = self.npc.space_ahead()
-        if reach.colliderect(hero.rect):
+        if reach.colliderect(globalvars.hero.rect):
             self.npc.mattack()
 
     def checkConditions(self):
         """If the hero moves out of range, change to seeking.
         Returns the name "seeking" if the hero is out of range"""
-        global hero
+        #global hero
         reach = self.npc.space_ahead()
-        if not reach.colliderect(hero.rect):
+        if not reach.colliderect(globalvars.hero.rect):
             return "seeking"
         return None
 

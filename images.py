@@ -2,7 +2,6 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-from constants import *
 from os import getcwd, listdir
 from os.path import join
 import pygame
@@ -25,4 +24,4 @@ def loadAllImages():
     return images
 
 # test
-#print loadAllImages()
+images = loadAllImages()

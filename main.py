@@ -4,10 +4,10 @@
 
 import sys
 from constants import *
+from globalvars import *
 from sprites import *
 from pc import *
 from monsters import *
-from images import *
 import pygame
 
 # testing
@@ -49,7 +49,7 @@ mapGroup = pygame.sprite.Group()
 attackGroup = pygame.sprite.Group()
 npcGroup = pygame.sprite.Group()
 # set up pc
-hero = PC("Cole", CENTERCENTER)
+#hero = PC("Cole", CENTERCENTER)
 # set up map obstacles
 newpos = (CENTERX-TILESIZE*3, CENTERYSTART)
 house = Obstacle("house1", "terrain", newpos, True)

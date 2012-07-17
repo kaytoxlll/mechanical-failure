@@ -15,5 +15,5 @@ class Rat(NPC):
         self.dex = 0
         self.sfxhurt = "rathurt.wav"
         self.sfxdead = "ratdead.wav"
-        # self.brain = ThiefBrain(self)
+        self.brain = FighterBrain(self)
         

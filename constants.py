@@ -2,7 +2,6 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-from images import *
 from os.path import join
 import pygame
 from pygame.locals import *
@@ -22,7 +21,7 @@ pygame.init()
 # Game constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-FONT = pygame.SysFont(None, 16)
+FONT = pygame.font.SysFont(None, 16)
 FPS = 60
 TILESIZE = 32
 BOXSIZE = TILESIZE*3
@@ -53,18 +52,6 @@ CENTERYEND = CENTERHEIGHT
 CENTERY = CENTERYEND - (CENTERHEIGHT/2)
 SCREENWIDTH = CENTERWIDTH+(BORDERWIDTH*2)
 CENTERCENTER = (CENTERXSTART+(CENTERWIDTH/2), CENTERYSTART+(CENTERWIDTH/2))
-
-# globals
-
-# global sprite groups
-solidGroup = pygame.sprite.Group()
-solidQ = pygame.sprite.Group()
-backgroundQ = pygame.sprite.Group()
-attackQ = pygame.sprite.Group()
-newitemQ = pygame.sprite.Group()
-
-# global images
-images = loadAllImages()
 
 # Functions
 
