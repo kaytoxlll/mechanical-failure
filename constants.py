@@ -19,7 +19,7 @@ pygame.init()
 # Game constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-FONT = pygame.font.SysFont(None, 16)
+FONT = pygame.font.SysFont(None, 24)
 FPS = 60
 TILESIZE = 32
 BOXSIZE = TILESIZE*3
