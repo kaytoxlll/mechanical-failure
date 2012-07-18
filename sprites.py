@@ -148,6 +148,7 @@ class NPC(pygame.sprite.Sprite):
         if self.flinchtimer > 0:
             return False
         self.hp -= attack.damage
+        print self.name, "hp =", self.hp
         if self.hp < 1:
             self.die()
             sfxPlay(self.sfxdead)
@@ -307,7 +308,7 @@ class NPC(pygame.sprite.Sprite):
         #global backgroundQ
         # kill attack
         if self.attack is not None:
-            self.attack.sprite.kill()
+            self.attack.kill()
         globalvars.backgroundQ.add(Obstacle("blood1", "terrain", self.rect.topleft, False))
         self.kill()
 

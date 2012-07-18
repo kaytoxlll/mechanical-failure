@@ -30,14 +30,14 @@ class Brain:
     def think(self):
         if self.activeState is None:
             return
+        newStateName = self.activeState.checkConditions()
+        if newStateName is not None:
+            self.setState(newStateName)
         try:
             self.activeState.doActions()
         except AIError:
             self.setState(self.safeState.name)
             return
-        newStateName = self.activeState.checkConditions()
-        if newStateName is not None:
-            self.setState(newStateName)
         return
 
 class VillagerBrain(Brain):
@@ -57,5 +57,6 @@ class FighterBrain(Brain):
         self.addState(Seeking(npc))
         self.addState(Attacking(npc))
         self.addState(Wandering(npc, "seeking"))
+        self.addState(Nothing(npc))
         self.setState("seeking")
         self.safeState = self.states["wandering"]

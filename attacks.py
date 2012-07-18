@@ -42,9 +42,9 @@ class Attack(pygame.sprite.Sprite):
         if self.hit == False:
             hitlist = pygame.sprite.spritecollide(self, globalvars.solidGroup, False)
             for s in hitlist:
-                if s.name is not self.name:
-                    print type(self), "attacking", type(s)
-                    if s.hit(self, self.npc.rect.center):
+                if s.name is not self.name and not issubclass(type(s), Attack):
+                    hitval = s.hit(self, self.npc.rect.center)
+                    if hitval:
                         self.hit = True
                         sfxPlay("meleehit.wav")
                         break
@@ -145,7 +145,7 @@ class Shot(pygame.sprite.Sprite):
         self.rect.move_ip(*distance.as_tuple())
         for s in pygame.sprite.spritecollide(self, globalvars.solidGroup, False):
             # handle the first target hit by the shot
-            if s.name is not self.name:
+            if s.name is not self.name and not issubclass(type(s), Attack):
                 s.hit(self, self.npc.rect.center)
                 self.kill()
                 return

@@ -15,12 +15,12 @@ pygame.mixer.init()
 clock = pygame.time.Clock()
 window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 pygame.display.set_caption("Mechanical Failure")
-tile = images["terrain" + "boards"]
+tile = images["terrain" + "stone"]
 pygame.display.set_icon(images["misc" + "logo"])
 ground = pygame.Surface((CENTERWIDTH, CENTERHEIGHT))
 
 # music
-songPlay("town.mp3")
+songPlay("industrial.mp3")
 
 def drawground(surface, image):
     x= CENTERXSTART
@@ -52,11 +52,15 @@ mapGroup.add(barrel, barrel2, house)
 # set up npc
 newpos = (CENTERCENTER[0] + 100, CENTERCENTER[1] + 100)
 rat = Rat(newpos)
+newpos = (CENTERCENTER[0]+200, CENTERCENTER[1]+ 200)
+rat2 = Rat(newpos)
+newpos = (CENTERCENTER[0]-200, CENTERCENTER[1]-150)
+rat3 = Rat(newpos)
 # set up groups
-npcGroup.add(rat)
+npcGroup.add(rat, rat2, rat3)
 solidGroup.add(mapGroup)
 solidGroup.add(hero)
-solidGroup.add(rat)
+solidGroup.add(npcGroup)
 
 while True:
     # handle game events

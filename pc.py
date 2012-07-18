@@ -3,6 +3,7 @@
 # See license.txt for licence information
 
 from constants import *
+from globalvars import *
 from sprites import *
 from attacks import *
 from vector import Vector
@@ -14,7 +15,7 @@ class PC(NPC):
     def __init__(self, name, pos):
         NPC.__init__(self, name, "hero", pos)
         self.speed = 2.5
-        self.hp = 100
+        self.hp = 30
         self.str = 3
         self.dex = 3
         self.weapon = "wrench"
@@ -66,3 +67,9 @@ class PC(NPC):
         # finalize
         self.animate()
         return
+
+    def die(self):
+        """Same as sprite.die, but nullify hero globalvar."""
+        #global hero
+        globalvars.hero = None
+        NPC.die(self)
