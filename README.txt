@@ -25,6 +25,7 @@ Gameplay Instructions:
 	S---------------Move down
 	D---------------Move right
 	SPACE-----------Strike a pose
+	E---------------Examine
 	L-CLICK---------Swing weapon
 	R-CLICK---------Shoot gun
 	ESC-------------Quit

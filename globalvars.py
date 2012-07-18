@@ -6,6 +6,9 @@ from constants import *
 from images import *
 from pc import PC
 
+# global pygame thingies
+window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+
 # global images
 images = loadAllImages()
 

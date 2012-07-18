@@ -26,6 +26,7 @@ class PC(NPC):
     def update(self):
         """Update the hero sprite based on the user's iteraction.
         """
+        #global solidGroup
         if not self.tick():
             return
         x = 0
@@ -39,6 +40,11 @@ class PC(NPC):
             self.stuntimer = 1
             self.animate()
             return
+        if pressed[K_e]: # examined with 'E'
+            aoe = self.space_ahead()
+            for s in globalvars.solidGroup:
+                if aoe.colliderect(s.rect) and s.name is not self.name:
+                    choice = s.examine()
         if pressed[K_a]: # left
             x = -1
             self.facing = "left"

@@ -14,7 +14,6 @@ import pygame
 # initialization
 pygame.mixer.init()
 clock = pygame.time.Clock()
-window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 pygame.display.set_caption("Mechanical Failure")
 tile = images["terrain" + "stone"]
 pygame.display.set_icon(images["misc" + "logo"])
@@ -58,7 +57,7 @@ rat2 = Rat(newpos)
 newpos = (CENTERCENTER[0]-200, CENTERCENTER[1]-150)
 rat3 = Rat(newpos)
 # set up groups
-#npcGroup.add(rat, rat2, rat3)
+npcGroup.add(rat, rat2, rat3)
 solidGroup.add(mapGroup)
 solidGroup.add(hero)
 solidGroup.add(npcGroup)
@@ -73,10 +72,6 @@ while True:
             if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit()
-            if event.key == K_RETURN:
-                print dialogue(window, "This is a dialogue test...")
-                print dialogue(window, "Please kill the rats, they bother me")
-                print dialogue(window, "will you kill them?")
 
     # update the sprites
     hero.update()
@@ -93,8 +88,8 @@ while True:
     attackQ.empty()
 
     # update the screen
-    drawground(window, tile)
-    backgroundGroup.draw(window)
-    solidGroup.draw(window)
+    drawground(globalvars.window, tile)
+    backgroundGroup.draw(globalvars.window)
+    solidGroup.draw(globalvars.window)
     pygame.display.update()
     clock.tick(FPS)
