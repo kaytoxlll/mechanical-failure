@@ -12,8 +12,6 @@ from pygame.locals import *
 | |       | |
 -------------
 where the side rectangles are for HUD
-
-todo: make music its own library, along with SFX
 """
 
 pygame.init()

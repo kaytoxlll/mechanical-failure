@@ -3,7 +3,7 @@
 # See license.txt for licence information
 
 """To do:
-work on shot
+
 """
 
 from constants import *

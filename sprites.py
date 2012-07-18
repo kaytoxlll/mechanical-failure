@@ -12,8 +12,7 @@ import pygame
 import random
 
 """To do:
-update hit() methods
-update or remove attack() methods
+
 """
 
 class Obstacle(pygame.sprite.Sprite):

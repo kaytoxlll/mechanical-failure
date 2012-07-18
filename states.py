@@ -9,11 +9,6 @@ from math import fabs
 import pygame
 from random import seed, randrange, choice
 
-"""need ai.py to be file for generic superclass of state/state machine.
-seperate py file for each state machine.
-there might be a better way.
-"""
-
 class State:
     def __init__(self, name, npc):
         """AI behavior state (i.e. roaming, sniping, fighting, fleeing)
