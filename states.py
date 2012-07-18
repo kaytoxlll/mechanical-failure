@@ -7,7 +7,7 @@ import globalvars
 from vector import Vector
 from math import fabs
 import pygame
-from random import seed, randrange, choice
+from random import seed, randrange, choice, randint
 
 """need ai.py to be file for generic superclass of state/state machine.
 seperate py file for each state machine.
@@ -53,6 +53,20 @@ class State:
         """Actions to perform when before exiting this state.
         modifies npc variables.
         """
+        pass
+
+class Nothing(State):
+    """Do nothing, never transition."""
+    def __init__(self, npc):
+        State.__init__(self, "nothing", npc)
+
+    def checkCondition(self):
+        pass
+
+    def entryActions(self):
+        self.npc.facing = "front"
+
+    def exitActions(self):
         pass
 
 class Wandering(State):
@@ -174,6 +188,8 @@ class Seeking(State):
     def checkConditions(self):
         """If the hero is within range, return "attacking"."""
         #global hero
+        if globalvars.hero == None:
+            return "nothing"
         range = self.npc.space_ahead()
         if range.colliderect(globalvars.hero.rect):
             return "attacking"
@@ -194,17 +210,25 @@ class Attacking(State):
         """Attack the hero when possible."""
         #global hero
         reach = self.npc.space_ahead()
-        if reach.colliderect(globalvars.hero.rect):
+        if globalvars.hero is not None and \
+           reach.colliderect(globalvars.hero.rect):
             self.npc.mattack()
+            self.attacktimes -= 1
+            print self.attacktimes
 
     def checkConditions(self):
         """If the hero moves out of range, change to seeking.
         Returns the name "seeking" if the hero is out of range"""
         #global hero
+        if self.attacktimes < 1:
+            return "wandering"
+        if globalvars.hero == None:
+            return "nothing"
         reach = self.npc.space_ahead()
         if not reach.colliderect(globalvars.hero.rect):
             return "seeking"
         return None
 
     def entryActions(self):
-        pass
+        seed()
+        self.attacktimes = randint(1, 10)
