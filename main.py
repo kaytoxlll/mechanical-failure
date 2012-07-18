@@ -8,6 +8,7 @@ from globalvars import *
 from sprites import *
 from pc import *
 from monsters import *
+from menu import *
 import pygame
 
 # initialization
@@ -57,7 +58,7 @@ rat2 = Rat(newpos)
 newpos = (CENTERCENTER[0]-200, CENTERCENTER[1]-150)
 rat3 = Rat(newpos)
 # set up groups
-npcGroup.add(rat, rat2, rat3)
+#npcGroup.add(rat, rat2, rat3)
 solidGroup.add(mapGroup)
 solidGroup.add(hero)
 solidGroup.add(npcGroup)
@@ -72,6 +73,10 @@ while True:
             if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit()
+            if event.key == K_RETURN:
+                print dialogue(window, "This is a dialogue test...")
+                print dialogue(window, "Please kill the rats, they bother me")
+                print dialogue(window, "will you kill them?")
 
     # update the sprites
     hero.update()

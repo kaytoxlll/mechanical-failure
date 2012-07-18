@@ -2,6 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
+import sys
 import pygame
 from pygame.locals import *
 from constants import *
@@ -9,44 +10,54 @@ from constants import *
 class Button(pygame.sprite.Sprite):
     def __init__(self, text, pos):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((BOXSIZE, BOXSIZE))
+        self.image = pygame.Surface((BOXSIZE, BOXSIZE-TILESIZE))
         self.name = text
         textSurface = FONT.render(text, True, WHITE, BLACK)
         self.rect = self.image.get_rect()
-        self.rect.topleft = pos
         pygame.draw.rect(self.image, WHITE, self.rect, 5)
-        self.image.blit(textSurface, self.image.center)
+        (x,y) = self.rect.center
+        x -= textSurface.get_width()/2
+        y -= textSurface.get_height()/2
+        self.image.blit(textSurface, (x,y))
+        self.rect.topleft = pos
 
-def dialogue(screen, text, choice=False):
-    """Prints the text on the screen, along with 'yes' and 'no'
-    if there is a choice, else 'continue' button.
-    Dialogue covers the lower part of the screen.
-    Returns True if the user selected 'yes', else False for 'no'.
-    'continue' returns True
+def dialogue(screen, text):
+    """Prints the text on the screen, along with buttons.
+    If the text ends with a "?", then they options are 'yes' and 'no'
+    If the text is not a question, button is 'next'
+    Returns True for 'yes' and 'next', False for 'no'
     """
-    #backup = screen.copy()
+    choice = False
+    if text[-1] == "?":
+        choice = True
     # create each box
     bigbox = pygame.Surface((CENTERWIDTH, CENTERHEIGHT/2,))
-    bigboxrect = bigboxrect.get_rect()
-    bigboxrect.topleft = (CENTERWIDTH, CENTERHEIGHT/2)
+    bigboxrect = bigbox.get_rect()
     pygame.draw.rect(bigbox, WHITE, bigboxrect, 10)
+    bigboxrect.topleft = (CENTERXSTART, CENTERHEIGHT/2)
 
-    message = font.render(text, True, white, black)
+    message = FONT.render(text, True, WHITE, BLACK)
     messagerect = message.get_rect()
-    messagerect.topleft = (CENTERWIDTH+TILESIZE, CENTERHEIGHT/2+TILESIZE)
+    messagerect.topleft = (CENTERXSTART+TILESIZE, CENTERHEIGHT/2+TILESIZE)
 
     yesbox = None
     nobox = None
-    if choice:
-        yesbox = Button("YES", (CENTERXEND-TILESIZE*3, CENTERHEIGHT/2+TILESIZE))
-        nobox = Button("NO", (CENTERXEND-TILESIZE*3, CENTERHEIGHT/2+TILESIZE*3))
+    choicebox = None
+    if not choice:
+        nextbox = Button("NEXT", (CENTERXSTART+TILESIZE, CENTERYEND-BOXSIZE))
     else:
-        yesbox = Button("NEXT", (CENTERXEND-TILESIZE*3, CENTERHEIGHT/2+TILESIZE))
+        yesbox = Button("YES", (CENTERXSTART+BOXSIZE+TILESIZE*2, CENTERYEND-BOXSIZE))
+        nobox = Button("NO", (CENTERXSTART+BOXSIZE*2+TILESIZE*3, CENTERYEND-BOXSIZE))
 
     screen.blit(bigbox, bigboxrect)
     screen.blit(message, messagerect)
-    screen.blit(yesbox.image, yesbox.rect)
-    screen.blit(yesbox.image, yesbox.rect)
+    buttons = pygame.sprite.Group()
+    if choice:
+        buttons.add(nobox, yesbox)
+    else:
+        buttons.add(nextbox)
+    buttons.draw(screen)
+    pygame.display.update()
 
     while True:
         # handle game events
@@ -60,9 +71,10 @@ def dialogue(screen, text, choice=False):
                     sys.exit()
             elif event.type == MOUSEBUTTONDOWN:
                 (x,y) = pygame.mouse.get_pos()
-                if yesbox.rect.collidepoint(x, y):
-                    #screen.blit(backup, backup.rect)
+                if choice:
+                    if yesbox.rect.collidepoint(x, y):
+                        return True
+                    elif nobox.rect.collidepoint(x, y):
+                        return False
+                elif nextbox.rect.collidepoint(x,y):
                     return True
-                elif nobox is not None and nobox.rect.collidepoint(x, y):
-                    #screen.blit(backup, backup.rect)
-                    return False
