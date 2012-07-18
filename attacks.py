@@ -26,6 +26,10 @@ class Attack(pygame.sprite.Sprite):
         self.timer = 0 # counts up to timermax, then attack is over
         self.hit = False # flag for hit detection, to prevent multihits
 
+    def examine(self):
+        """PC examined, don't do anything."""
+        return True
+
     def update(self):
         """Align the attack with the npc's rect,
         See if it hit anyone, and process the hit.
@@ -136,6 +140,10 @@ class Shot(pygame.sprite.Sprite):
         # start the shot in the center of the tile in front of the npc
         startrect = npc.space_ahead()
         self.rect.center = startrect.center
+
+    def examine(self):
+        """PC examines, don't do anything."""
+        return True
 
     def update(self):
         """Move the shot and handle collisions.

@@ -9,6 +9,7 @@ from brain import *
 class Rat(NPC):
     def __init__(self, pos):
         NPC.__init__(self, "Rat", "rat", pos)
+        self.text.append("Squeak!")
         self.speed = 3.5
         self.hp = 10
         self.str = 1

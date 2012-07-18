@@ -5,6 +5,7 @@
 from math import fabs
 import globalvars
 from constants import *
+from menu import *
 from vector import Vector
 from brain import *
 from attacks import *
@@ -22,6 +23,7 @@ class Obstacle(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         #global images
         self.ref = reference # i.e. terrain (directory)
+        self.text = []
         self.name = name # i.e. barrel (file name)
         self.image = globalvars.images[self.ref + self.name]
         self.rect = self.image.get_rect()
@@ -42,6 +44,10 @@ class Obstacle(pygame.sprite.Sprite):
             return True
         return False
 
+    def examine(self):
+        """PC examined this, don't do anything."""
+        return True
+
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
     Sprite class for civilians
@@ -50,6 +56,7 @@ class NPC(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         #global images
         self.name = name # i.e. Bob
+        self.text = [] # list of things that are said
         self.ref = reference # i.e. VillagerMan
         self.sfxhurt = None
         self.sfxdead = None
@@ -83,6 +90,16 @@ class NPC(pygame.sprite.Sprite):
         self.guntimermax = GUNTIMER
         self.guntimer = 0
         # can only attack if attacktimer == 0
+
+    def examine(self):
+        """PC talked to this person, show dialogue.
+        Return value of last dialogue, i.e. True for 'yes'.
+        """
+        #global window
+        answer = True
+        for line in self.text:
+            answer = dialogue(globalvars.window, line)
+        return answer
 
     def space_ahead(self):
         """Returns a rectangle space directly in front of the npc.
