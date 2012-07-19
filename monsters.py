@@ -7,7 +7,7 @@ from sprites import *
 from brain import *
 
 class Rat(NPC):
-    def __init__(self, pos):
+    def __init__(self, pos=(0,0)):
         NPC.__init__(self, "Rat", "rat", pos)
         self.text.append("Squeak!")
         self.speed = 3.5

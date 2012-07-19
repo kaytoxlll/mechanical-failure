@@ -5,6 +5,7 @@
 import sys
 from constants import *
 from globalvars import *
+from world import *
 from sprites import *
 from pc import *
 from monsters import *
