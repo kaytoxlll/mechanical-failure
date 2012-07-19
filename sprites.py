@@ -19,7 +19,7 @@ import random
 class Obstacle(pygame.sprite.Sprite):
     """Base sprite class for map objects (i.e. barrels, etc)
     """
-    def __init__(self, name, reference, pos, solid):
+    def __init__(self, name, reference, pos=(0,0), solid=True):
         pygame.sprite.Sprite.__init__(self)
         #global images
         self.ref = reference # i.e. terrain (directory)
@@ -52,7 +52,7 @@ class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
     Sprite class for civilians
     """
-    def __init__(self, name, reference, pos): #pos = (x,y), images = dictionary 
+    def __init__(self, name, reference, pos=(0,0)): #pos = (x,y), images = dictionary 
         pygame.sprite.Sprite.__init__(self)
         #global images
         self.name = name # i.e. Bob
