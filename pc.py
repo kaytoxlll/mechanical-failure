@@ -25,6 +25,9 @@ class PC(NPC):
 
     def update(self):
         """Update the hero sprite based on the user's iteraction.
+        Returns direction if the user touches the edge of the map
+          (i.e. "west" if user enters left edge of screen)
+        Returns None if the user doesn't exit the screen.
         """
         #global solidGroup
         if not self.tick():
@@ -72,7 +75,7 @@ class PC(NPC):
         moveval = self.move(vect.normalize())
         # finalize
         self.animate()
-        return
+        return moveval
 
     def die(self):
         """Same as sprite.die, but nullify hero globalvar."""
