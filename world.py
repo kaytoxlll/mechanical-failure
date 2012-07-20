@@ -56,25 +56,31 @@ class World():
         for m in maplist:
             self.maps[m[:-3]] = Map(m)
         self.currentmap = maps["start"]
+        globalvars.solidGroup.add(currentmap.obstacles)
+        globalvars.solidGroup.add(currentmap.mobs)
+        # hero initializes to centercenter
 
-    def load(mapname, herofromdirection):
+    def load(herofromdirection):
         """Load the contents for the next map area.
         Positions the hero based on his direction ("north", etc).
         """
-        currentmap = maps[mapname]
-        globalvars.solidGroup.empty()
-        globalvars.solidGroup.add(currentmap.obstacles)
-        globalvars.solidGroup.add(currentmap.mobs)
         if herofromdirection == "north": # starts south
+            self.currentmap = self.maps[self.currentmap.north]
             globalvars.hero.rect.topleft = (CENTERX-TILESIZE/2, CENTERYEND-TILESIZE)
         elif herofromdirection == "south": # starts north
+            self.currentmap = self.maps[self.currentmap.south]
             globalvars.hero.rect.topleft = (CENTERX-TILESIZE/2, CENTERYSTART)
         elif herofromdirection == "east": # starts west
+            self.currentmap = self.maps[self.currentmap.east]
             globalvars.hero.rect.topleft = (CENTERXSTART, CENTERY-TILESIZE/2)
         elif herofromdirection == "west": # starts east
+            self.currentmap = self.maps[self.currentmap.west]
             globalvars.hero.rect.topleft = (CENTERXEND-TILESIZE, CENTERY-TILESIZE/2)
         else:
             globalvars.hero.rect.center = CENTERCENTER
+        globalvars.solidGroup.empty()
+        globalvars.solidGroup.add(currentmap.obstacles)
+        globalvars.solidGroup.add(currentmap.mobs)
 
     def update(self):
         """Update all the mob sprites"""

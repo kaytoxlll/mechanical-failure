@@ -12,10 +12,13 @@ window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
 # global images
 images = loadAllImages()
 
+# global PC
+hero = PC("Cole", CENTERCENTER)
+
 # global sprite groups
-solidGroup = pygame.sprite.Group()
+heroGroup = pygame.sprite.Group(hero)
+solidGroup = pygame.sprite.Group(heroGroup)
 solidQ = pygame.sprite.Group()
 backgroundQ = pygame.sprite.Group()
 attackQ = pygame.sprite.Group()
 newitemQ = pygame.sprite.Group()
-hero = PC("Cole", CENTERCENTER)
