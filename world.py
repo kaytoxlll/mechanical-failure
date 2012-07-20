@@ -3,6 +3,7 @@
 # See license.txt for licence information
 
 import globalvars
+from music import *
 from os import getcwd, listdir
 from os.path import join
 import pygame
@@ -25,6 +26,8 @@ class Map():
     def __init__(self, file):
         execfile(file)
         self.name = name
+        self.song = song
+        self.script = script
         floorimage = globalvars.images["terrain" + "floor" + floor]
         self.floor = pygame.Surface
         self.east = east
@@ -56,6 +59,8 @@ class World():
         for m in maplist:
             self.maps[m[:-3]] = Map(m)
         self.currentmap = maps["start"]
+        self.music = MusicPlayer(self.currentmap.song)
+        self.currentmap.script()
         globalvars.solidGroup.add(currentmap.obstacles)
         globalvars.solidGroup.add(currentmap.mobs)
         # hero initializes to centercenter
@@ -78,6 +83,8 @@ class World():
             globalvars.hero.rect.topleft = (CENTERXEND-TILESIZE, CENTERY-TILESIZE/2)
         else:
             globalvars.hero.rect.center = CENTERCENTER
+        self.music.play(self.currentmap.song)
+        self.currentmap.script()
         globalvars.solidGroup.empty()
         globalvars.solidGroup.add(currentmap.obstacles)
         globalvars.solidGroup.add(currentmap.mobs)

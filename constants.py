@@ -65,22 +65,3 @@ class AIError(Exception):
 def sfxPlay(sfx):
     sfxfile = join("data", "sfx", sfx)
     pygame.mixer.Sound(sfxfile).play()
-
-# Music
-def songPlay(song):
-    songfile = join("data", "music", song)
-    pygame.mixer.music.load(songfile)
-    pygame.mixer.music.play(-1, 0.0)
-
-def songStop():
-    pygame.mixer.music.stop()
-
-def songPause():
-    pygame.mixer.music.pause()
-
-def songUnpause():
-    pygame.mixer.music.unpause()
-
-def songFadeout():
-    pygame.mixer.music.fadeout(1000)
-

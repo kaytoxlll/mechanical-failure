@@ -3,6 +3,12 @@
 # See license.txt for licence information
 
 name = "east"
+song = "slums.mp3"
+floor = "boards"
+
+def script():
+    dialogue("this is a scripted dialogue")
+
 east = ""
 west = "start"
 north = ""
