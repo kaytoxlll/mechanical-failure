@@ -7,8 +7,11 @@ self.song = "industrial.mp3"
 self.floor = "boards"
 
 def script():
-    dialogue("this is a scripted dialogue")
+    pass
 self.script = script
+
+self.npcname = None
+self.npclines = None
 
 self.east = ""
 self.west = "start"
@@ -26,8 +29,8 @@ self.grid = ["wwwwwwwwwwwwwwww",
              "...............w",
              "w..............w",
              "w..............w",
-             "w...b..........w",
+             "w...b........r.w",
              "w..............w",
              "w..............w",
-             "w..............w",
+             "w...........r..w",
              "wwwwwwwwwwwwwwww",]

@@ -20,13 +20,14 @@ KEY = {".":'None',
        "w":'Obstacle("wall", "terrain")', 
        "b":'Obstacle("barrel", "terrain")', 
        "h":'Obstacle("house1", "terrain")', 
-       "r":'Rat()', 
-       "1":'one'}
+       "r":'Rat()',
+       "n":'NPC(self.npcname, self.npcref, (0,0), self.npclines)'}
 
 class Map():
     """Contains all the info for a reigon of the screen."""
     def __init__(self, file):
         execfile(join("data", "maps", file))
+        print self.npclines
         #self.name = name
         #self.song = song
         #self.script = script
@@ -64,6 +65,7 @@ class World():
             self.maps[m[:-3]] = Map(m)
         self.currentmap = self.maps["start"]
         self.music = MusicPlayer(self.currentmap.song)
+        self.draw(globalvars.window)
         if self.currentmap.scriptdone is False:
             self.currentmap.script()
             self.currentmap.scriptdone = True
@@ -92,6 +94,7 @@ class World():
         self.music.play(self.currentmap.song)
         globalvars.solidGroup.empty()
         globalvars.solidGroup.add(self.currentmap.obstacles)
+        globalvars.solidGroup.add(globalvars.hero)
         globalvars.solidGroup.add(self.currentmap.mobs)
         # draw screen before script
         self.draw(globalvars.window)

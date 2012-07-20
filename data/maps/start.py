@@ -7,8 +7,13 @@ self.song = "industrial.mp3"
 self.floor = "stone"
 
 def script():
-    pass
+    dialogue("Talk to the woman to receive your quest")
 self.script = script
+
+self.npcname = "Anna"
+self.npcref = "woman"
+self.npclines = ["Eeek! Rats in the eastern warehouse!",
+                 "Will you kill them?"]
 
 self.east = "east"
 self.west = ""
@@ -16,7 +21,7 @@ self.north = ""
 self.south = ""
 
 self.grid = ["wwwwwwwwwwwwwwww",
-             "wh.............w",
+             "wh..........n..w",
              "w..............w",
              "w..............w", 
              "w..............w",

@@ -52,11 +52,11 @@ class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
     Sprite class for civilians
     """
-    def __init__(self, name, reference, pos=(0,0)): #pos = (x,y), images = dictionary 
+    def __init__(self, name, reference, pos=(0,0), text=[]):
         pygame.sprite.Sprite.__init__(self)
         #global images
         self.name = name # i.e. Bob
-        self.text = [] # list of things that are said
+        self.text = text # list of things that are said
         self.ref = reference # i.e. VillagerMan
         self.sfxhurt = None
         self.sfxdead = None
@@ -98,7 +98,7 @@ class NPC(pygame.sprite.Sprite):
         #global window
         answer = True
         for line in self.text:
-            answer = dialogue(line)
+            answer = dialogue(self.name + ": " + line)
         return answer
 
     def space_ahead(self):
@@ -162,6 +162,8 @@ class NPC(pygame.sprite.Sprite):
         """Just got attacked.
         Returns True if the attack hit, else False
         """
+        if type(self) == NPC:
+            return False
         if self.flinchtimer > 0:
             return False
         self.hp -= attack.damage
