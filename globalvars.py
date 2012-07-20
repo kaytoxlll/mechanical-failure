@@ -17,8 +17,7 @@ hero = PC("Cole", CENTERCENTER)
 
 # global sprite groups
 heroGroup = pygame.sprite.Group(hero)
-backgroundGroup = pygame.sprite.Group()
-solidGroup = pygame.sprite.Group(heroGroup)
+solidGroup = pygame.sprite.Group(hero)
 attackGroup = pygame.sprite.Group()
 solidQ = pygame.sprite.Group()
 backgroundQ = pygame.sprite.Group()
