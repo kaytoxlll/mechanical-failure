@@ -98,7 +98,7 @@ class NPC(pygame.sprite.Sprite):
         #global window
         answer = True
         for line in self.text:
-            answer = dialogue(globalvars.window, line)
+            answer = dialogue(line)
         return answer
 
     def space_ahead(self):

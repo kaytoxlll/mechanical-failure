@@ -2,31 +2,32 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-name = "start"
-song = "industrial.mp3"
-floor = "stone"
+self.name = "start"
+self.song = "industrial.mp3"
+self.floor = "stone"
 
 def script():
     pass
+self.script = script
 
-east = "east"
-west = ""
-north = ""
-south = ""
+self.east = "east"
+self.west = ""
+self.north = ""
+self.south = ""
 
-grid = ["wwwwwwwwwwwwwwww",
-        "wh.............w",
-        "w..............w",
-        "w..............w", 
-        "w..............w",
-        "w..............w",
-        "w..............w",
-        "w...............",
-        "w...............",
-        "w..............w",
-        "w..............w",
-        "w...b..........w",
-        "w..........b...w",
-        "w......b.......w",
-        "w..............w",
-        "wwwwwwwwwwwwwwww",
+self.grid = ["wwwwwwwwwwwwwwww",
+             "wh.............w",
+             "w..............w",
+             "w..............w", 
+             "w..............w",
+             "w..............w",
+             "w..............w",
+             "w...............",
+             "w...............",
+             "w..............w",
+             "w..............w",
+             "w...b..........w",
+             "w..........b...w",
+             "w......b.......w",
+             "w..............w",
+             "wwwwwwwwwwwwwwww",]

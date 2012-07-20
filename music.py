@@ -17,18 +17,18 @@ class MusicPlayer():
     def __init__(self, song=None):
         self.song = join("data", "music", song)
         if song is not None:
-            pygame.mixer.music.load(song)
+            pygame.mixer.music.load(self.song)
             pygame.mixer.music.play(-1, 0.0)
 
     def play(self, song):
-    """Start playing the song.
-    If it is already playing, do not interrupt.
-    """
-    songfile = join("data", "music", song)
-    if songfile <> self.song:
-        self.song = songfile
-        pygame.mixer.music.load(songfile)
-        pygame.mixer.music.play(songfile)
+        """Start playing the song.
+        If it is already playing, do not interrupt.
+        """
+        songfile = join("data", "music", song)
+        if songfile <> self.song:
+            self.song = songfile
+            pygame.mixer.music.load(songfile)
+            pygame.mixer.music.play(-1, 0.0)
 
     def stop(self):
         pygame.mixer.music.stop()
