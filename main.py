@@ -20,7 +20,7 @@ pygame.display.set_caption("Mechanical Failure")
 pygame.display.set_icon(globalvars.images["misc" + "logo"])
 
 # music
-songPlay("industrial.mp3")
+#songPlay("industrial.mp3")
 
 #def drawground(surface, image):
 #    x= CENTERXSTART

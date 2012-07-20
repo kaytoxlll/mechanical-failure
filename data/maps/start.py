@@ -3,13 +3,16 @@
 # See license.txt for licence information
 
 name = "start"
+song = "industrial.mp3"
 floor = "stone"
+
+def script():
+    pass
+
 east = "east"
 west = ""
 north = ""
 south = ""
-
-one = Rat()
 
 grid = ["wwwwwwwwwwwwwwww",
         "wh.............w",
