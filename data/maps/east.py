@@ -2,31 +2,32 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-name = "east"
-song = "slums.mp3"
-floor = "boards"
+self.name = "east"
+self.song = "industrial.mp3"
+self.floor = "boards"
 
 def script():
     dialogue("this is a scripted dialogue")
+self.script = script
 
-east = ""
-west = "start"
-north = ""
-south = ""
+self.east = ""
+self.west = "start"
+self.north = ""
+self.south = ""
 
-grid = ["wwwwwwwwwwwwwwww",
-        "w....r......r..w",
-        "w..............w",
-        "w....b.........w", 
-        "w..............w",
-        "w..........b...w",
-        "w..............w",
-        "...............w",
-        "...............w",
-        "w..............w",
-        "w..............w",
-        "w...b..........w",
-        "w..............w",
-        "w..............w",
-        "w..........r...w",
-        "wwwwwwwwwwwwwwww",
+self.grid = ["wwwwwwwwwwwwwwww",
+             "w..............w",
+             "w..........r...w",
+             "w....b.........w", 
+             "w..............w",
+             "w..........b...w",
+             "w..............w",
+             "...............w",
+             "...............w",
+             "w..............w",
+             "w..............w",
+             "w...b..........w",
+             "w..............w",
+             "w..............w",
+             "w..............w",
+             "wwwwwwwwwwwwwwww",]

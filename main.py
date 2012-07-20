@@ -41,7 +41,6 @@ pygame.display.set_icon(globalvars.images["misc" + "logo"])
 
 # set up groups
 world = World()
-attackGroup = pygame.sprite.Group()
 
 # set up pc
 #hero = PC("Cole", CENTERCENTER)
@@ -78,18 +77,18 @@ while True:
                 sys.exit()
 
     # update the sprites
-    moveval = hero.update()
+    moveval = globalvars.hero.update()
     world.update()
-    attackGroup.update()
+    globalvars.attackGroup.update()
 
     # update the groups from the queues
-    solidGroup.add(solidQ)
-    solidGroup.add(backgroundQ)
-    attackGroup.add(attackQ)
-    solidGroup.add(attackQ)
-    solidQ.empty()
-    backgroundQ.empty()
-    attackQ.empty()
+    globalvars.solidGroup.add(globalvars.solidQ)
+    world.currentmap.backgroundGroup.add(globalvars.backgroundQ)
+    globalvars.attackGroup.add(globalvars.attackQ)
+    globalvars.solidGroup.add(globalvars.attackQ)
+    globalvars.solidQ.empty()
+    globalvars.backgroundQ.empty()
+    globalvars.attackQ.empty()
 
     # Update map if hero moved off the edge of the screen
     if moveval == "north" or \
@@ -103,6 +102,7 @@ while True:
     #backgroundGroup.draw(globalvars.window)
     #solidGroup.draw(globalvars.window)
     world.draw(globalvars.window)
-    globalvars.heroGroup.draw()
+    globalvars.heroGroup.draw(globalvars.window)
+    globalvars.attackGroup.draw(globalvars.window)
     pygame.display.update()
     clock.tick(FPS)

@@ -3,6 +3,8 @@
 # See license.txt for licence information
 
 import globalvars
+from sprites import *
+from monsters import *
 from music import *
 from os import getcwd, listdir
 from os.path import join
@@ -24,21 +26,22 @@ KEY = {".":'None',
 class Map():
     """Contains all the info for a reigon of the screen."""
     def __init__(self, file):
-        execfile(file)
-        self.name = name
-        self.song = song
-        self.script = script
-        floorimage = globalvars.images["terrain" + "floor" + floor]
-        self.floor = pygame.Surface
-        self.east = east
-        self.west = west
-        self.north = north
-        self.south = south
+        execfile(join("data", "maps", file))
+        #self.name = name
+        #self.song = song
+        #self.script = script
+        self.floor = globalvars.images["terrain" + self.floor]
+        #self.east = east
+        #self.west = west
+        #self.north = north
+        #self.south = south
+        self.scriptdone = False
         self.obstacles = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
-        x = 0
-        y = 0
-        for line in grid:
+        self.backgroundGroup = pygame.sprite.Group()
+        x = CENTERXSTART
+        y = CENTERYSTART
+        for line in self.grid:
             for char in line:
                 sprite = eval(KEY[char])
                 if isinstance(sprite, Obstacle):
@@ -49,6 +52,7 @@ class Map():
                     self.mobs.add(sprite)
                 x += TILESIZE
             y += TILESIZE
+            x = CENTERXSTART
 
 class World():
     """Contains all the maps, notable the current map."""
@@ -58,14 +62,16 @@ class World():
         maplist = listdir(path)
         for m in maplist:
             self.maps[m[:-3]] = Map(m)
-        self.currentmap = maps["start"]
+        self.currentmap = self.maps["start"]
         self.music = MusicPlayer(self.currentmap.song)
-        self.currentmap.script()
-        globalvars.solidGroup.add(currentmap.obstacles)
-        globalvars.solidGroup.add(currentmap.mobs)
+        if self.currentmap.scriptdone is False:
+            self.currentmap.script()
+            self.currentmap.scriptdone = True
+        globalvars.solidGroup.add(self.currentmap.obstacles)
+        globalvars.solidGroup.add(self.currentmap.mobs)
         # hero initializes to centercenter
 
-    def load(herofromdirection):
+    def load(self, herofromdirection):
         """Load the contents for the next map area.
         Positions the hero based on his direction ("north", etc).
         """
@@ -84,20 +90,26 @@ class World():
         else:
             globalvars.hero.rect.center = CENTERCENTER
         self.music.play(self.currentmap.song)
-        self.currentmap.script()
         globalvars.solidGroup.empty()
-        globalvars.solidGroup.add(currentmap.obstacles)
-        globalvars.solidGroup.add(currentmap.mobs)
+        globalvars.solidGroup.add(self.currentmap.obstacles)
+        globalvars.solidGroup.add(self.currentmap.mobs)
+        # draw screen before script
+        self.draw(globalvars.window)
+        globalvars.heroGroup.draw(globalvars.window)
+        pygame.display.update()
+        if self.currentmap.scriptdone is False:
+            self.currentmap.script()
+            self.currentmap.scriptdone = True
 
     def update(self):
         """Update all the mob sprites"""
         self.currentmap.mobs.update()
 
-    def draw(window):
-        """Draw the floor, obstacles, and mobs"""
+    def draw(self, window):
+        """Draw the floor, obstacles, background (blood), and mobs"""
         # draw the ground
-        x= CENTERXSTART
-        y= CENTERYSTART
+        x = CENTERXSTART
+        y = CENTERYSTART
         image = self.currentmap.floor
         xinc = image.get_width()
         yinc = image.get_height()
@@ -108,5 +120,6 @@ class World():
             y += yinc
             x=CENTERXSTART
         # draw the sprites.
-        self.currentmap.obstacles.draw(window)
-        self.currentmap.mobs.draw(window)
+        self.currentmap.obstacles.draw(globalvars.window)
+        self.currentmap.backgroundGroup.draw(globalvars.window)
+        self.currentmap.mobs.draw(globalvars.window)

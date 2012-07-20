@@ -6,6 +6,9 @@ import sys
 import pygame
 from pygame.locals import *
 from constants import *
+import globalvars
+
+pygame.init()
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, text, pos):
@@ -21,7 +24,7 @@ class Button(pygame.sprite.Sprite):
         self.image.blit(textSurface, (x,y))
         self.rect.topleft = pos
 
-def dialogue(screen, text):
+def dialogue(text):
     """Prints the text on the screen, along with buttons.
     If the text ends with a "?", then they options are 'yes' and 'no'
     If the text is not a question, button is 'next'
@@ -49,14 +52,14 @@ def dialogue(screen, text):
         yesbox = Button("YES", (CENTERXSTART+BOXSIZE+TILESIZE*2, CENTERYEND-BOXSIZE))
         nobox = Button("NO", (CENTERXSTART+BOXSIZE*2+TILESIZE*3, CENTERYEND-BOXSIZE))
 
-    screen.blit(bigbox, bigboxrect)
-    screen.blit(message, messagerect)
+    globalvars.window.blit(bigbox, bigboxrect)
+    globalvars.window.blit(message, messagerect)
     buttons = pygame.sprite.Group()
     if choice:
         buttons.add(nobox, yesbox)
     else:
         buttons.add(nextbox)
-    buttons.draw(screen)
+    buttons.draw(globalvars.window)
     pygame.display.update()
 
     while True:
