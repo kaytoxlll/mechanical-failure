@@ -16,6 +16,7 @@ class PC(NPC):
         NPC.__init__(self, name, "hero", pos)
         self.speed = 2.5
         self.hp = 30
+        self.hpmax = 30
         self.str = 3
         self.dex = 3
         self.weapon = "wrench"
@@ -40,12 +41,10 @@ class PC(NPC):
         # perform actions for each key press
         pressed = pygame.key.get_pressed()
         if pressed[K_SPACE]:
-            # for now, pressing SPACE animates a pose and stuns
-            self.facing = "front"
-            self.action = "Item"
-            self.stuntimer = 1
-            self.animate()
-            return
+            # drink a potion
+            if self.potions >= 1:
+                self.potions -= 1
+                self.hp = self.hpmax
         if pressed[K_e]: # examined with 'E'
             aoe = self.space_ahead()
             for s in globalvars.solidGroup:
