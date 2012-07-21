@@ -48,6 +48,12 @@ class Obstacle(pygame.sprite.Sprite):
         """PC examined this, don't do anything."""
         return True
 
+class Item(Obstacle):
+    """A coin, box of ammo, potion, etc."""
+    def __init__(self, name, pos=(0,0), solid=False):
+        # name i.e. "potion"
+        Obstacle.__init__(self, name, "item", pos, solid)
+
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
     Sprite class for civilians
@@ -74,8 +80,6 @@ class NPC(pygame.sprite.Sprite):
         self.str = 0 # Strength, melee damage
         self.dex = 0 # Dexterity, ranged damage
                      # if str (dex) == 0 then cannot attack
-        self.item = None # item dropped if killed
-        self.dropchance = 50 # percent chance that items will drop
         self.brain = VillagerBrain(self)
         self.moving = False
         self.attacked = False # reset each frame, acts as a "danger sense"
@@ -233,6 +237,9 @@ class NPC(pygame.sprite.Sprite):
         elif newrect.right > CENTERXEND:
             self.moving = False
             return "east"
+        for i in globalvars.itemGroup:
+            if newrect.colliderect(i.rect) and type(self) == PC:
+                self.get(i)
         for s in globalvars.solidGroup:
             if newrect.colliderect(s.rect) and self.name is not s.name:
                 self.moving = False
