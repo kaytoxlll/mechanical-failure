@@ -14,6 +14,9 @@ import pygame
 currentmap = The current terrain/mobs on the screen, using:
   .obstacles
   .mobs
+
+Scripts use the scriptdone boolean to know when to stop running the script.
+script() returns True when it no longer needs to run.
 """
 
 KEY = {".":'None', 
@@ -30,7 +33,6 @@ class Map():
     """Contains all the info for a reigon of the screen."""
     def __init__(self, file):
         execfile(join("data", "maps", file))
-        print self.npclines
         #self.name = name
         #self.song = song
         #self.script = script
@@ -43,7 +45,7 @@ class Map():
         self.obstacles = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
         self.backgroundGroup = pygame.sprite.Group()
-        self.itemGroup = pygame,sprite.Group()
+        self.itemGroup = pygame.sprite.Group()
         x = CENTERXSTART
         y = CENTERYSTART
         for line in self.grid:
@@ -69,10 +71,6 @@ class World():
             self.maps[m[:-3]] = Map(m)
         self.currentmap = self.maps["start"]
         self.music = MusicPlayer(self.currentmap.song)
-        self.draw(globalvars.window)
-        if self.currentmap.scriptdone is False:
-            self.currentmap.script()
-            self.currentmap.scriptdone = True
         globalvars.solidGroup.add(self.currentmap.obstacles)
         globalvars.solidGroup.add(self.currentmap.mobs)
         globalvars.itemGroup.add(self.currentmap.itemGroup)
@@ -107,13 +105,12 @@ class World():
         self.draw(globalvars.window)
         globalvars.heroGroup.draw(globalvars.window)
         pygame.display.update()
-        if self.currentmap.scriptdone is False:
-            self.currentmap.script()
-            self.currentmap.scriptdone = True
 
     def update(self):
-        """Update all the mob sprites"""
+        """Update all the mob sprites, run script"""
         self.currentmap.mobs.update()
+        if not self.currentmap.scriptdone:
+            self.currentmap.scriptdone = self.currentmap.script()
 
     def draw(self, window):
         """Draw the floor, obstacles, background (blood), and mobs"""

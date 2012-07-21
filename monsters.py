@@ -5,6 +5,7 @@
 from constants import *
 from sprites import *
 from brain import *
+from random import seed, randint
 
 class Rat(NPC):
     def __init__(self, pos=(0,0)):
@@ -18,3 +19,11 @@ class Rat(NPC):
         self.sfxdead = "ratdead.wav"
         self.brain = FighterBrain(self)
         
+    def die(self):
+        """Drop items, then die"""
+        seed()
+        dropchance = randint(1,100)
+        if dropchance < 10:
+            self.drop("potion")
+        elif dropchance < 50:
+            self.drop("coin")

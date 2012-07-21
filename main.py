@@ -89,6 +89,9 @@ while True:
     globalvars.solidQ.empty()
     globalvars.backgroundQ.empty()
     globalvars.attackQ.empty()
+    globalvars.itemGroup.add(globalvars.itemQ)
+    world.currentmap.itemGroup.add(globalvars.itemQ)
+    globalvars.itemQ.empty()
 
     # Update map if hero moved off the edge of the screen
     if moveval == "north" or \

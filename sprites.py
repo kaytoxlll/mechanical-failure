@@ -327,6 +327,10 @@ class NPC(pygame.sprite.Sprite):
         self.attacked = False
         return
 
+    def drop(itemname):
+        """Place an item on the ground"""
+        globalvars.itemQ.add(Item(itemname))
+
     def die(self):
         """The sprite had died.
         Updates backgroundQ with blood.

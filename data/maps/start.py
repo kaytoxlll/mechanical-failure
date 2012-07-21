@@ -8,6 +8,7 @@ self.floor = "stone"
 
 def script():
     dialogue("Talk to the woman to receive your quest")
+    return True
 self.script = script
 
 self.npcname = "Anna"
