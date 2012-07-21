@@ -54,6 +54,23 @@ class Item(Obstacle):
         # name i.e. "potion"
         Obstacle.__init__(self, name, "item", pos, solid)
 
+class ShopItem(Item, price):
+    """Like an item, but examined and bought instead of picked up"""
+    def __init__(self, name, pos=(0,0), solid=True):
+        Item.__init__(self, name, pos, solid)
+        self.price = price
+
+    def examine(self):
+        """Let PC buy or decline the item"""
+        bought = dialogue("Buy "+self.name+" for "+self.price+"?")
+        if bought:
+            if globalvars.hero.coins >= self.price:
+                globalvars.hero.coins -= self.price
+                globalvars.hero.get(self.name)
+                self.kill()
+            else:
+                dialogue("Not enough coins!")
+
 class NPC(pygame.sprite.Sprite):
     """Base sprite class for characters.
     Sprite class for civilians

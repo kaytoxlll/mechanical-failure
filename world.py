@@ -27,7 +27,9 @@ KEY = {".":'None',
        "n":'NPC(self.npcname, self.npcref, (0,0), self.npclines)',
        "p":'Item("potion")',
        "a":'Item("ammo")',
-       "c":'Item("coin")'}
+       "c":'Item("coin")',
+       "P":'ShopItem("potion", 20)',
+       "A":'ShopItem("ammo", 10)'}
 
 class Map():
     """Contains all the info for a reigon of the screen."""
@@ -51,7 +53,10 @@ class Map():
         for line in self.grid:
             for char in line:
                 sprite = eval(KEY[char])
-                if isinstance(sprite, Obstacle):
+                if type(sprite) == Item:
+                    sprite.rect.topleft = (x,y)
+                    self.itemGroup.add(sprite)
+                elif isinstance(sprite, Obstacle):
                     sprite.rect.topleft = (x,y)
                     self.obstacles.add(sprite)
                 elif isinstance(sprite, NPC):
