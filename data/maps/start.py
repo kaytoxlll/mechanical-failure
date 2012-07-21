@@ -17,7 +17,7 @@ self.npclines = ["Eeek! Rats in the eastern warehouse!",
                  "Will you kill them?"]
 
 self.east = "east"
-self.west = ""
+self.west = "west"
 self.north = ""
 self.south = ""
 
@@ -28,8 +28,8 @@ self.grid = ["wwwwwwwwwwwwwwww",
              "w...........cc.w",
              "w..............w",
              "w..............w",
-             "w...............",
-             "w...............",
+             "................",
+             "................",
              "w..............w",
              "w..............w",
              "w...b.......p..w",
