@@ -4,6 +4,7 @@
 
 import sys
 import pygame
+from sprites import *
 from pygame.locals import *
 from constants import *
 import globalvars
@@ -23,6 +24,34 @@ class Button(pygame.sprite.Sprite):
         y -= textSurface.get_height()/2
         self.image.blit(textSurface, (x,y))
         self.rect.topleft = pos
+
+def draw_hud():
+    """Draw the hero's stats to the side of the screen."""
+    x = LBORDERXSTART + BOXSIZE
+    y = BORDERYSTART + BOXSIZE
+    # draw player stats to left hud
+    hudlist = []
+    hudlist.append(globalvars.hero.name + "'s stats:")
+    hudlist.append("HP:      " + globalvars.hero.hp)
+    hudlist.append("Coins:   " + globalvars.hero.coins)
+    hudlist.append("Bullets: " + globalvars.hero.ammo)
+    for i in hudlist:
+        textSurface = FONT.render(i, True, WHITE, BLACK)
+        textRect = textSurface.get_rect()
+        globalvars.screen.blit(textSurface, (x,y))
+        y += TILESIZE
+    # draw npc hp to right hud
+    x = RBORDERXSTART + BOXSIZE
+    y = BORDERYSTART + BOXSIZE
+    hudlist = []
+    for s in globalvars.solidGroup:
+        if instanceof(s, NPC):
+            hudlist.append(s.name + " hp: " + s.hp)
+    for i in hudlist:
+        textSurface = FONT.render(i, True, WHITE, BLACK)
+        textRect = textSurface.get_rect()
+        globalvars.screen.blit(textSurface, (x,y))
+        y += TILESIZE
 
 def dialogue(text):
     """Prints the text on the screen, along with buttons.
