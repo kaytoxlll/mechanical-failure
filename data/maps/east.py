@@ -7,7 +7,7 @@ self.song = "industrial.mp3"
 self.floor = "boards"
 
 def script():
-    pass
+    return True
 self.script = script
 
 self.npcname = None
