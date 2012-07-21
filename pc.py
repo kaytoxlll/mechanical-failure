@@ -22,6 +22,9 @@ class PC(NPC):
         self.gun = "gun"
         self.sfxhurt = "malehurt.wav"
         self.sfxdead = "maledead.wav"
+        self.potions = 3
+        self.ammo = 20
+        self.coins = 50
 
     def update(self):
         """Update the hero sprite based on the user's iteraction.
@@ -76,6 +79,16 @@ class PC(NPC):
         # finalize
         self.animate()
         return moveval
+
+    def get(self, item):
+        """Analyize the item, add it to inventory, destroy it"""
+        if item.name == "potion":
+            self.potions += 1
+        elif item.name == "ammo":
+            self.ammo += 10
+        elif item.name == "coin":
+            self.coins += 1
+        item.kill()
 
     def die(self):
         """Same as sprite.die, but nullify hero globalvar."""

@@ -21,7 +21,10 @@ KEY = {".":'None',
        "b":'Obstacle("barrel", "terrain")', 
        "h":'Obstacle("house1", "terrain")', 
        "r":'Rat()',
-       "n":'NPC(self.npcname, self.npcref, (0,0), self.npclines)'}
+       "n":'NPC(self.npcname, self.npcref, (0,0), self.npclines)',
+       "p":'Item("potion")',
+       "a":'Item("ammo")',
+       "c":'Item("coin")'}
 
 class Map():
     """Contains all the info for a reigon of the screen."""
@@ -40,6 +43,7 @@ class Map():
         self.obstacles = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
         self.backgroundGroup = pygame.sprite.Group()
+        self.itemGroup = pygame,sprite.Group()
         x = CENTERXSTART
         y = CENTERYSTART
         for line in self.grid:
@@ -71,6 +75,7 @@ class World():
             self.currentmap.scriptdone = True
         globalvars.solidGroup.add(self.currentmap.obstacles)
         globalvars.solidGroup.add(self.currentmap.mobs)
+        globalvars.itemGroup.add(self.currentmap.itemGroup)
         # hero initializes to centercenter
 
     def load(self, herofromdirection):
@@ -96,6 +101,8 @@ class World():
         globalvars.solidGroup.add(self.currentmap.obstacles)
         globalvars.solidGroup.add(globalvars.hero)
         globalvars.solidGroup.add(self.currentmap.mobs)
+        globalvars.itemGroup.empty()
+        globalvars.itemGroup.add(self.currentmap.itemGroup)
         # draw screen before script
         self.draw(globalvars.window)
         globalvars.heroGroup.draw(globalvars.window)
@@ -125,4 +132,5 @@ class World():
         # draw the sprites.
         self.currentmap.obstacles.draw(globalvars.window)
         self.currentmap.backgroundGroup.draw(globalvars.window)
+        self.currentmap.itemGroup.draw(globalvars.window)
         self.currentmap.mobs.draw(globalvars.window)
