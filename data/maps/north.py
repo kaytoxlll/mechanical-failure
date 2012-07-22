@@ -2,7 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-self.name = "west"
+self.name = "north"
 self.song = "industrial.mp3"
 self.floor = "boards"
 
@@ -15,24 +15,24 @@ def script(self):
         return False
 self.script = script
 
-self.east = "start"
-self.west = "westend"
-self.north = ""
-self.south = ""
+self.east = ""
+self.west = ""
+self.north = "northend"
+self.south = "start"
 
-self.grid = ["wwwwwwwwwwwwwwww",
-             "w.......r......w",
+self.grid = ["wwwwwwwD.wwwwwww",
+             "w.......t......w",
              "w..............w",
              "w..........b...w", 
              "w...b..........w",
              "w..............w",
              "w..............w",
-             "d.......b.......",
-             "....r...........",
+             "w.......b......w",
+             "w..............w",
              "w..............w",
              "w..............w",
              "w.....b........w",
              "w..............w",
              "w........b.....w",
              "w..............w",
-             "wwwwwwwwwwwwwwww",]
+             "wwwwwww..wwwwwww",]

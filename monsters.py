@@ -28,3 +28,27 @@ class Rat(NPC):
             self.drop("potion")
         elif dropchance < 50:
             self.drop("coin")
+
+class Thief(NPC):
+    def __init__(self, pos=(0,0)):
+        NPC.__init__(self, "Thief", "thief", pos)
+        self.text.append("Gimme your money!")
+        self.speed = 2.5
+        self.hp = 20
+        self.str = 2
+        self.dex = 0
+        self.weapon = "sword"
+        self.sfxhurt = "malehurt.wav"
+        self.sfxdead = "maledead.wav"
+        self.brain = FighterBrain(self)
+
+    def die(self):
+        NPC.die(self)
+        seed()
+        dropchance = randint(1,100)
+        if dropchance < 10:
+            self.drop("potion")
+        elif dropchance < 30:
+            self.drop("ammo")
+        elif dropchance < 70:
+            self.drop("coin")
