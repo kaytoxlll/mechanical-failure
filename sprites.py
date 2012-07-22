@@ -201,7 +201,6 @@ class NPC(pygame.sprite.Sprite, object):
         if self.flinchtimer > 0:
             return False
         self.hp -= attack.damage
-        print self.name, "hp =", self.hp
         if self.hp < 1:
             self.die()
             sfxPlay(self.sfxdead)

@@ -53,9 +53,7 @@ class PC(NPC):
         pressed = pygame.key.get_pressed()
         if pressed[K_SPACE]:
             # drink a potion
-            print "tryinf to frink", self.potiontimer
             if self.potions >= 1 and self.potiontimer == 0:
-                print "drinking"
                 self.potions -= 1
                 self.hp = self.hpmax
                 self.potiontimer = 1
