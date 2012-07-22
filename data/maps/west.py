@@ -7,32 +7,31 @@ self.song = "industrial.mp3"
 self.floor = "boards"
 
 def script():
-    dialoge("This is the item shop")
-    return True
+    if len(self.currentmap.mobs) == 0:
+        self.currentmap.moveableGroup.empty()
+        return True
+    else:
+        return False
 self.script = script
 
-self.npcname = "Beth"
-self.npcref = "woman"
-self.npclines = ["Buy something!"]
-
 self.east = "start"
-self.west = ""
+self.west = "westend"
 self.north = ""
 self.south = ""
 
 self.grid = ["wwwwwwwwwwwwwwww",
+             "w.......r...r..w",
              "w..............w",
-             "w......n.......w",
-             "w..............w", 
-             "w...AAA...PPP..w",
-             "w..............w",
-             "w..............w",
-             "w...............",
-             "w...............",
+             "w..........b...w", 
+             "w...b..........w",
              "w..............w",
              "w..............w",
+             "d.......b.......",
+             "d...............",
              "w..............w",
              "w..............w",
-             "w..............w",
-             "w..............w",
+             "w.....b........w",
+             "w...........r..w",
+             "w........b.....w",
+             "w............r.w",
              "wwwwwwwwwwwwwwww",]
