@@ -29,7 +29,9 @@ KEY = {".":'None',
        "a":'Item("ammo")',
        "c":'Item("coin")',
        "P":'ShopItem("potion", 20)',
-       "A":'ShopItem("ammo", 10)'}
+       "A":'ShopItem("ammo", 10)',
+       "D":'Moveable("doorwide", "terrain")',
+       "d":'Moveable("doortall", "terrain")'}
 
 class Map():
     """Contains all the info for a reigon of the screen."""
@@ -45,6 +47,7 @@ class Map():
         #self.south = south
         self.scriptdone = False
         self.obstacles = pygame.sprite.Group()
+        self.moveableGroup = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
         self.backgroundGroup = pygame.sprite.Group()
         self.itemGroup = pygame.sprite.Group()
@@ -53,14 +56,14 @@ class Map():
         for line in self.grid:
             for char in line:
                 sprite = eval(KEY[char])
+                sprite.rect.topleft = (x,y)
                 if type(sprite) == Item:
-                    sprite.rect.topleft = (x,y)
                     self.itemGroup.add(sprite)
+                elif type(sprite) == Moveable:
+                    self.moveableGroup.add(Sprite)
                 elif isinstance(sprite, Obstacle):
-                    sprite.rect.topleft = (x,y)
                     self.obstacles.add(sprite)
                 elif isinstance(sprite, NPC):
-                    sprite.rect.topleft = (x,y)
                     self.mobs.add(sprite)
                 x += TILESIZE
             y += TILESIZE
@@ -77,6 +80,7 @@ class World():
         self.currentmap = self.maps["start"]
         self.music = MusicPlayer(self.currentmap.song)
         globalvars.solidGroup.add(self.currentmap.obstacles)
+        globalvars.solidGroup.add(self.currentmap.moveableGroup)
         globalvars.solidGroup.add(self.currentmap.mobs)
         globalvars.itemGroup.add(self.currentmap.itemGroup)
         # hero initializes to centercenter
@@ -102,6 +106,7 @@ class World():
         self.music.play(self.currentmap.song)
         globalvars.solidGroup.empty()
         globalvars.solidGroup.add(self.currentmap.obstacles)
+        globalvars.solidGroup.add(self.currentmap.moveableGroup)
         globalvars.solidGroup.add(globalvars.hero)
         globalvars.solidGroup.add(self.currentmap.mobs)
         globalvars.itemGroup.empty()

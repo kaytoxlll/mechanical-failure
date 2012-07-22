@@ -13,7 +13,7 @@ self.script = script
 
 self.npcname = "Anna"
 self.npcref = "woman"
-self.npclines = ["Eeek! Rats in the eastern warehouse!",
+self.npclines = ["Eeek! Rats in the western warehouse!",
                  "Will you kill them?"]
 
 self.east = "east"

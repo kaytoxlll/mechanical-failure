@@ -48,6 +48,14 @@ class Obstacle(pygame.sprite.Sprite):
         """PC examined this, don't do anything."""
         return True
 
+class Moveable(Obstacle):
+    """Obstacle that can be removed by a script"""
+    def __init__(self, name, reference, pos=(0,0), solid=True):
+        Obstacle(self, name, reference, pos, solid)
+
+    def examine(self):
+        return dialogue("This door seems locked by a mechanism")
+
 class Item(Obstacle):
     """A coin, box of ammo, potion, etc."""
     def __init__(self, name, pos=(0,0), solid=False):
