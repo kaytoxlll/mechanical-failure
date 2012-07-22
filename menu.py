@@ -4,7 +4,7 @@
 
 import sys
 import pygame
-from sprites import *
+import sprites
 from pygame.locals import *
 from constants import *
 import globalvars
@@ -27,30 +27,53 @@ class Button(pygame.sprite.Sprite):
 
 def draw_hud():
     """Draw the hero's stats to the side of the screen."""
-    x = LBORDERXSTART + BOXSIZE
-    y = BORDERYSTART + BOXSIZE
+    # blank screen
+    rect = pygame.Rect((LBORDERXSTART, BORDERYSTART), (BORDERWIDTH, BORDERHEIGHT))
+    globalvars.window.fill(BLACK, rect)
+    rect.topleft = (RBORDERXSTART, BORDERYSTART)
+    globalvars.window.fill(BLACK, rect)
+    x = LBORDERXSTART + TILESIZE
+    y = BORDERYSTART + TILESIZE
     # draw player stats to left hud
     hudlist = []
     hudlist.append(globalvars.hero.name + "'s stats:")
-    hudlist.append("HP:      " + globalvars.hero.hp)
-    hudlist.append("Coins:   " + globalvars.hero.coins)
-    hudlist.append("Bullets: " + globalvars.hero.ammo)
+    hudlist.append("HP:      " + str(globalvars.hero.hp))
+    hudlist.append("Coins:   " + str(globalvars.hero.coins))
+    hudlist.append("Bullets: " + str(globalvars.hero.ammo))
+    hudlist.append("Potions: " + str(globalvars.hero.potions))
     for i in hudlist:
-        textSurface = FONT.render(i, True, WHITE, BLACK)
+        textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
         textRect = textSurface.get_rect()
-        globalvars.screen.blit(textSurface, (x,y))
+        globalvars.window.blit(textSurface, (x,y))
+        y += TILESIZE
+    # print gameplay instructions
+    y += TILESIZE
+    guidelist = []
+    guidelist.append("Move up:      W")
+    guidelist.append("Move left:    A")
+    guidelist.append("Move down:    S")
+    guidelist.append("Move right:   D")
+    guidelist.append("Attack:       Left-click")
+    guidelist.append("Shoot:        Right-click")
+    guidelist.append("Talk / examine: E")
+    guidelist.append("Drink potion: SPACE")
+    guidelist.append("Quit:         ESC")
+    for i in guidelist:
+        textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
+        textRect = textSurface.get_rect()
+        globalvars.window.blit(textSurface, (x,y))
         y += TILESIZE
     # draw npc hp to right hud
-    x = RBORDERXSTART + BOXSIZE
-    y = BORDERYSTART + BOXSIZE
+    x = RBORDERXSTART + TILESIZE
+    y = BORDERYSTART + TILESIZE
     hudlist = []
     for s in globalvars.solidGroup:
-        if instanceof(s, NPC):
-            hudlist.append(s.name + " hp: " + s.hp)
+        if isinstance(s, sprites.NPC) and s is not globalvars.hero:
+            hudlist.append(s.name + " hp: " + str(s.hp))
     for i in hudlist:
-        textSurface = FONT.render(i, True, WHITE, BLACK)
+        textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
         textRect = textSurface.get_rect()
-        globalvars.screen.blit(textSurface, (x,y))
+        globalvars.window.blit(textSurface, (x,y))
         y += TILESIZE
 
 def dialogue(text):

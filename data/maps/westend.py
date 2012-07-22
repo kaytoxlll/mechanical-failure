@@ -6,7 +6,7 @@ self.name = "westend"
 self.song = "industrial.mp3"
 self.floor = "boards"
 
-def script():
+def script(self):
     dialogue("Yay, rats dead, barrels safe")
     dialogue("have some coins")
     return True

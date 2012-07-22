@@ -3,6 +3,7 @@
 # See license.txt for licence information
 
 import globalvars
+from menu import *
 from sprites import *
 from monsters import *
 from music import *
@@ -56,14 +57,17 @@ class Map():
         for line in self.grid:
             for char in line:
                 sprite = eval(KEY[char])
-                sprite.rect.topleft = (x,y)
                 if type(sprite) == Item:
+                    sprite.rect.topleft = (x,y)
                     self.itemGroup.add(sprite)
                 elif type(sprite) == Moveable:
-                    self.moveableGroup.add(Sprite)
+                    sprite.rect.topleft = (x,y)
+                    self.moveableGroup.add(sprite)
                 elif isinstance(sprite, Obstacle):
+                    sprite.rect.topleft = (x,y)
                     self.obstacles.add(sprite)
                 elif isinstance(sprite, NPC):
+                    sprite.rect.topleft = (x,y)
                     self.mobs.add(sprite)
                 x += TILESIZE
             y += TILESIZE
@@ -83,6 +87,8 @@ class World():
         globalvars.solidGroup.add(self.currentmap.moveableGroup)
         globalvars.solidGroup.add(self.currentmap.mobs)
         globalvars.itemGroup.add(self.currentmap.itemGroup)
+        self.draw(globalvars.window)
+        pygame.display.update()
         # hero initializes to centercenter
 
     def load(self, herofromdirection):
@@ -120,7 +126,7 @@ class World():
         """Update all the mob sprites, run script"""
         self.currentmap.mobs.update()
         if not self.currentmap.scriptdone:
-            self.currentmap.scriptdone = self.currentmap.script()
+            self.currentmap.scriptdone = self.currentmap.script(self)
 
     def draw(self, window):
         """Draw the floor, obstacles, background (blood), and mobs"""
@@ -139,5 +145,6 @@ class World():
         # draw the sprites.
         self.currentmap.obstacles.draw(globalvars.window)
         self.currentmap.backgroundGroup.draw(globalvars.window)
+        self.currentmap.moveableGroup.draw(globalvars.window)
         self.currentmap.itemGroup.draw(globalvars.window)
         self.currentmap.mobs.draw(globalvars.window)

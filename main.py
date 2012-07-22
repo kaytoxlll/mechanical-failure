@@ -104,6 +104,7 @@ while True:
     #drawground(globalvars.window, tile)
     #backgroundGroup.draw(globalvars.window)
     #solidGroup.draw(globalvars.window)
+    draw_hud()
     world.draw(globalvars.window)
     globalvars.heroGroup.draw(globalvars.window)
     globalvars.attackGroup.draw(globalvars.window)

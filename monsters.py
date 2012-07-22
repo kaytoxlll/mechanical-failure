@@ -21,6 +21,7 @@ class Rat(NPC):
         
     def die(self):
         """Drop items, then die"""
+        NPC.die(self)
         seed()
         dropchance = randint(1,100)
         if dropchance < 10:

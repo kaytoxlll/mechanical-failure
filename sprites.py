@@ -4,6 +4,7 @@
 
 from math import fabs
 import globalvars
+import menu
 from constants import *
 from menu import *
 from vector import Vector
@@ -51,35 +52,35 @@ class Obstacle(pygame.sprite.Sprite):
 class Moveable(Obstacle):
     """Obstacle that can be removed by a script"""
     def __init__(self, name, reference, pos=(0,0), solid=True):
-        Obstacle(self, name, reference, pos, solid)
+        Obstacle.__init__(self, name, reference, pos, solid)
 
     def examine(self):
-        return dialogue("This door seems locked by a mechanism")
+        return menu.dialogue("This door seems locked by a mechanism")
 
 class Item(Obstacle):
     """A coin, box of ammo, potion, etc."""
     def __init__(self, name, pos=(0,0), solid=False):
         # name i.e. "potion"
-        Obstacle.__init__(self, name, "item", pos, solid)
+        Obstacle.__init__(self, name, "items", pos, solid)
 
-class ShopItem(Item, price):
+class ShopItem(Item):
     """Like an item, but examined and bought instead of picked up"""
-    def __init__(self, name, pos=(0,0), solid=True):
+    def __init__(self, name, price, pos=(0,0), solid=True):
         Item.__init__(self, name, pos, solid)
         self.price = price
 
     def examine(self):
         """Let PC buy or decline the item"""
-        bought = dialogue("Buy "+self.name+" for "+self.price+"?")
+        bought = menu.dialogue("Buy "+str(self.name)+" for "+str(self.price)+"?")
         if bought:
             if globalvars.hero.coins >= self.price:
                 globalvars.hero.coins -= self.price
-                globalvars.hero.get(self.name)
+                globalvars.hero.get(self)
                 self.kill()
             else:
-                dialogue("Not enough coins!")
+                menu.dialogue("Not enough coins!")
 
-class NPC(pygame.sprite.Sprite):
+class NPC(pygame.sprite.Sprite, object):
     """Base sprite class for characters.
     Sprite class for civilians
     """
@@ -99,6 +100,7 @@ class NPC(pygame.sprite.Sprite):
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
         self.weapon = None # melee weapon, i.e. "wrench"
         self.gun = None # "pistol"
+        self.ammo = 0
         self.attack = None # i.e. MeleeAttack()
         self.speed = 2.5
         self.hp = 10
@@ -127,7 +129,7 @@ class NPC(pygame.sprite.Sprite):
         #global window
         answer = True
         for line in self.text:
-            answer = dialogue(self.name + ": " + line)
+            answer = menu.dialogue(self.name + ": " + line)
         return answer
 
     def space_ahead(self):
@@ -166,6 +168,9 @@ class NPC(pygame.sprite.Sprite):
         #global attackQ
         if self.guntimer <> 0:
             return
+        if self.ammo < 1:
+            return
+        self.ammo -= 1
         # update facing to match shooting direction
         (x,y) = pygame.mouse.get_pos()
         if fabs(self.rect.centerx-x) > fabs(self.rect.centery-y):
@@ -263,7 +268,7 @@ class NPC(pygame.sprite.Sprite):
             self.moving = False
             return "east"
         for i in globalvars.itemGroup:
-            if newrect.colliderect(i.rect) and type(self) == PC:
+            if newrect.colliderect(i.rect) and self is globalvars.hero:
                 self.get(i)
         for s in globalvars.solidGroup:
             if newrect.colliderect(s.rect) and self.name is not s.name:
@@ -352,7 +357,7 @@ class NPC(pygame.sprite.Sprite):
         self.attacked = False
         return
 
-    def drop(itemname):
+    def drop(self, itemname):
         """Place an item on the ground"""
         globalvars.itemQ.add(Item(itemname))
 

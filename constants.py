@@ -20,6 +20,7 @@ pygame.init()
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 FONT = pygame.font.SysFont(None, 24)
+FONTSMALL = pygame.font.SysFont(None, 20)
 FPS = 60
 TILESIZE = 32
 BOXSIZE = TILESIZE*3
@@ -33,6 +34,7 @@ FLINCHTIMER = 10 # after getting hit, time period of invulnerability
 WAITTIMER = 24 # used for attack waiting time
 ATTACKTIMER = 8 # how long a weapon attack lasts, even number
 GUNTIMER = 80
+POTIONTIMER = 120
 ANIMATETIMER = 20 # used for movement animations
 MINTIME = 30 # time for moving or waiting (sort of like a 'turn')
 MAXTIME = 120
