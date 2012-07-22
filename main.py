@@ -75,6 +75,21 @@ while True:
             if event.key == K_ESCAPE:
                 pygame.quit()
                 sys.exit()
+            elif event.key == K_RETURN:
+                textSurface = FONT.render("PAUSED", True, WHITE, BLACK)
+                rect = textSurface.get_rect()
+                rect.center = CENTERCENTER
+                globalvars.window.blit(textSurface, rect)
+                pygame.display.update()
+                paused = True
+                while paused:
+                    for event in pygame.event.get():
+                        if event.type == QUIT:
+                            pygame.quit()
+                            sys.exit()
+                        elif event.type == KEYDOWN:
+                            if event.key == K_RETURN:
+                                paused = False
 
     # update the sprites
     moveval = globalvars.hero.update()

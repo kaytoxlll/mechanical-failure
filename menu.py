@@ -37,7 +37,7 @@ def draw_hud():
     # draw player stats to left hud
     hudlist = []
     hudlist.append(globalvars.hero.name + "'s stats:")
-    hudlist.append("HP:      " + str(globalvars.hero.hp))
+    hudlist.append("HP:      " + str(globalvars.hero.hp)+" / "+ str(globalvars.hero.hpmax))
     hudlist.append("Coins:   " + str(globalvars.hero.coins))
     hudlist.append("Bullets: " + str(globalvars.hero.ammo))
     hudlist.append("Potions: " + str(globalvars.hero.potions))
@@ -45,7 +45,7 @@ def draw_hud():
         textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
         textRect = textSurface.get_rect()
         globalvars.window.blit(textSurface, (x,y))
-        y += TILESIZE
+        y += TILESIZE/2
     # print gameplay instructions
     y += TILESIZE
     guidelist = []
@@ -57,6 +57,7 @@ def draw_hud():
     guidelist.append("Shoot:        Right-click")
     guidelist.append("Talk / examine: E")
     guidelist.append("Drink potion: SPACE")
+    guidelist.append("Pause:        ENTER")
     guidelist.append("Quit:         ESC")
     for i in guidelist:
         textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
