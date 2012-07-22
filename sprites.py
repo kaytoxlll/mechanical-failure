@@ -358,7 +358,9 @@ class NPC(pygame.sprite.Sprite, object):
 
     def drop(self, itemname):
         """Place an item on the ground"""
-        globalvars.itemQ.add(Item(itemname))
+        item = Item(itemname)
+        globalvars.itemQ.add(item)
+        item.rect.center = self.rect.center
 
     def die(self):
         """The sprite had died.

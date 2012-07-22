@@ -53,7 +53,7 @@ class PC(NPC):
         pressed = pygame.key.get_pressed()
         if pressed[K_SPACE]:
             # drink a potion
-            if self.potions >= 1 and self.potiontimer == 0:
+            if self.potions >= 1 and self.potiontimer == 0 and self.hp < self.hpmax:
                 self.potions -= 1
                 self.hp = self.hpmax
                 self.potiontimer = 1
@@ -93,6 +93,7 @@ class PC(NPC):
 
     def get(self, item):
         """Analyize the item, add it to inventory, destroy it"""
+        sfxPlay("pickup.wav")
         if item.name == "potion":
             self.potions += 1
         elif item.name == "ammo":
