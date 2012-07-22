@@ -6,9 +6,10 @@ self.name = "west"
 self.song = "industrial.mp3"
 self.floor = "boards"
 
-def script():
+def script(self):
     if len(self.currentmap.mobs) == 0:
-        self.currentmap.moveableGroup.empty()
+        for s in self.currentmap.moveableGroup:
+            s.kill()
         return True
     else:
         return False
@@ -27,11 +28,11 @@ self.grid = ["wwwwwwwwwwwwwwww",
              "w..............w",
              "w..............w",
              "d.......b.......",
-             "d...............",
+             "................",
              "w..............w",
              "w..............w",
              "w.....b........w",
-             "w...........r..w",
+             "w..............w",
              "w........b.....w",
-             "w............r.w",
+             "w..............w",
              "wwwwwwwwwwwwwwww",]

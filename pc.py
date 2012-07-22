@@ -2,8 +2,10 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
+import sys
 from constants import *
 from globalvars import *
+from menu import *
 from sprites import *
 from attacks import *
 from vector import Vector
@@ -26,6 +28,15 @@ class PC(NPC):
         self.potions = 3
         self.ammo = 20
         self.coins = 50
+        self.potiontimer = 0
+        self.potiontimermax = POTIONTIMER
+
+    def tick(self):
+        if self.potiontimer == self.potiontimermax:
+            self.potiontimer = 0
+        elif self.potiontimer > 0:
+            self.potiontimer += 1
+        return NPC.tick(self)
 
     def update(self):
         """Update the hero sprite based on the user's iteraction.
@@ -42,9 +53,12 @@ class PC(NPC):
         pressed = pygame.key.get_pressed()
         if pressed[K_SPACE]:
             # drink a potion
-            if self.potions >= 1:
+            print "tryinf to frink", self.potiontimer
+            if self.potions >= 1 and self.potiontimer == 0:
+                print "drinking"
                 self.potions -= 1
                 self.hp = self.hpmax
+                self.potiontimer = 1
         if pressed[K_e]: # examined with 'E'
             aoe = self.space_ahead()
             for s in globalvars.solidGroup:
@@ -92,5 +106,6 @@ class PC(NPC):
     def die(self):
         """Same as sprite.die, but nullify hero globalvar."""
         #global hero
-        globalvars.hero = None
-        NPC.die(self)
+        dialogue("You have died...")
+        pygame.quit()
+        sys.exit()

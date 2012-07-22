@@ -6,7 +6,7 @@ self.name = "east"
 self.song = "industrial.mp3"
 self.floor = "boards"
 
-def script():
+def script(self):
     return True
 self.script = script
 

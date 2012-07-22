@@ -6,7 +6,7 @@ self.name = "start"
 self.song = "industrial.mp3"
 self.floor = "stone"
 
-def script():
+def script(self):
     dialogue("Talk to the woman to receive your quest")
     return True
 self.script = script
