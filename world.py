@@ -36,7 +36,8 @@ KEY = {".":'None',
        "D":'Moveable("doorwide", "terrain")',
        "d":'Moveable("doortall", "terrain")',
        "L":'Locked("lockwide", "terrain")',
-       "l":'Locked("locktall", "terrain")'}
+       "l":'Locked("locktall", "terrain")',
+       "s":'Sign("sign", "terrain", self.sign)'}
 
 class Map():
     """Contains all the info for a reigon of the screen."""
