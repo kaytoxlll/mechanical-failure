@@ -2,7 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-self.type = "sewer"
+self.type = "slum"
 
 def script(self):
     if len(self.currentmap.mobs) == 0:
@@ -17,20 +17,21 @@ self.east = "start"
 self.west = "westend"
 self.north = ""
 self.south = ""
+self.down = "down"
 
 self.grid = ["wwwwwwwwwwwwwwww",
-             "w.......r......w",
+             "w......h.......w",
+             "w..m...........w",
+             "w..............w", 
              "w..............w",
-             "w..........b...w", 
-             "w...b..........w",
              "w..............w",
              "w..............w",
-             "d.......b.......",
+             "d...............",
              "....r...........",
              "w..............w",
              "w..............w",
-             "w.....b........w",
-             "w..............w",
+             "w.........b....w",
+             "w..b...........w",
              "w........b.....w",
              "w..............w",
              "wwwwwwwwwwwwwwww",]
