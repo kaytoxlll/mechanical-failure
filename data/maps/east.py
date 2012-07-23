@@ -4,9 +4,7 @@
 
 self.type = "house"
 
-def script(self):
-    return True
-self.script = script
+self.script = None
 
 self.npcname = "Beth"
 self.npcref = "woman"

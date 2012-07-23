@@ -4,10 +4,7 @@
 
 self.type = "house"
 
-def script(self):
-    dialogue("The theif is dead, yay")
-    return True
-self.script = script
+self.script = None
 
 self.east = ""
 self.west = ""

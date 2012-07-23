@@ -4,10 +4,7 @@
 
 self.type = "slum"
 
-def script(self):
-    dialogue("Talk to the woman to receive your quest")
-    return True
-self.script = script
+self.script = ["Talk to the woman to receive your quest"]
 
 self.npcname = "Anna"
 self.npcref = "woman"

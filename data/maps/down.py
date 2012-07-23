@@ -4,9 +4,7 @@
 
 self.type = "sewer"
 
-def script(self):
-    return True
-self.script = script
+self.script = None
 
 self.east = ""
 self.west = ""

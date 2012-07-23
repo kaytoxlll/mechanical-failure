@@ -4,14 +4,7 @@
 
 self.type = "slum"
 
-def script(self):
-    if len(self.currentmap.mobs) == 0:
-        for s in self.currentmap.moveableGroup:
-            s.kill()
-        return True
-    else:
-        return False
-self.script = script
+self.script = ["doors"]
 
 self.east = "start"
 self.west = "westend"
