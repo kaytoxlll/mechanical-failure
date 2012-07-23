@@ -28,6 +28,7 @@ class PC(NPC):
         self.potions = 3
         self.ammo = 20
         self.coins = 50
+        self.keys = 0
         self.potiontimer = 0
         self.potiontimermax = POTIONTIMER
 
@@ -100,6 +101,8 @@ class PC(NPC):
             self.ammo += 10
         elif item.name == "coin":
             self.coins += 1
+        elif item.name == "key":
+            self.keys += 1
         item.kill()
 
     def die(self):
