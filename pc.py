@@ -55,6 +55,7 @@ class PC(NPC):
         if pressed[K_SPACE]:
             # drink a potion
             if self.potions >= 1 and self.potiontimer == 0 and self.hp < self.hpmax:
+                sfxPlay("healed.wav")
                 self.potions -= 1
                 self.hp = self.hpmax
                 self.potiontimer = 1
