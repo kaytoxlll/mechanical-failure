@@ -2,9 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-self.name = "north"
-self.song = "industrial.mp3"
-self.floor = "boards"
+self.type = "slum"
 
 def script(self):
     if len(self.currentmap.mobs) == 0:

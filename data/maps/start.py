@@ -2,9 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-self.name = "start"
-self.song = "industrial.mp3"
-self.floor = "stone"
+self.type = "slum"
 
 def script(self):
     dialogue("Talk to the woman to receive your quest")

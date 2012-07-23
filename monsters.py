@@ -10,7 +10,7 @@ from random import seed, randint
 class Rat(NPC):
     def __init__(self, pos=(0,0)):
         NPC.__init__(self, "Rat", "rat", pos)
-        self.text.append("Squeak!")
+        self.text = ["Squeak!"]
         self.speed = 3.5
         self.hp = 10
         self.str = 1
@@ -32,7 +32,7 @@ class Rat(NPC):
 class Thief(NPC):
     def __init__(self, pos=(0,0)):
         NPC.__init__(self, "Thief", "thief", pos)
-        self.text.append("Gimme your money!")
+        self.text = ["Gimme your money!"]
         self.speed = 2.5
         self.hp = 20
         self.str = 2

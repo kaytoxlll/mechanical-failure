@@ -2,9 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-self.name = "northend"
-self.song = "industrial.mp3"
-self.floor = "boards"
+self.type = "house"
 
 def script(self):
     dialogue("The theif is dead, yay")

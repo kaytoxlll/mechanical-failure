@@ -21,7 +21,7 @@ script() returns True when it no longer needs to run.
 """
 
 KEY = {".":'None', 
-       "w":'Obstacle("wall", "terrain")', 
+       "w":'Obstacle(self.wall, "terrain")', 
        "b":'Obstacle("barrel", "terrain")', 
        "h":'Obstacle("house1", "terrain")', 
        "r":'Rat()',
@@ -37,8 +37,21 @@ KEY = {".":'None',
 
 class Map():
     """Contains all the info for a reigon of the screen."""
-    def __init__(self, file):
-        execfile(join("data", "maps", file))
+    def __init__(self, filename):
+        execfile(join("data", "maps", filename))
+        self.name = filename[:-3]
+        if self.type == "slum":
+            self.song = "slums.mp3"
+            self.floor = "stone"
+            self.wall = "brick"
+        elif self.type == "house":
+            self.song = "town.mp3"
+            self.floor = "boards"
+            self.wall = "beams"
+        elif self.type == "sewer":
+            self.song = "sewer.mp3"
+            self.floor = "slime"
+            self.wall = "slab"
         #self.name = name
         #self.song = song
         #self.script = script
