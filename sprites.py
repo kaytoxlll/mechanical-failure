@@ -49,6 +49,15 @@ class Obstacle(pygame.sprite.Sprite):
         """PC examined this, don't do anything."""
         return True
 
+class Sign(Obstacle):
+    """Like an obstacle, but with a message"""
+    def __init__(self, name, reference, msg, pos=(0,0), solid=True):
+        Obstacle.__init__(self, name, reference, pos, solid)
+        self.message = msg
+
+    def examine(self):
+        menu.dialogue(self.message)
+
 class Moveable(Obstacle):
     """Obstacle that can be removed by a script"""
     def __init__(self, name, reference, pos=(0,0), solid=True):

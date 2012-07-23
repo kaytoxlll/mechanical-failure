@@ -14,6 +14,8 @@ self.npcref = "woman"
 self.npclines = ["Eeek! Rats in the western warehouse!",
                  "Will you kill them?"]
 
+self.sign = "Item shop"
+
 self.east = "east"
 self.west = "west"
 self.north = "north"
@@ -25,7 +27,7 @@ self.grid = ["wwwwwww..wwwwwww",
              "w............c.w", 
              "w...........cc.w",
              "w..............w",
-             "w..............w",
+             "w.............sw",
              "...............l",
              "................",
              "w..............w",
