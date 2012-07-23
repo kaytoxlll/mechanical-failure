@@ -55,7 +55,18 @@ class Moveable(Obstacle):
         Obstacle.__init__(self, name, reference, pos, solid)
 
     def examine(self):
-        return menu.dialogue("This door seems locked by a mechanism")
+        return menu.dialogue("This door is shut tight...")
+
+class Locked(Obstacle):
+    """Obstacle that can be removed with a key"""
+    def __init__(self, name, reference, pos=(0,0), solid=True):
+        Obstacle.__init__(self, name, reference, pos, solid)
+
+    def examine(self):
+        if globalvars.hero.keys < 1:
+            return menu.dialogue("You need a key to open this door.")
+        globalvars.hero.keys -= 1
+        self.kill()
 
 class Item(Obstacle):
     """A coin, box of ammo, potion, etc."""

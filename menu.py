@@ -41,6 +41,7 @@ def draw_hud():
     hudlist.append("Coins:   " + str(globalvars.hero.coins))
     hudlist.append("Bullets: " + str(globalvars.hero.ammo))
     hudlist.append("Potions: " + str(globalvars.hero.potions))
+    hudlist.append("Keys:    " + str(globalvars.hero.keys))
     for i in hudlist:
         textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
         textRect = textSurface.get_rect()

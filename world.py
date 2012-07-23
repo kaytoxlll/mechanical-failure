@@ -30,10 +30,13 @@ KEY = {".":'None',
        "p":'Item("potion")',
        "a":'Item("ammo")',
        "c":'Item("coin")',
+       "k":'Item("key")',
        "P":'ShopItem("potion", 20)',
        "A":'ShopItem("ammo", 10)',
        "D":'Moveable("doorwide", "terrain")',
-       "d":'Moveable("doortall", "terrain")'}
+       "d":'Moveable("doortall", "terrain")',
+       "L":'Locked("lockwide", "terrain")',
+       "l":'Locked("locktall", "terrain")'}
 
 class Map():
     """Contains all the info for a reigon of the screen."""
