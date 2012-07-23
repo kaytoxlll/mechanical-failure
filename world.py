@@ -44,8 +44,11 @@ KEY = {".":'None',
 class Map():
     """Contains all the info for a reigon of the screen."""
     def __init__(self, filename):
+        self.script = None
+        self.scriptdone = False
         execfile(join("data", "maps", filename))
         self.name = filename[:-3]
+        # set area type variables
         if self.type == "slum":
             self.song = "slums.mp3"
             self.floor = "stone"
@@ -58,15 +61,17 @@ class Map():
             self.song = "sewer.mp3"
             self.floor = "slime"
             self.wall = "slab"
-        #self.name = name
-        #self.song = song
-        #self.script = script
+        # set script variables
+        self.scripttext = []
+        if self.script is not None:
+            if self.script[0] == "doors":
+                self.script = self.doorscript
+            else:
+                self.scripttext = self.script
+                self.script = self.dialoguescript
+        else:
+            self.scriptdone = True
         self.floor = globalvars.images["terrain" + self.floor]
-        #self.east = east
-        #self.west = west
-        #self.north = north
-        #self.south = south
-        self.scriptdone = False
         self.obstacles = pygame.sprite.Group()
         self.moveableGroup = pygame.sprite.Group()
         self.mobs = pygame.sprite.Group()
@@ -95,6 +100,23 @@ class Map():
                 x += TILESIZE
             y += TILESIZE
             x = CENTERXSTART
+
+    """Map scripts all return True when the script no longer needs
+    to execute, and return False if the script still needs to run each turn.
+    """
+    def dialoguescript(self):
+        for line in self.scripttext:
+            menu.dialogue(line)
+        return True
+
+    def doorscript(self):
+        """when all the enemies are killed, open the doors"""
+        if len(self.mobs) == 0:
+            for s in self.moveableGroup:
+                s.kill()
+            return True
+        else:
+            return False
 
 class World():
     """Contains all the maps, notable the current map."""
@@ -161,7 +183,7 @@ class World():
         """Update all the mob sprites, run script"""
         self.currentmap.mobs.update()
         if not self.currentmap.scriptdone:
-            self.currentmap.scriptdone = self.currentmap.script(self)
+            self.currentmap.scriptdone = self.currentmap.script()
 
     def draw(self, window):
         """Draw the floor, obstacles, background (blood), and mobs"""
