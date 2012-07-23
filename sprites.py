@@ -49,6 +49,18 @@ class Obstacle(pygame.sprite.Sprite):
         """PC examined this, don't do anything."""
         return True
 
+class Transition(Obstacle):
+    """Like a ladder or manhole"""
+    def __init__(self, name, reference, direction, pos=(0,0), solid=False):
+        Obstacle.__init__(self, name, reference, pos, solid)
+        self.direction = direction # "up" or "down"
+
+    def examine(self):
+        if self.name == "ladder":
+            return menu.dialogue("Climb the ladder?")
+        elif self.name == "manhole":
+            return menu.dialogue("Enter the manhole?")
+
 class Sign(Obstacle):
     """Like an obstacle, but with a message"""
     def __init__(self, name, reference, msg, pos=(0,0), solid=True):

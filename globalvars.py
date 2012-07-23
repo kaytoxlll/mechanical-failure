@@ -7,7 +7,7 @@ from images import *
 from pc import PC
 
 # global pygame thingies
-window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT), FULLSCREEN)
 
 # global images
 images = loadAllImages()

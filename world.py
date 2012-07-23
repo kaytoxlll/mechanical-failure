@@ -37,7 +37,9 @@ KEY = {".":'None',
        "d":'Moveable("doortall", "terrain")',
        "L":'Locked("lockwide", "terrain")',
        "l":'Locked("locktall", "terrain")',
-       "s":'Sign("sign", "terrain", self.sign)'}
+       "s":'Sign("sign", "terrain", self.sign)',
+       "m":'Transition("manhole", "terrain", "down")',
+       "e":'Transition("ladder", "terrain", "up")'}
 
 class Map():
     """Contains all the info for a reigon of the screen."""
@@ -87,6 +89,9 @@ class Map():
                 elif isinstance(sprite, NPC):
                     sprite.rect.topleft = (x,y)
                     self.mobs.add(sprite)
+                elif isinstance(sprite, Transition):
+                    sprite.rect.topleft = (x,y)
+                    self.obstacles.add(sprite)
                 x += TILESIZE
             y += TILESIZE
             x = CENTERXSTART
@@ -125,6 +130,18 @@ class World():
         elif herofromdirection == "west": # starts east
             self.currentmap = self.maps[self.currentmap.west]
             globalvars.hero.rect.topleft = (CENTERXEND-TILESIZE, CENTERY-TILESIZE/2)
+        elif herofromdirection == "down":
+            self.currentmap = self.maps[self.currentmap.down]
+            globalvars.hero.rect.center = CENTERCENTER
+            for s in self.currentmap.obstacles:
+                if isinstance(s, Transition):
+                    globalvars.hero.rect = s.rect.move(0, TILESIZE)
+        elif herofromdirection == "up":
+            self.currentmap = self.maps[self.currentmap.up]
+            globalvars.hero.rect.center = CENTERCENTER
+            for s in self.currentmap.obstacles:
+                if isinstance(s, Transition):
+                    globalvars.hero.rect = s.rect.move(0, TILESIZE)
         else:
             globalvars.hero.rect.center = CENTERCENTER
         self.music.play(self.currentmap.song)

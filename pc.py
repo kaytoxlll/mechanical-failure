@@ -63,6 +63,8 @@ class PC(NPC):
             for s in globalvars.solidGroup:
                 if aoe.colliderect(s.rect) and s.name is not self.name:
                     choice = s.examine()
+                    if choice and isinstance(s, Transition):
+                        return s.direction
         if pressed[K_a]: # left
             x = -1
             self.facing = "left"
