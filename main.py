@@ -32,6 +32,7 @@ while True:
                 pygame.quit()
                 sys.exit()
             elif event.key == K_RETURN:
+                world.music.pause()
                 textSurface = FONT.render("PAUSED", True, WHITE, BLACK)
                 rect = textSurface.get_rect()
                 rect.center = CENTERCENTER
@@ -46,6 +47,7 @@ while True:
                         elif event.type == KEYDOWN:
                             if event.key == K_RETURN:
                                 paused = False
+                                world.music.unpause()
 
     # update the sprites
     moveval = globalvars.hero.update()

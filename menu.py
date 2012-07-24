@@ -126,6 +126,15 @@ def dialogue(text):
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+                elif event.key == K_RETURN:
+                    if not choice:
+                        return True
+                elif event.key == K_y:
+                    if choice:
+                        return True
+                elif event.key == K_n:
+                    if choice:
+                        return False
             elif event.type == MOUSEBUTTONDOWN:
                 (x,y) = pygame.mouse.get_pos()
                 if choice:

@@ -9,7 +9,7 @@
 from constants import *
 import globalvars
 from vector import Vector
-from sprites import *
+import sprites
 import pygame
 
 class Attack(pygame.sprite.Sprite):
@@ -154,6 +154,8 @@ class Shot(pygame.sprite.Sprite):
         for s in pygame.sprite.spritecollide(self, globalvars.solidGroup, False):
             # handle the first target hit by the shot
             if s.name is not self.name and not issubclass(type(s), Attack):
+                if isinstance(s, sprites.Obstacle) and s.solid is False:
+                    continue
                 s.hit(self, self.npc.rect.center)
                 self.kill()
                 return
