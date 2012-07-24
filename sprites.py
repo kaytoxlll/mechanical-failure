@@ -56,10 +56,11 @@ class Transition(Obstacle):
         self.direction = direction # "up" or "down"
 
     def examine(self):
-        if self.name == "ladder":
-            return menu.dialogue("Climb the ladder?")
-        elif self.name == "manhole":
-            return menu.dialogue("Enter the manhole?")
+        return True
+        if self.name == "ladderup":
+            return menu.dialogue("Climb up?")
+        elif self.name == "ladderdown":
+            return menu.dialogue("Climb down?")
 
 class Sign(Obstacle):
     """Like an obstacle, but with a message"""
@@ -97,7 +98,7 @@ class Item(Obstacle):
 
 class ShopItem(Item):
     """Like an item, but examined and bought instead of picked up"""
-    def __init__(self, name, price, pos=(0,0), solid=True):
+    def __init__(self, name, price, pos=(0,0), solid=False):
         Item.__init__(self, name, pos, solid)
         self.price = price
 

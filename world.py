@@ -21,26 +21,35 @@ script() returns True when it no longer needs to run.
 """
 
 KEY = {".":'None', 
-       "w":'Obstacle(self.wall, "terrain")', 
-       "b":'Obstacle("barrel", "terrain")', 
-       "h":'Obstacle("house1", "terrain")', 
-       "r":'Rat()',
-       "t":'Thief()',
-       "n":'NPC(self.npcname, self.npcref, (0,0), self.npclines)',
-       "p":'Item("potion")',
-       "a":'Item("ammo")',
-       "c":'Item("coin")',
-       "k":'Item("key")',
-       "P":'ShopItem("potion", 20)',
-       "A":'ShopItem("ammo", 10)',
+       "W":'Obstacle(self.wall, "terrain")', 
+       "B":'Obstacle("barrel", "terrain")',
+       "O":'Obstacle("box", "terrain")',
+       "T":'Obstacle("toxicbarrel", "terrain")',
+       "H":'Obstacle("house1", "terrain")',
+       "C":'Obstacle("counter", "terrain")',
+       "S":'Obstacle("sludge", "terrain", solid=False)',
+       "M":'Obstacle("moat", "terrain", solid=False)',
        "D":'Moveable("doorwide", "terrain")',
        "d":'Moveable("doortall", "terrain")',
        "L":'Locked("lockwide", "terrain")',
        "l":'Locked("locktall", "terrain")',
-       "s":'Sign("sign", "terrain", self.sign)',
-       "m":'Transition("manhole", "terrain", "down")',
-       "e":'Transition("ladder", "terrain", "up")'}
-
+       "#":'Sign("sign", "terrain", self.sign)',
+       "<":'Transition("ladderdown", "terrain", "down")',
+       ">":'Transition("ladderup", "terrain", "up")',
+       "P":'ShopItem("potion", 20)',
+       "A":'ShopItem("ammo", 10)',
+       "p":'Item("potion")',
+       "b":'Item("powerbar")',
+       "a":'Item("ammo")',
+       "c":'Item("coin")',
+       "h":'Item("chest")',
+       "k":'Item("key")',
+       "w":'Item("wrench")',
+       "g":'Item("gun")',
+       "r":'Rat()',
+       "t":'Thief()',
+       "n":'NPC(self.npcname, self.npcref, (0,0), self.npclines)'}
+       
 class Map():
     """Contains all the info for a reigon of the screen."""
     def __init__(self, filename):
@@ -82,21 +91,23 @@ class Map():
         for line in self.grid:
             for char in line:
                 sprite = eval(KEY[char])
-                if type(sprite) == Item:
+                if isinstance(sprite, Item):
                     sprite.rect.topleft = (x,y)
                     self.itemGroup.add(sprite)
                 elif type(sprite) == Moveable:
                     sprite.rect.topleft = (x,y)
                     self.moveableGroup.add(sprite)
-                elif isinstance(sprite, Obstacle):
-                    sprite.rect.topleft = (x,y)
-                    self.obstacles.add(sprite)
                 elif isinstance(sprite, NPC):
                     sprite.rect.topleft = (x,y)
                     self.mobs.add(sprite)
                 elif isinstance(sprite, Transition):
                     sprite.rect.topleft = (x,y)
                     self.obstacles.add(sprite)
+                elif isinstance(sprite, Obstacle):
+                    sprite.rect.topleft = (x,y)
+                    self.obstacles.add(sprite)
+                elif char is not ".":
+                    print "Error: unknown sprite type:", char
                 x += TILESIZE
             y += TILESIZE
             x = CENTERXSTART
@@ -126,7 +137,7 @@ class World():
         maplist = listdir(path)
         for m in maplist:
             self.maps[m[:-3]] = Map(m)
-        self.currentmap = self.maps["start"]
+        self.currentmap = self.maps["template"]
         self.music = MusicPlayer(self.currentmap.song)
         globalvars.solidGroup.add(self.currentmap.obstacles)
         globalvars.solidGroup.add(self.currentmap.moveableGroup)

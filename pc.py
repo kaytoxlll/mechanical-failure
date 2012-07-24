@@ -21,8 +21,8 @@ class PC(NPC):
         self.hpmax = 30
         self.str = 3
         self.dex = 3
-        self.weapon = "wrench"
-        self.gun = "gun"
+        self.weapon = None
+        self.gun = None
         self.sfxhurt = "malehurt.wav"
         self.sfxdead = "maledead.wav"
         self.potions = 3
@@ -84,9 +84,9 @@ class PC(NPC):
             self.moving = True
         # perform actions for mouse buttons pressed
         (mousebutton1, mousebutton2, mousebutton3) = pygame.mouse.get_pressed()
-        if mousebutton1:
+        if mousebutton1 and self.weapon is not None:
             self.mattack()
-        if mousebutton3:
+        if mousebutton3 and self.gun is not None:
             self.rattack()
         # update movement rectangle
         vect = Vector(x, y)
@@ -100,12 +100,24 @@ class PC(NPC):
         sfxPlay("pickup.wav")
         if item.name == "potion":
             self.potions += 1
+        elif item.name == "powerbar":
+            self.hpmax += 10
+            self.hp = self.hpmax
         elif item.name == "ammo":
             self.ammo += 10
         elif item.name == "coin":
             self.coins += 1
+        elif item.name == "chest":
+            self.coins += 10
         elif item.name == "key":
             self.keys += 1
+        elif item.name == "wrench":
+            menu.dialogue("You got a wrench!  Left-click to swing away!")
+            self.weapon = "wrench"
+        elif item.name == "gun":
+            menu.dialogue("You got a gun!  Aim it with the cursor, fire with right-click!")
+            menu.dialogue("You can only fire the gun if you have bullets.")
+            self.gun = "gun"
         item.kill()
 
     def die(self):
