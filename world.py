@@ -10,6 +10,7 @@ from music import *
 from os import getcwd, listdir
 from os.path import join
 import pygame
+from random import seed, randint
 
 """This file defines variables used by the rest of the game:
 currentmap = The current terrain/mobs on the screen, using:
@@ -20,12 +21,13 @@ Scripts use the scriptdone boolean to know when to stop running the script.
 script() returns True when it no longer needs to run.
 """
 
-KEY = {".":'None', 
+KEY = {".":'None',
+       "~":'Obstacle(self.water, "terrain", solid=False)',
        "W":'Obstacle(self.wall, "terrain")', 
-       "B":'Obstacle("barrel", "terrain")',
-       "O":'Obstacle("box", "terrain")',
-       "T":'Obstacle("toxicbarrel", "terrain")',
-       "H":'Obstacle("house1", "terrain")',
+       "B":'Obstacle("barrel" + str(mod), "terrain")',
+       "O":'Obstacle("box" + str(mod), "terrain")',
+       "T":'Obstacle("toxicbarrel" + str(mod), "terrain")',
+       "H":'Obstacle("house" + str(mod), "terrain")',
        "C":'Obstacle("counter", "terrain")',
        "S":'Obstacle("sludge", "terrain", solid=False)',
        "M":'Obstacle("moat", "terrain", solid=False)',
@@ -64,14 +66,17 @@ class Map():
             self.song = "slums.mp3"
             self.floor = "stone"
             self.wall = "brick"
+            self.water = "water"
         elif self.type == "house":
             self.song = "town.mp3"
             self.floor = "boards"
             self.wall = "beams"
+            self.water = "water"
         elif self.type == "sewer":
             self.song = "sewer.mp3"
             self.floor = "slime"
             self.wall = "slab"
+            self.water = "sewage"
         # set script variables
         self.scripttext = []
         if self.script is not None:
@@ -92,6 +97,7 @@ class Map():
         y = CENTERYSTART
         for line in self.grid:
             for char in line:
+                mod = randint(1,2)
                 sprite = eval(KEY[char])
                 if type(sprite) == Item:
                     sprite.rect.topleft = (x,y)
@@ -134,6 +140,7 @@ class Map():
 class World():
     """Contains all the maps, notable the current map."""
     def __init__(self):
+        seed()
         self.maps = {}
         path = join(getcwd(), "data", "maps")
         maplist = listdir(path)
@@ -179,6 +186,10 @@ class World():
                     globalvars.hero.rect = s.rect.move(0, TILESIZE)
         else:
             globalvars.hero.rect.center = CENTERCENTER
+        # remove any obstacles the hero intersects with
+        pygame.sprite.spritecollide(globalvars.hero, self.currentmap.obstacles, True)
+        pygame.sprite.spritecollide(globalvars.hero, self.currentmap.moveableGroup, True)
+        #set up music and groups
         self.music.play(self.currentmap.song)
         globalvars.solidGroup.empty()
         globalvars.solidGroup.add(self.currentmap.obstacles)
