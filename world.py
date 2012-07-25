@@ -160,6 +160,7 @@ class World():
         """Load the contents for the next map area.
         Positions the hero based on his direction ("north", etc).
         """
+        globalvars.attackGroup.empty()
         if herofromdirection == "north": # starts south
             self.currentmap = self.maps[self.currentmap.north]
             globalvars.hero.rect.topleft = (CENTERX-TILESIZE/2, CENTERYEND-TILESIZE)

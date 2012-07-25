@@ -225,4 +225,4 @@ class Attacking(State):
 
     def entryActions(self):
         seed()
-        self.attacktimes = randint(1, 10)
+        self.attacktimes = randint(1, 3)

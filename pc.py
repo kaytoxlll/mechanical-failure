@@ -16,7 +16,7 @@ class PC(NPC):
     """
     def __init__(self, name, pos):
         NPC.__init__(self, name, "hero", pos)
-        self.startloc = "sewerW2"
+        self.startloc = "sewerCenter"
         self.speed = 2.5
         self.hp = 30
         self.hpmax = 30
