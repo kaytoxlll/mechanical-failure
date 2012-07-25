@@ -79,6 +79,5 @@ while True:
     draw_hud()
     world.draw(globalvars.window)
     globalvars.heroGroup.draw(globalvars.window)
-    globalvars.attackGroup.draw(globalvars.window)
     pygame.display.update()
     clock.tick(FPS)

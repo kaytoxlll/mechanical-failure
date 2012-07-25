@@ -9,6 +9,7 @@
 from constants import *
 import globalvars
 from vector import Vector
+import menu
 import sprites
 import pygame
 
@@ -121,6 +122,72 @@ class RangedAttack(Attack):
         """
         #global images
         self.image = globalvars.images[self.ref + self.npc.facing]
+
+class Bomb(pygame.sprite.Sprite):
+    """Sprite for a bomb about to explode"""
+    def __init__(self, npc):
+        pygame.sprite.Sprite.__init__(self)
+        self.npc = npc
+        self.name = npc.name
+        self.damage = 0
+        self.image = globalvars.images["ammo" + "bomb1"]
+        self.rect = self.image.get_rect()
+        self.rect.center = npc.space_ahead().center
+        self.timermax = 60 # frames
+        self.timer = 0 # count up to timermax, change image each 10
+
+    def examine(self):
+        menu.dialogue("It's about to explode!")
+        return True
+
+    def update(self):
+        """Increment timer, changing image each 10 frames.
+        When timer reaches max, create Explosion.
+        """
+        if self.timer == 20:
+            self.image = globalvars.images["ammo" + "bomb2"]
+        elif self.timer == 40:
+            self.image = globalvars.images["ammo" + "bomb3"]
+        elif self.timer >= self.timermax:
+            sfxPlay("explosion.wav")
+            self.kill()
+            globalvars.attackQ.add(Explosion(self))
+        self.timer += 1
+
+    def hit(self, attack, frompoint):
+        """detonate now"""
+        self.timer = self.timermax
+        return True
+
+class Explosion(pygame.sprite.Sprite):
+    """Explosion from a bomb"""
+    def __init__(self, bomb):
+        pygame.sprite.Sprite.__init__(self)
+        self.name = "explosion"
+        self.damage = 10
+        self.image = globalvars.images["ammo" + "explosion1"]
+        self.rect = self.image.get_rect()
+        self.rect.center = bomb.rect.center
+        self.timermax = 10
+        self.timer = 0
+
+    def examine(self):
+        return True
+
+    def update(self):
+        for s in pygame.sprite.spritecollide(self, globalvars.solidGroup, False):
+            if isinstance(s, sprites.NPC):
+                s.hit(self, self.rect.center, knockback=10)
+            elif type(s) is sprites.Explodeable:
+                s.kill()
+        if self.timer == 5:
+            self.image = globalvars.images["ammo" + "explosion2"]
+        elif self.timer == self.timermax:
+            self.kill()
+        self.timer += 1
+
+    def hit(self, attack, frompoint):
+        return False
 
 class Shot(pygame.sprite.Sprite):
     """Sprite for a projectile, like a bullet.
