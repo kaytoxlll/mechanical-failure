@@ -30,7 +30,7 @@ DIAGONAL = 0.707106781187 # (1,1) vector normalized
 
 # sprite constants
 KNOCKBACK = 5
-FLINCHTIMER = 10 # after getting hit, time period of invulnerability
+FLINCHTIMER = 60 # after getting hit, time period of invulnerability
 WAITTIMER = 24 # used for attack waiting time
 ATTACKTIMER = 8 # how long a weapon attack lasts, even number
 GUNTIMER = 80

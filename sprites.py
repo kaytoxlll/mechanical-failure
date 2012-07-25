@@ -311,7 +311,8 @@ class NPC(pygame.sprite.Sprite, object):
             if newrect.colliderect(i.rect) and self is globalvars.hero:
                 self.get(i)
         for s in globalvars.solidGroup:
-            if newrect.colliderect(s.rect) and self.name is not s.name:
+            if newrect.colliderect(s.rect) and self.name is not s.name and \
+               globalvars.attackGroup.has(s) is not True:
                 self.moving = False
                 return s.name
         self.rect = newrect
