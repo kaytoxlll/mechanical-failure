@@ -56,7 +56,6 @@ class Transition(Obstacle):
         self.direction = direction # "up" or "down"
 
     def examine(self):
-        return True
         if self.name == "ladderup":
             return menu.dialogue("Climb up?")
         elif self.name == "ladderdown":
