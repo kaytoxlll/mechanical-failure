@@ -137,7 +137,7 @@ class World():
         maplist = listdir(path)
         for m in maplist:
             self.maps[m[:-3]] = Map(m)
-        self.currentmap = self.maps["template"]
+        self.currentmap = self.maps["start"]
         self.music = MusicPlayer(self.currentmap.song)
         globalvars.solidGroup.add(self.currentmap.obstacles)
         globalvars.solidGroup.add(self.currentmap.moveableGroup)
