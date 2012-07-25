@@ -16,27 +16,35 @@ class PC(NPC):
     """
     def __init__(self, name, pos):
         NPC.__init__(self, name, "hero", pos)
+        self.startloc = "glavosNE"
         self.speed = 2.5
         self.hp = 30
         self.hpmax = 30
         self.str = 3
         self.dex = 3
-        self.weapon = None
-        self.gun = None
+        self.weapon = "wrench"
+        self.gun = "gun"
         self.sfxhurt = "malehurt.wav"
         self.sfxdead = "maledead.wav"
         self.potions = 3
         self.ammo = 20
+        self.bombs = 50
         self.coins = 50
-        self.keys = 0
+        self.keys = 1
         self.potiontimer = 0
         self.potiontimermax = POTIONTIMER
+        self.bombtimermax = 360
+        self.bombtimer = 0
 
     def tick(self):
         if self.potiontimer == self.potiontimermax:
             self.potiontimer = 0
         elif self.potiontimer > 0:
             self.potiontimer += 1
+        if self.bombtimer == self.bombtimermax:
+            self.bombtimer = 0
+        elif self.bombtimer > 0:
+            self.bombtimer += 1
         return NPC.tick(self)
 
     def update(self):
@@ -66,6 +74,12 @@ class PC(NPC):
                     choice = s.examine()
                     if choice and isinstance(s, Transition):
                         return s.direction
+        if pressed[K_q]:
+            # drop a bomb
+            if self.bombs > 0 and self.bombtimer == 0:
+                self.bombs -= 1
+                globalvars.attackQ.add(Bomb(self))
+                self.bombtimer = 1
         if pressed[K_a]: # left
             x = -1
             self.facing = "left"
@@ -105,6 +119,8 @@ class PC(NPC):
             self.hp = self.hpmax
         elif item.name == "ammo":
             self.ammo += 10
+        elif item.name == "bomb":
+            self.bombs += 1
         elif item.name == "coin":
             self.coins += 1
         elif item.name == "chest":

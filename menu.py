@@ -40,6 +40,7 @@ def draw_hud():
     hudlist.append("HP:      " + str(globalvars.hero.hp)+" / "+ str(globalvars.hero.hpmax))
     hudlist.append("Coins:   " + str(globalvars.hero.coins))
     hudlist.append("Bullets: " + str(globalvars.hero.ammo))
+    hudlist.append("Bombs:   " + str(globalvars.hero.bombs))
     hudlist.append("Potions: " + str(globalvars.hero.potions))
     hudlist.append("Keys:    " + str(globalvars.hero.keys))
     for i in hudlist:
@@ -50,21 +51,22 @@ def draw_hud():
     # print gameplay instructions
     y += TILESIZE
     guidelist = []
-    guidelist.append("Move up:      W")
-    guidelist.append("Move left:    A")
-    guidelist.append("Move down:    S")
-    guidelist.append("Move right:   D")
-    guidelist.append("Attack:       Left-click")
-    guidelist.append("Shoot:        Right-click")
+    guidelist.append("Move up:        W")
+    guidelist.append("Move left:      A")
+    guidelist.append("Move down:      S")
+    guidelist.append("Move right:     D")
+    guidelist.append("Attack:         Left-click")
+    guidelist.append("Shoot:          Right-click")
     guidelist.append("Talk / examine: E")
-    guidelist.append("Drink potion: SPACE")
-    guidelist.append("Pause:        ENTER")
-    guidelist.append("Quit:         ESC")
+    guidelist.append("Place bomb:     Q")
+    guidelist.append("Drink potion:   SPACE")
+    guidelist.append("Pause:          ENTER")
+    guidelist.append("Quit:           ESC")
     for i in guidelist:
         textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
         textRect = textSurface.get_rect()
         globalvars.window.blit(textSurface, (x,y))
-        y += TILESIZE
+        y += TILESIZE/2
     # draw npc hp to right hud
     x = RBORDERXSTART + TILESIZE
     y = BORDERYSTART + TILESIZE

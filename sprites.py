@@ -89,6 +89,15 @@ class Locked(Obstacle):
         globalvars.hero.keys -= 1
         self.kill()
 
+class Explodeable(Obstacle):
+    """Obstacle that can be destroyed by a bomb"""
+    def __init__(self, name, reference, pos=(0,0), solid=True):
+        Obstacle.__init__(self, name, reference, pos, solid)
+
+    def examine(self):
+        return menu.dialogue("This wall looks weak...")
+        
+
 class Item(Obstacle):
     """A coin, box of ammo, potion, etc."""
     def __init__(self, name, pos=(0,0), solid=False):
@@ -224,7 +233,7 @@ class NPC(pygame.sprite.Sprite, object):
         globalvars.attackQ.add(newshot)
         return
 
-    def hit(self, attack, frompoint):
+    def hit(self, attack, frompoint, knockback=5):
         """Just got attacked.
         Returns True if the attack hit, else False
         """
@@ -241,7 +250,7 @@ class NPC(pygame.sprite.Sprite, object):
             self.attacked = True
             sfxPlay(self.sfxhurt)
             vect = Vector.from_points(frompoint, self.rect.center)
-            self.knockback(vect, attack)
+            self.knockback(vect, attack, knockback)
         return True
 
     def knockback(self, vector, attack, velocity=5):

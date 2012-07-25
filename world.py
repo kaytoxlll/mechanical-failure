@@ -33,6 +33,7 @@ KEY = {".":'None',
        "d":'Moveable("doortall", "terrain")',
        "L":'Locked("lockwide", "terrain")',
        "l":'Locked("locktall", "terrain")',
+       "E":'Explodeable(self.wall+"weak", "terrain")',
        "#":'Sign("sign", "terrain", self.sign)',
        "<":'Transition("ladderdown", "terrain", "down")',
        ">":'Transition("ladderup", "terrain", "up")',
@@ -41,6 +42,7 @@ KEY = {".":'None',
        "p":'Item("potion")',
        "b":'Item("powerbar")',
        "a":'Item("ammo")',
+       "o":'Item("bomb")',
        "c":'Item("coin")',
        "h":'Item("chest")',
        "k":'Item("key")',
@@ -137,7 +139,7 @@ class World():
         maplist = listdir(path)
         for m in maplist:
             self.maps[m[:-3]] = Map(m)
-        self.currentmap = self.maps["start"]
+        self.currentmap = self.maps[globalvars.hero.startloc]
         self.music = MusicPlayer(self.currentmap.song)
         globalvars.solidGroup.add(self.currentmap.obstacles)
         globalvars.solidGroup.add(self.currentmap.moveableGroup)
@@ -197,7 +199,7 @@ class World():
             self.currentmap.scriptdone = self.currentmap.script()
 
     def draw(self, window):
-        """Draw the floor, obstacles, background (blood), and mobs"""
+        """Draw the floor, obstacles, background (blood), attacks, and mobs"""
         # draw the ground
         x = CENTERXSTART
         y = CENTERYSTART
@@ -215,4 +217,5 @@ class World():
         self.currentmap.backgroundGroup.draw(globalvars.window)
         self.currentmap.moveableGroup.draw(globalvars.window)
         self.currentmap.itemGroup.draw(globalvars.window)
+        globalvars.attackGroup.draw(globalvars.window)
         self.currentmap.mobs.draw(globalvars.window)
