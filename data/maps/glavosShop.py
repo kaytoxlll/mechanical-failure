@@ -11,7 +11,7 @@ self.type = "house"
 
 self.npcname = "Sally"
 self.npcref = "woman"
-self.npclines = ["Lost and found? Thats upstairs."]
+self.npclines = ["Lost and found? That's upstairs."]
 
 #self.sign = ""
 

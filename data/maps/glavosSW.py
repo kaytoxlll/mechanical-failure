@@ -12,7 +12,7 @@ self.type = "slum"
 self.npcname = "Tanya"
 self.npcref = "girl"
 self.npclines = ["If you get hurt, use a potion with SPACEBAR!",
-                 "If you don't have a potion, you can buy one at the shop",
+                 "If you don't have a potion, go to the shop.",
                  "The shop is to the east of here."]
 
 #self.sign = ""
@@ -28,8 +28,8 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W........H.....W",
              "W.B............W",
              "W..............W",
-             "W...........n..W",
              "W..............W",
+             "W...........n..W",
              "W.H............W",
              "................",
              "................",

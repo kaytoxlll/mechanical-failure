@@ -91,7 +91,7 @@ class Map():
         for line in self.grid:
             for char in line:
                 sprite = eval(KEY[char])
-                if isinstance(sprite, Item):
+                if type(sprite) == Item:
                     sprite.rect.topleft = (x,y)
                     self.itemGroup.add(sprite)
                 elif type(sprite) == Moveable:

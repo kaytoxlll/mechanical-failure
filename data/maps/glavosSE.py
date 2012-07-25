@@ -17,7 +17,7 @@ self.sign = "Sally's Item Shop"
 
 self.east = "glavosShop"
 self.west = "glavosS"
-self.north = ""
+self.north = "glavosE"
 self.south = ""
 self.up = "glavosE"
 self.down = ""
@@ -28,7 +28,7 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W...........O..W",
              "W..............W",
              "W.........O....W",
-             "W..............W",
+             "W............#.W",
              "................",
              "................",
              "W..............W",
