@@ -9,11 +9,12 @@ self.type = "sewer"
 #self.script = ["doors"]
 #self.script = [""]
 
-#self.npcname = ""
-#self.npcref = ""
-#self.npclines = [""]
+self.npcname = "Smitty"
+self.npcref = "thief"
+self.npclines = ["Hey, what'r you doin' here?",
+                 "Well, I guess you can shop..."]
 
-#self.sign = ""
+self.sign = "Sewer Black Market"
 
 self.east = "sewerN2"
 self.west = ""
@@ -24,17 +25,17 @@ self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
              "W.........p....W",
-             "W.aa...t..p....W",
+             "W.aa...t..p.h..W",
              "W.............bW",
              "WWWWWSS..SSWWWWW",
              "W..............W",
              "W..............W",
-             "W...T...........",
+             "W...O...........",
              "W...............",
-             "W..c.....T.....W",
-             "W..cc..........W",
+             "W........O.....W",
+             "W.#............W",
              "W..............W",
-             "W......T.......W",
-             "W..........h...W",
+             "W....CA.CA.CA.BW",
              "W..............W",
+             "W...........n..W",
              "WWWWWWWWWWWWWWWW",]

@@ -6,8 +6,8 @@
 #self.type = "house"
 self.type = "sewer"
 
-#self.script = ["doors"]
-self.script = ["Thats the end so far, thanks for playing!"]
+self.script = ["doors"]
+#self.script = [""]
 
 #self.npcname = ""
 #self.npcref = ""
@@ -15,7 +15,7 @@ self.script = ["Thats the end so far, thanks for playing!"]
 
 #self.sign = ""
 
-self.east = ""
+self.east = "sewerE2"
 self.west = "sewerCenter"
 self.north = ""
 self.south = ""
@@ -23,18 +23,18 @@ self.up = ""
 self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "...............W",
-             "...............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
+             "WSSSSSSSSSSSSSSW",
+             "W~~~~.......~~~W",
+             "W~~~~.......~~~W",
+             "W~~~~..~~~..~~~W",
+             "W~~~~..~~~..~~~W",
+             "W~~~~..~~~..~~~W",
+             ".......~~~.....d",
+             ".......~~~...r..",
+             "W~~~~~~~~~..~~~W",
+             "W~~~~~~~~~..~~~W",
+             "W~~.c.~~~~..~~~W",
+             "W~~cp.......~~~W",
+             "W~~.........~~~W",
+             "W~~~~~~~~~~~~~~W",
              "WWWWWWWWWWWWWWWW",]
