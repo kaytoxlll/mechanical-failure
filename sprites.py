@@ -64,6 +64,10 @@ class Obstacle(pygame.sprite.Sprite):
                     return s.examine()
         return True
 
+class Floor(Obstacle):
+    def __init__(self, name, reference, pos=(0,0), solid=False):
+        Obstacle.__init__(self, name, reference, pos, solid)
+
 class Transition(Obstacle):
     """Like a ladder or manhole"""
     def __init__(self, name, reference, direction, pos=(0,0), solid=False):
