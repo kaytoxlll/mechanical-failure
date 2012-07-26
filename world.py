@@ -4,7 +4,7 @@
 
 import globalvars
 from menu import *
-from sprites import *
+import sprites
 from monsters import *
 from music import *
 from os import getcwd, listdir
@@ -94,13 +94,18 @@ class Map():
         self.mobs = pygame.sprite.Group()
         self.backgroundGroup = pygame.sprite.Group()
         self.itemGroup = pygame.sprite.Group()
+        self.surfaceGroup = pygame.sprite.Group()
         x = CENTERXSTART
         y = CENTERYSTART
         for line in self.grid:
             for char in line:
                 mod = randint(1,2)
                 sprite = eval(KEY[char])
-                if type(sprite) == Item:
+                if isinstance(sprite, sprites.ShopItem):
+                    sprite.rect.topleft = (x,y)
+                    self.obstacles.add(sprite)
+                    self.surfaceGroup.add(sprite)
+                elif isinstance(sprite, sprites.Item):
                     sprite.rect.topleft = (x,y)
                     self.itemGroup.add(sprite)
                 elif type(sprite) == Moveable:
@@ -228,6 +233,7 @@ class World():
         # draw the sprites.
         self.currentmap.obstacles.draw(globalvars.window)
         self.currentmap.backgroundGroup.draw(globalvars.window)
+        self.currentmap.surfaceGroup.draw(globalvars.window)
         self.currentmap.moveableGroup.draw(globalvars.window)
         self.currentmap.itemGroup.draw(globalvars.window)
         globalvars.attackGroup.draw(globalvars.window)

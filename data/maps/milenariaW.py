@@ -21,7 +21,7 @@ self.sign = "<--Glavos"
 
 self.east = "milenariaCenter"
 self.west = "glavosE"
-self.north = "milenairaNW"
+self.north = "milenariaNW"
 self.south = ""
 self.up = ""
 self.down = "sewerE7"

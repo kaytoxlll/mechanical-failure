@@ -18,7 +18,7 @@ self.npclines = ["Boy do I hate living in Glavos...",
 
 self.sign = "<-- Glavos      Milenaria -->"
 
-self.east = ""
+self.east = "milenariaW"
 self.west = ""
 self.north = "glavosNE"
 self.south = "glavosSE"
