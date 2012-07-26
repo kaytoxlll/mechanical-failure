@@ -35,6 +35,6 @@ self.grid = ["WWWWWWW~~WWWWWWW",
              "W......~~......W",
              "W......~~......W",
              "W..aa..~~......W",
-             "SSSSSSSSSSSSSSSS",
+             "SSSSSSS~~SSSSSSS",
              "~~~~~~~~~~~~~~~~",
              "~~~~~~~~~~~~~~~~",]

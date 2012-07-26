@@ -27,10 +27,12 @@ KEY = {".":'None',
        "B":'Obstacle("barrel" + str(mod), "terrain")',
        "O":'Obstacle("box" + str(mod), "terrain")',
        "T":'Obstacle("toxicbarrel" + str(mod), "terrain")',
-       "H":'Obstacle("house" + str(mod), "terrain")',
+       "U":'Obstacle("bush" + str(mod), "terrain")',
+       "H":'Obstacle(self.house + str(mod), "terrain")',
        "C":'Obstacle("counter", "terrain")',
        "S":'Obstacle("sludge", "terrain", solid=False)',
        "M":'Obstacle("moat", "terrain", solid=False)',
+       "P":'Obstacle("lillypads", "terrain", solid=False)';
        "D":'Moveable("doorwide", "terrain")',
        "d":'Moveable("doortall", "terrain")',
        "L":'Locked("lockwide", "terrain")',
@@ -68,6 +70,7 @@ class Map():
             self.floor = "stone"
             self.wall = "brick"
             self.water = "water"
+            self.house = "house"
         elif self.type == "house":
             self.song = "town.mp3"
             self.floor = "boards"
@@ -78,6 +81,12 @@ class Map():
             self.floor = "slime"
             self.wall = "slab"
             self.water = "sewage"
+        elif self.type == "rich":
+            self.song = "garden.mp3"
+            self.floor = "pastelstone"
+            self.wall = "pastelbrick"
+            self.water = "water"
+            self.house = "pastelhouse"
         # set script variables
         self.scripttext = []
         if self.script is not None:
