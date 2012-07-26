@@ -11,7 +11,7 @@ self.type = "sewer"
 
 self.npcname = "Smitty"
 self.npcref = "thief"
-self.npclines = ["Hey, what'r you doin' here?",
+self.npclines = ["Hey, what'r you doin' here?!",
                  "Well, I guess you can shop..."]
 
 self.sign = "Sewer Black Market"

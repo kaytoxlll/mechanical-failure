@@ -19,7 +19,7 @@ self.east = ""
 self.west = "sewerE6"
 self.north = ""
 self.south = ""
-self.up = "mileneriaW"
+self.up = "milenariaW"
 self.down = ""
 
 self.grid = ["WWW~~~~~~~~~~~~~",
