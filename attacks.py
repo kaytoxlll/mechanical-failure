@@ -47,7 +47,7 @@ class Attack(pygame.sprite.Sprite):
         if self.hit == False:
             hitlist = pygame.sprite.spritecollide(self, globalvars.solidGroup, False)
             for s in hitlist:
-                if s.name is not self.name and not issubclass(type(s), Attack):
+                if s.name is not self.name:
                     hitval = s.hit(self, self.npc.rect.center)
                     if hitval:
                         self.hit = True
@@ -57,6 +57,9 @@ class Attack(pygame.sprite.Sprite):
         self.timer += 1
         self.animate()
         return
+
+    def hit(self, attack, frompoint):
+        return False
 
     def animate(self):
         """Change the weapons current image.
@@ -78,7 +81,7 @@ class MeleeAttack(Attack):
         self.ref = reference
         self.damage = npc.str
         if self.ref is None:
-            self.image = pygame.Surface((TILESIZE,TILESIZE))
+            self.image = pygame.Surface((TILESIZE, TILESIZE))
             self.image.set_alpha(0)
         else:
             self.image = globalvars.images[self.ref + npc.facing + "1"] # i.e. wrenchfront1
@@ -220,7 +223,7 @@ class Shot(pygame.sprite.Sprite):
         self.rect.move_ip(*distance.as_tuple())
         for s in pygame.sprite.spritecollide(self, globalvars.solidGroup, False):
             # handle the first target hit by the shot
-            if s.name is not self.name and not issubclass(type(s), Attack):
+            if s.name is not self.name:
                 if isinstance(s, sprites.Obstacle) and s.solid is False:
                     continue
                 s.hit(self, self.npc.rect.center)
