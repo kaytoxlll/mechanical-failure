@@ -20,7 +20,7 @@ import random
 class Obstacle(pygame.sprite.Sprite):
     """Base sprite class for map objects (i.e. barrels, etc)
     """
-    def __init__(self, name, reference, pos=(0,0), solid=True):
+    def __init__(self, name, reference, pos=(0,0), solid=True, breakable=False):
         pygame.sprite.Sprite.__init__(self)
         #global images
         self.ref = reference # i.e. terrain (directory)
@@ -30,6 +30,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
         self.solid = solid # boolean
+        self.breakable = breakable
 
     def update(self):
         """Do what you do, which is probably nothing.
@@ -42,11 +43,24 @@ class Obstacle(pygame.sprite.Sprite):
         Return True if the attack hit.
         """
         if self.solid:
+            if self.breakable:
+                self.kill()
             return True
         return False
 
     def examine(self):
         """PC examined this, don't do anything."""
+        if self.breakable:
+            menu.dialogue("This looks kinda shoddy...")
+        if self.name == "vendingmachine":
+            newrect = self.rect.move(0, -TILESIZE)
+            for s in globalvars.solidGroup:
+                if s is not self and newrect.colliderect(s.rect):
+                    return s.examine()
+        elif self.name == "counter":
+            for s in globalvars.solidGroup:
+                if s is not self and self.rect.colliderect(s.rect):
+                    return s.examine()
         return True
 
 class Transition(Obstacle):
@@ -117,7 +131,7 @@ class ShopItem(Item):
             if globalvars.hero.coins >= self.price:
                 globalvars.hero.coins -= self.price
                 globalvars.hero.get(self)
-                self.kill()
+                #self.kill()
             else:
                 menu.dialogue("Not enough coins!")
 
