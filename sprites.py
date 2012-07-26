@@ -45,6 +45,7 @@ class Obstacle(pygame.sprite.Sprite):
         if self.solid:
             if self.breakable:
                 self.kill()
+                globalvars.backgroundQ.add(Obstacle("rubbish", "terrain", self.rect.topleft, solid=False))
             return True
         return False
 
