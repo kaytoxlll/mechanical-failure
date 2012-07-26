@@ -2,9 +2,10 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
-self.type = "slum"
+#self.type = "slum"
 #self.type = "house"
 #self.type = "sewer"
+self.type = "rich"
 
 #self.script = ["doors"]
 #self.script = [""]
