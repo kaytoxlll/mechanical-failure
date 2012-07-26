@@ -13,7 +13,7 @@ self.script = ["doors"]
 #self.npcref = ""
 #self.npclines = [""]
 
-#self.sign = ""
+self.sign = "<---Glavos    Mileneria--->"
 
 self.east = "sewerE1"
 self.west = "sewerW3"
@@ -31,7 +31,7 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W......T.......W",
              "...............d",
              "................",
-             "W....T.........W",
+             "W....T..#......W",
              "W..............W",
              "W..........T...W",
              "W..cc..........W",
