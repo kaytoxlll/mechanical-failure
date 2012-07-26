@@ -2,6 +2,7 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
+from os import getcwd, listdir
 from os.path import join
 import pygame
 from pygame.locals import *
@@ -71,6 +72,11 @@ class AIError(Exception):
 
 # Sound Effects
 
+sounds = {}
+path = join(getcwd(), "data", "sfx")
+soundfiles = listdir(path)
+for file in soundfiles:
+    sounds[file] = pygame.mixer.Sound(join(path, file))
+
 def sfxPlay(sfx):
-    sfxfile = join("data", "sfx", sfx)
-    pygame.mixer.Sound(sfxfile).play()
+    sounds[sfx].play()

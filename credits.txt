@@ -6,8 +6,8 @@ Bailey Mihajlich 	- Programming and Game Design
 Lucy Mihajlich 		- Art and Game Design
 WrathGames Studio 	- Music
 p0ss 			- Music
-artisticdude		- Music
 elerya			- Music
+artisticdude		- Music, Sound Effects
 Michel Baradari		- Sound Effects
 Iwan Gabovitch		- Sound Effects
 Paulius Jurgelevicius	- Sound Effects
