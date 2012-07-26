@@ -22,6 +22,7 @@ script() returns True when it no longer needs to run.
 """
 
 KEY = {".":'None',
+       "G":'Floor(self.floor2, "terrain")',
        "~":'Obstacle(self.water, "terrain", solid=False)',
        "W":'Obstacle(self.wall, "terrain")', 
        "B":'Obstacle("barrel" + str(mod), "terrain", breakable=True)',
@@ -71,22 +72,33 @@ class Map():
         if self.type == "slum":
             self.song = "slums.mp3"
             self.floor = "stone"
+            self.floor2 = "grass"
             self.wall = "brick"
             self.water = "water"
             self.house = "house"
         elif self.type == "house":
             self.song = "town.mp3"
             self.floor = "boards"
+            self.floor2 = "slab"
             self.wall = "beams"
             self.water = "water"
         elif self.type == "sewer":
             self.song = "sewer.mp3"
             self.floor = "slime"
+            self.floor2 = "stone"
             self.wall = "slab"
             self.water = "sewage"
         elif self.type == "rich":
             self.song = "garden.mp3"
             self.floor = "pastelstone"
+            self.floor2 = "grass"
+            self.wall = "pastelbrick"
+            self.water = "water"
+            self.house = "pastelhouse"
+        elif self.type == "garden":
+            self.song = "garden.mp3"
+            self.floor = "grass"
+            self.floor2 = "stone"
             self.wall = "pastelbrick"
             self.water = "water"
             self.house = "pastelhouse"
@@ -121,7 +133,10 @@ class Map():
             for char in line:
                 mod = randint(1,2)
                 sprite = eval(KEY[char])
-                if isinstance(sprite, sprites.ShopItem):
+                if isinstance(sprite, sprites.Floor):
+                    sprite.rect.topleft = (x,y)
+                    self.backgroundGroup.add(sprite)
+                elif isinstance(sprite, sprites.ShopItem):
                     sprite.rect.center = (x+TILESIZE/2, y+TILESIZE/2)
                     self.obstacles.add(sprite)
                     self.surfaceGroup.add(sprite)
