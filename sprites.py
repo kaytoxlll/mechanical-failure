@@ -114,8 +114,7 @@ class Explodeable(Obstacle):
         Obstacle.__init__(self, name, reference, pos, solid)
 
     def examine(self):
-        return menu.dialogue("This wall looks weak...")
-        
+        return menu.dialogue("This wall looks weak...")        
 
 class Item(Obstacle):
     """A coin, box of ammo, potion, etc."""
