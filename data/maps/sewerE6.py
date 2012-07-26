@@ -7,7 +7,11 @@
 self.type = "sewer"
 
 self.script = ["doors"]
-#self.script = [""]
+self.script2 = ["Hey you!",
+                "Your gettin' outta here over my dead body!",
+                "...",
+                "Is that a gun!?",
+                "*gulp*"]
 
 #self.npcname = ""
 #self.npcref = ""
@@ -32,9 +36,9 @@ self.grid = ["WWWWWWW~~WWWWWWW",
              ".......d........",
              "................",
              "W......SS......W",
-             "W......~~......W",
-             "W......~~......W",
-             "W..aa..~~......W",
+             "W....A.~~......W",
+             "W....V.~~......W",
+             "W.a....~~......W",
              "SSSSSSS~~SSSSSSS",
              "~~~~~~~~~~~~~~~~",
              "~~~~~~~~~~~~~~~~",]

@@ -62,7 +62,9 @@ class Map():
     """Contains all the info for a reigon of the screen."""
     def __init__(self, filename):
         self.script = None
+        self.script2 = None
         self.scriptdone = False
+        self.script2done = False
         execfile(join("data", "maps", filename))
         self.name = filename[:-3]
         # set area type variables
@@ -98,6 +100,14 @@ class Map():
                 self.script = self.dialoguescript
         else:
             self.scriptdone = True
+        if self.script2 is not None:
+            if self.script2[0] == "doors":
+                self.script2 = self.doorscript
+            else:
+                self.scripttext = self.script2
+                self.script2 = self.dialoguescript
+        else:
+            self.script2done = True
         self.floor = globalvars.images["terrain" + self.floor]
         self.obstacles = pygame.sprite.Group()
         self.moveableGroup = pygame.sprite.Group()
@@ -228,6 +238,8 @@ class World():
         self.currentmap.mobs.update()
         if not self.currentmap.scriptdone:
             self.currentmap.scriptdone = self.currentmap.script()
+        if not self.currentmap.script2done:
+            self.currentmap.script2done = self.currentmap.script2()
 
     def draw(self, window):
         """Draw the floor, obstacles, background (blood), attacks, and mobs"""
