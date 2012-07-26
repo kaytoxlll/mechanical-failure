@@ -138,6 +138,7 @@ def dialogue(text):
                     if choice:
                         return False
             elif event.type == MOUSEBUTTONDOWN:
+                globalvars.hero.attacktimer = 1
                 (x,y) = pygame.mouse.get_pos()
                 if choice:
                     if yesbox.rect.collidepoint(x, y):

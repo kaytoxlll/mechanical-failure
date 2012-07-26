@@ -24,21 +24,22 @@ script() returns True when it no longer needs to run.
 KEY = {".":'None',
        "~":'Obstacle(self.water, "terrain", solid=False)',
        "W":'Obstacle(self.wall, "terrain")', 
-       "B":'Obstacle("barrel" + str(mod), "terrain")',
-       "O":'Obstacle("box" + str(mod), "terrain")',
+       "B":'Obstacle("barrel" + str(mod), "terrain", breakable=True)',
+       "O":'Obstacle("box" + str(mod), "terrain", breakable=True)',
        "T":'Obstacle("toxicbarrel" + str(mod), "terrain")',
        "U":'Obstacle("bush" + str(mod), "terrain")',
        "H":'Obstacle(self.house + str(mod), "terrain")',
        "C":'Obstacle("counter", "terrain")',
        "S":'Obstacle("sludge", "terrain", solid=False)',
        "M":'Obstacle("moat", "terrain", solid=False)',
-       "P":'Obstacle("lillypads", "terrain", solid=False)';
+       "P":'Obstacle("lillypads", "terrain", solid=False)',
        "D":'Moveable("doorwide", "terrain")',
        "d":'Moveable("doortall", "terrain")',
        "L":'Locked("lockwide", "terrain")',
        "l":'Locked("locktall", "terrain")',
        "E":'Explodeable(self.wall+"weak", "terrain")',
        "#":'Sign("sign", "terrain", self.sign)',
+       "V":'Obstacle("vendingmachine", "terrain")',
        "<":'Transition("ladderdown", "terrain", "down")',
        ">":'Transition("ladderup", "terrain", "up")',
        "P":'ShopItem("potion", 20)',
@@ -111,12 +112,15 @@ class Map():
                 mod = randint(1,2)
                 sprite = eval(KEY[char])
                 if isinstance(sprite, sprites.ShopItem):
-                    sprite.rect.topleft = (x,y)
+                    sprite.rect.center = (x+TILESIZE/2, y+TILESIZE/2)
                     self.obstacles.add(sprite)
                     self.surfaceGroup.add(sprite)
                 elif isinstance(sprite, sprites.Item):
-                    sprite.rect.topleft = (x,y)
+                    sprite.rect.center = (x+TILESIZE/2 ,y+TILESIZE/2)
                     self.itemGroup.add(sprite)
+                elif sprite is not None and sprite.name == "vendingmachine":
+                    sprite.rect.topleft = (x, y-TILESIZE)
+                    self.obstacles.add(sprite)
                 elif type(sprite) == Moveable:
                     sprite.rect.topleft = (x,y)
                     self.moveableGroup.add(sprite)

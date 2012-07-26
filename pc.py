@@ -6,16 +6,16 @@ import sys
 from constants import *
 from globalvars import *
 from menu import *
-from sprites import *
+import sprites
 from attacks import *
 from vector import Vector
 import pygame
 
-class PC(NPC):
+class PC(sprites.NPC):
     """Sprite class for the Player Character.
     """
     def __init__(self, name, pos):
-        NPC.__init__(self, name, "hero", pos)
+        sprites.NPC.__init__(self, name, "hero", pos)
         self.startloc = "milenariaW"
         self.speed = 2.5
         self.hp = 30
@@ -45,7 +45,7 @@ class PC(NPC):
             self.bombtimer = 0
         elif self.bombtimer > 0:
             self.bombtimer += 1
-        return NPC.tick(self)
+        return sprites.NPC.tick(self)
 
     def update(self):
         """Update the hero sprite based on the user's iteraction.
@@ -72,8 +72,9 @@ class PC(NPC):
             for s in globalvars.solidGroup:
                 if aoe.colliderect(s.rect) and s.name is not self.name:
                     choice = s.examine()
-                    if choice and isinstance(s, Transition):
+                    if choice and isinstance(s, sprites.Transition):
                         return s.direction
+                    break
         if pressed[K_q]:
             # drop a bomb
             if self.bombs > 0 and self.bombtimer == 0:
@@ -134,7 +135,8 @@ class PC(NPC):
             menu.dialogue("You got a gun!  Aim it with the cursor, fire with right-click!")
             menu.dialogue("You can only fire the gun if you have bullets.")
             self.gun = "gun"
-        item.kill()
+        if type(item) == sprites.Item:
+            item.kill()
 
     def die(self):
         """Same as sprite.die, but nullify hero globalvar."""
