@@ -9,9 +9,11 @@ self.type = "slum"
 #self.script = ["doors"]
 #self.script = [""]
 
-#self.npcname = ""
-#self.npcref = ""
-#self.npclines = [""]
+self.npcname = "Daniel"
+self.npcref = "thief"
+self.npclines = ["What are you doing?!",
+                 "You ruined the perfect hiding spot!",
+                 "Now my wife will find me for sure..."]
 
 self.sign = "You have found a power bar: Max HP + 10!"
 
@@ -25,7 +27,7 @@ self.down = ""
 self.grid = ["WWWWWWWWWWWWWWWW",
              "M..............W",
              "~..BBBB........W",
-             "~..BBBB........W",
+             "~..Bn.B........W",
              "~..BBBB........W",
              "~..............W",
              "~..............W",

@@ -4,7 +4,9 @@
 
 #self.type = "slum"
 #self.type = "house"
-self.type = "sewer"
+#self.type = "sewer"
+self.type = "rich"
+#self.type = "garden"
 
 #self.script = ["doors"]
 #self.script = [""]
@@ -15,26 +17,26 @@ self.type = "sewer"
 
 #self.sign = ""
 
-self.east = "sewerS2"
+self.east = ""
 self.west = ""
 self.north = ""
 self.south = ""
 self.up = ""
 self.down = ""
 
-self.grid = ["WWWWWWWWWWWWWWWW",
-             "W......B.......W",
-             "W.......B......W",
-             "W...k..W.......W",
-             "W......W.......W",
-             "WSSSSSSW.......W",
+self.grid = ["WWWWWWW..WWWWWWW",
              "W..............W",
-             "W...............",
-             "W..r......T.....",
              "W..............W",
-             "W......T.......W",
              "W..............W",
-             "W..cp..........W",
-             "W..c.......r...W",
              "W..............W",
-             "SSSSSSSSSSSSSSSS",]
+             "W..............W",
+             "W..............W",
+             "................",
+             "................",
+             "W..............W",
+             "W..............W",
+             "W..............W",
+             "W..............W",
+             "W..............W",
+             "W..............W",
+             "WWWWWWW..WWWWWWW",]
