@@ -7,14 +7,13 @@ self.type = "slum"
 #self.type = "sewer"
 
 #self.script = ["doors"]
-self.script = ["You have found a power bar!",
-               "These treats increase your max HP by 10!"]
+#self.script = [""]
 
 #self.npcname = ""
 #self.npcref = ""
 #self.npclines = [""]
 
-#self.sign = ""
+self.sign = "You have found a power bar: Max HP + 10!"
 
 self.east = "glavosSW"
 self.west = ""
@@ -25,17 +24,17 @@ self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
              "M..............W",
+             "~..BBBB........W",
+             "~..BBBB........W",
+             "~..BBBB........W",
              "~..............W",
-             "~....B.....B...W",
-             "~....B.....B...W",
-             "~....B.....B...W",
-             "~....B.....B...W",
-             "~....BBBBBBB....",
-             "~..........B....",
-             "~O.O........BBBW",
-             "~.O.O..........W",
-             "~....O.........W",
              "~..............W",
-             "~........b.....W",
+             "~...............",
+             "~...............",
+             "~O.O.O.O.......W",
+             "~.O.O.O..BBBBBBW",
+             "~....O.O.BBBBBBW",
+             "~.......O......W",
+             "~......#.b.....W",
              "~..............W",
              "~MMMMMMMMMMMMMMM",]
