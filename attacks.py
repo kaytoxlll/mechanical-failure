@@ -13,11 +13,15 @@ import menu
 import sprites
 import pygame
 
-class Attack(pygame.sprite.Sprite):
+class BasicAttack(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+
+class Attack(BasicAttack):
     """Sprite for an attack, such as a sword swing or gunshot.
     """
     def __init__(self, npc):
-        pygame.sprite.Sprite.__init__(self)
+        BasicAttack.__init__(self)
         self.name = npc.name # prevents collision when moving
         #self.ref # i.e. wrench
         self.rect = npc.space_ahead()
@@ -47,7 +51,7 @@ class Attack(pygame.sprite.Sprite):
         if self.hit == False:
             hitlist = pygame.sprite.spritecollide(self, globalvars.solidGroup, False)
             for s in hitlist:
-                if s.name is not self.name:
+                if s.name is not self.name and not issubclass(type(s), BasicAttack):
                     hitval = s.hit(self, self.npc.rect.center)
                     if hitval:
                         self.hit = True
@@ -126,10 +130,10 @@ class RangedAttack(Attack):
         #global images
         self.image = globalvars.images[self.ref + self.npc.facing]
 
-class Bomb(pygame.sprite.Sprite):
+class Bomb(BasicAttack):
     """Sprite for a bomb about to explode"""
     def __init__(self, npc):
-        pygame.sprite.Sprite.__init__(self)
+        BasicAttack.__init__(self)
         self.npc = npc
         self.name = npc.name
         self.damage = 0
@@ -162,10 +166,10 @@ class Bomb(pygame.sprite.Sprite):
         self.timer = self.timermax
         return True
 
-class Explosion(pygame.sprite.Sprite):
+class Explosion(BasicAttack):
     """Explosion from a bomb"""
     def __init__(self, bomb):
-        pygame.sprite.Sprite.__init__(self)
+        BasicAttack.__init__(self)
         self.name = "explosion"
         self.damage = 10
         self.image = globalvars.images["ammo" + "explosion1"]
@@ -183,6 +187,8 @@ class Explosion(pygame.sprite.Sprite):
                 s.hit(self, self.rect.center, knockback=10)
             elif type(s) is sprites.Explodeable:
                 s.kill()
+            elif type(s) is sprites.Obstacle and s.breakable == True:
+                s.hit(self, self.rect.center)
         if self.timer == 5:
             self.image = globalvars.images["ammo" + "explosion2"]
         elif self.timer == self.timermax:
@@ -192,11 +198,11 @@ class Explosion(pygame.sprite.Sprite):
     def hit(self, attack, frompoint):
         return False
 
-class Shot(pygame.sprite.Sprite):
+class Shot(BasicAttack):
     """Sprite for a projectile, like a bullet.
     """
     def __init__(self, npc, reference, dest):
-        pygame.sprite.Sprite.__init__(self)
+        BasicAttack.__init__(self)
         #global images
         self.npc = npc
         self.name = npc.name
@@ -223,7 +229,7 @@ class Shot(pygame.sprite.Sprite):
         self.rect.move_ip(*distance.as_tuple())
         for s in pygame.sprite.spritecollide(self, globalvars.solidGroup, False):
             # handle the first target hit by the shot
-            if s.name is not self.name:
+            if s.name is not self.name and not issubclass(type(s), BasicAttack):
                 if isinstance(s, sprites.Obstacle) and s.solid is False:
                     continue
                 s.hit(self, self.npc.rect.center)

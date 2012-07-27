@@ -90,7 +90,6 @@ class Wandering(State):
         state = self.nextstate
         if state is None:
             state = "waiting"
-        global solidGroup
         if self.timer <= 0:
             return state
         spaceahead = (self.vector * TILESIZE).as_tuple()
@@ -109,13 +108,16 @@ class Wandering(State):
         return None
 
     def entryActions(self):
-        global solidGroup
         seed()
         self.npc.moving = True
         self.timer = randrange(MINTIME, MAXTIME)
         heading = None
+        tried = set()
         while heading is None:
+            if len(tried) == 8:
+                raise AIError(self.npc.name+" wandering blocked.")
             heading = choice(self.directions.keys())
+            tried.add(heading)
             self.vector = Vector(*heading).normalize()
             nextvect = self.vector * TILESIZE
             nextrect = self.npc.rect.move(*nextvect.as_tuple())
@@ -225,5 +227,5 @@ class Attacking(State):
         return None
 
     def entryActions(self):
-        #seed()
-        self.attacktimes = 1 #randint(1, 3)
+        seed()
+        self.attacktimes = randint(1, 3)

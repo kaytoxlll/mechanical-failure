@@ -16,7 +16,7 @@ self.script = ["doors"]
 #self.sign = ""
 
 self.east = "sewerE4"
-self.west = ""
+self.west = "sewerE1"
 self.north = "sewerE3"
 self.south = ""
 self.up = ""

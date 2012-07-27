@@ -14,7 +14,7 @@ self.npcref = "girl"
 self.npclines = ["Boy do I hate living in Glavos...",
                  "This place is such a slum compared to Milenaria.",
                  "They even blocked the road to the district!",
-                 "They must really not want us poor people going there..."]
+                 "They must really not want us poor people there..."]
 
 self.sign = "<-- Glavos      Milenaria -->"
 

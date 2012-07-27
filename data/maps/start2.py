@@ -15,8 +15,8 @@ self.type = "slum"
 
 self.sign = "Tip: Read the README for gameplay instructions."
 
-self.east = ""
-self.west = ""
+self.east = "glavosW"
+self.west = "start"
 self.north = ""
 self.south = ""
 self.up = ""

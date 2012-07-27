@@ -13,8 +13,8 @@ self.npcname = "Mizzy"
 self.npcref = "girl"
 self.npclines = ["Looking for something?",
                  "Well, people loose things all the time...",
-                 "Usually when browsing the shop.",
-                 "The shop is in the south-east corner of the city."]
+                 "...usually when browsing the shop.",
+                 "The shop is in the south-east corner of the district."]
 
 #self.sign = ""
 

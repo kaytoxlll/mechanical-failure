@@ -12,6 +12,7 @@ class Brain:
         self.states = {}
         self.activeState = None
         self.safeState = None # when a state fails, go back to this
+        self.dangerState = None
         self.npc = npc
 
     def addState(self, state):
@@ -28,15 +29,18 @@ class Brain:
     of the game loop.
     """
     def think(self):
-        if self.activeState is None:
-            return
-        newStateName = self.activeState.checkConditions()
-        if newStateName is not None:
-            self.setState(newStateName)
         try:
+            if self.activeState is None:
+                return
+            newStateName = self.activeState.checkConditions()
+            if newStateName is not None:
+                self.setState(newStateName)
             self.activeState.doActions()
         except AIError:
-            self.setState(self.safeState.name)
+            try:
+                self.setState(self.safeState.name)
+            except AIError:
+                self.setState(self.dangerState.name)
             return
         return
 
@@ -49,6 +53,7 @@ class VillagerBrain(Brain):
         self.addState(Waiting(npc))
         self.setState("waiting")
         self.safeState = self.states["waiting"]
+        self.dangerState = self.states["waiting"]
 
 class FighterBrain(Brain):
     """AI for mobs that melee attack the player and not much else."""
@@ -58,5 +63,7 @@ class FighterBrain(Brain):
         self.addState(Attacking(npc))
         self.addState(Wandering(npc, "seeking"))
         self.addState(Nothing(npc))
+        self.addState(Waiting(npc))
         self.setState("seeking")
         self.safeState = self.states["wandering"]
+        self.dangerState = self.states["attacking"]
