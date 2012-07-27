@@ -3,13 +3,15 @@
 # See license.txt for licence information
 
 import sys
+from os import getcwd, listdir
+from os.path import join
 from constants import *
 from globalvars import *
 from world import *
-from sprites import *
-from pc import *
+import sprites
+import pc
 from monsters import *
-from menu import *
+import menu
 import pygame
 
 # initialization
@@ -18,10 +20,25 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Mechanical Failure")
 pygame.display.set_icon(globalvars.images["misc" + "logo"])
 
-# set up groups
-world = World()
-
 while True:
+    if globalvars.newgame:
+        # load save game
+        globalvars.hero = pc.PC("Cole", CENTERCENTER)
+        globalvars.heroGroup.empty()
+        globalvars.heroGroup.add(globalvars.hero)
+        globalvars.solidGroup.empty()
+        globalvars.solidGroup.add(globalvars.hero)
+        globalvars.attackGroup.empty()
+        globalvars.itemGroup.empty()
+        path = join(getcwd(), "savedata")
+        savelist = listdir(path)
+        if len(savelist) > 1:
+            if menu.dialogue("Do you want to load the saved game?"):
+                menu.load("save1.py")
+        # set up groups
+        world = World()
+        globalvars.newgame = False
+    
     # handle game events
     for event in pygame.event.get():
         if event.type == QUIT:

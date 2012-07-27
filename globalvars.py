@@ -8,6 +8,7 @@ from pc import PC
 
 # global pygame thingies
 window = pygame.display.set_mode((SCREENWIDTH, SCREENHEIGHT))
+newgame = True
 
 # global images
 images = loadAllImages()

@@ -25,7 +25,7 @@ self.up = ""
 self.down = "sewerW1"
 
 self.grid = ["WWWWWWWWWWWWWWWW",
-             "W......W.#.....W",
+             "W......W.#.!...W",
              "W.O....W.....<.W",
              "W..O...W.......W",
              "W......W...MMMMW",

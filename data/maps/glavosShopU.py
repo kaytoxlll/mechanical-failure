@@ -13,7 +13,7 @@ self.type = "house"
 #self.npcref = ""
 #self.npclines = [""]
 
-#self.sign = ""
+self.sign = "Tip: You can save your game at the bookstand."
 
 self.east = ""
 self.west = ""
@@ -35,6 +35,6 @@ self.grid = ["WWWWWWWWWWWWWWWW",
              "W..............W",
              "W......BBBBBBBBW",
              "W............<.W",
-             "W.O............W",
+             "W.O......!#....W",
              "WO.............W",
              "WWWWWWWWWWWWWWWW",]

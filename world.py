@@ -22,6 +22,7 @@ script() returns True when it no longer needs to run.
 """
 
 KEY = {".":'None',
+       "!":'SavePoint("savepoint", "terrain", self.name)',
        "G":'Floor(self.floor2, "terrain")',
        "~":'Obstacle(self.water, "terrain", solid=False)',
        "W":'Obstacle(self.wall, "terrain")', 

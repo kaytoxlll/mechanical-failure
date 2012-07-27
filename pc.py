@@ -16,10 +16,10 @@ class PC(sprites.NPC):
     """
     def __init__(self, name, pos):
         sprites.NPC.__init__(self, name, "hero", pos)
-        self.startloc = "milenariaW"
+        self.startloc = "start"
         self.speed = 2.5
-        self.hp = 30
         self.hpmax = 30
+        self.hp = self.hpmax
         self.str = 3
         self.dex = 3
         self.weapon = "wrench"
@@ -142,5 +142,8 @@ class PC(sprites.NPC):
         """Same as sprite.die, but nullify hero globalvar."""
         #global hero
         dialogue("You have died...")
-        pygame.quit()
-        sys.exit()
+        if dialogue("Do you want to continue?"):
+            globalvars.newgame = True
+        else:
+            pygame.quit()
+            sys.exit()
