@@ -4,13 +4,22 @@
 
 Mechanical Failure - Readme
 
+Sections:
+	System Requirements
+	Software Requirements
+	Installation Instructions (Windows)
+	Installation Instructions (Linux)
+	Controlls
+	Gameplay - Exploration
+	Gameplay - Combat
+
 System Requirements:
 	PC and Linux (Mac in theory, untested)
 	Just about any processor
 	Just about any graphic card
 	Keyboard and mouse
 
-Requirements:
+Software Requirements:
 	Python 2, 32-bit version--------http://www.python.org/download/
 	PyGame:-------------------------http://www.pygame.org/download.shtml
 
@@ -42,7 +51,7 @@ To Run the Game:
         Linux-----------Navigate the working directory to the folder with main.py in it
 			Execute from the command line: python main.py
 
-Gameplay Instructions:
+Controlls:
 	W---------------Move up
 	A---------------Move left
 	S---------------Move down
@@ -51,4 +60,36 @@ Gameplay Instructions:
 	E---------------Examine / Talk
 	L-CLICK---------Swing weapon
 	R-CLICK---------Shoot gun (aim with mouse)
+	Q---------------Place a bomb
 	ESC-------------Quit
+
+Gameplay - Exploration:
+	Use the WASD keys to move the character.  The WASD keys act as arrow keys. 
+For example: W is up, A is left, etc.  By holding two keys, you can move
+diagonally.  
+	To interact with various people and objects in the world, press E
+while facing the target.  This is a good way to learn about something new.
+	Some doors can only be unlocked when all the enemies in the area have 
+been killed.  Some doors can only be unlocked by keys.  If you have one or more
+keys in your inventory, press E to unlock a door.  This consumes one of your 
+keys.
+	If you see an item lying on the ground, walk over it to pick it up.
+The HUD (heads-up-display) on the left side of the screen shows you what items 
+you have.  If you see an item on display in a shop, examine it with E.
+
+Gameplay - Combat:
+	If an enemy attacks you, you will loose hit-points (HP).  If your HP 
+reaches zero, you die: game over.  You can heal yourself by drinking potions 
+(Spacebar) if you have any.
+	Once you have a melee weapon, Left-click to swing it in the direction 
+you are facing.  Enemies you hit will be injured and knocked back slightly.
+For maximum effectiveness, hold Left-mouse-button to swing continuously. Melee
+attacks can destroy some objects.
+	Once you have a gun, Right-click to fire at a target.  The gun will 
+fire wherever the mouse cursor is aimed.  If your target is moving, you may 
+need to "lead" the target by aiming where they are going to be in order to 
+hit them.
+	Once you have bombs, press Q to place a bomb in front of you.  The bomb 
+will blow up when it's fuse burns out, damaging anything nearby, including you! 
+If a bomb is hit by an attack, it will blow up instantly.  Some walls can only
+be destroyed by bombs.
