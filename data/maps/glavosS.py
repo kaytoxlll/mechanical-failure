@@ -9,9 +9,11 @@ self.type = "slum"
 #self.script = ["doors"]
 #self.script = [""]
 
-#self.npcname = ""
-#self.npcref = ""
-#self.npclines = [""]
+self.npcname = "Tommy"
+self.npcref = "thief"
+self.npclines = ["Those careless dockworkers...",
+                 "They always leave boxes and barrels about.",
+                 "I just want to smash them all up!"]
 
 #self.sign = ""
 
@@ -34,7 +36,7 @@ self.grid = ["WWWWWWWWWWWWWWWW",
              "W..............W",
              "W..............W",
              "W..............W",
-             "W..............W",
+             "W..........n...W",
              "W.B.B..........W",
              "W..B.....B...B.W",
              "MMMMMMMMMMMMMMMM",]

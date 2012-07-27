@@ -7,7 +7,8 @@ self.type = "slum"
 #self.type = "sewer"
 
 #self.script = ["doors"]
-#self.script = [""]
+self.script = [globalvars.hero.name + ": Now where did that thief go...",
+               "Better ask around town!"]
 
 self.npcname = "Anna"
 self.npcref = "woman"
