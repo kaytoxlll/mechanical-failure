@@ -48,6 +48,7 @@ class Attack(BasicAttack):
         # update position
         self.rect = self.npc.space_ahead()
         # check for collisions
+        playedSound = False
         if self.hit == False:
             hitlist = pygame.sprite.spritecollide(self, globalvars.solidGroup, False)
             for s in hitlist:
@@ -55,8 +56,10 @@ class Attack(BasicAttack):
                     hitval = s.hit(self, self.npc.rect.center)
                     if hitval:
                         self.hit = True
-                        sfxPlay("meleehit.wav")
-                        break
+                        if not playedSound:
+                            sfxPlay("meleehit.wav")
+                            playedSound = True
+                        #break
         # update timer
         self.timer += 1
         self.animate()
