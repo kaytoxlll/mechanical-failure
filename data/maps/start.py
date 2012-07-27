@@ -7,16 +7,19 @@ self.type = "slum"
 #self.type = "sewer"
 
 #self.script = ["doors"]
-self.script = ["Welcome to Mechanical Failure!",
-               "Use WASD to move and E to examine or talk"]
+self.script = [globalvars.hero.name + ": Ohhh... my head...",
+               "Someone hit me from behind and stole my wallet!",
+               "I remember... the thief was dressed in black...",
+               "...and I think he ran east into the city...",
+               "(Use WASD to move and E to examine/read/talk)"]
 
 #self.npcname = ""
 #self.npcref = ""
 #self.npclines = [""]
 
-self.sign = "Welcome to Anarium! (Glavos district) -->"
+self.sign = "City of Anarium (Glavos District) -->"
 
-self.east = "glavosW"
+self.east = "start2"
 self.west = ""
 self.north = ""
 self.south = ""
@@ -24,18 +27,18 @@ self.up = ""
 self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
-             "W..............W",
-             "W...O.O........W",
-             "W....O.........W",
-             "W..............W",
-             "MMMMMMM........W",
-             "~~~~~~~......#.W",
+             "WGGGGGGGGGGGGGGG",
+             "WGGO..GGGGGGGGGG",
+             "WGG.O.GGGGGGGGGG",
+             "WGGGGGGGGGGGGGGG",
+             "MMMMMMMGGGGGGGGG",
+             "~~~~~~~......#..",
              "~~~~~~~.........",
              "~~~~~~~.........",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W......BBB.....W",
-             "W..............W",
-             "WWWWWWWWWWWWWWWW",]
+             "~...............",
+             "~GGGGGGGGGGGGGGG",
+             "~GGGGGGGGGGGGGGG",
+             "~GGGGGGGGGGGGGGG",
+             "~GGGGGGGGGGGGGGG",
+             "~MMMMMMMMMMMMMMM",
+             "~~~~~~~~~~~~~~~~"]

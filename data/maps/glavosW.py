@@ -11,17 +11,14 @@ self.type = "slum"
 
 self.npcname = "Anna"
 self.npcref = "woman"
-self.npclines = ["Ah young man, maybe you can help me...",
-                 "I lost the key to my house.",
-                 "If you can find it, I will reward you.",
-                 "With what you ask?",
-                 "Umm... a powerful weapon!",
-                 "No, you can't have it now, its in my house."]
+self.npclines = ["That no-good husband of mine!",
+                 "If I had my wrench I'd wallop him good...",
+                 "...but it's locked in my house and I lost the key."]
 
 self.sign = "Anna's House"
 
 self.east = "glavosHouse"
-self.west = "start"
+self.west = "start2"
 self.north = "glavosNW"
 self.south = "glavosSW"
 self.up = ""
