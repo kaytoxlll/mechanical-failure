@@ -17,10 +17,10 @@ self.type = "rich"
 
 #self.sign = ""
 
-self.east = ""
-self.west = ""
-self.north = ""
-self.south = ""
+self.east = "milenariaE"
+self.west = "milenariaW"
+self.north = "milenariaN"
+self.south = "milenariaS"
 self.up = ""
 self.down = ""
 
