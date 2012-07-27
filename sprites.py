@@ -378,6 +378,7 @@ class NPC(pygame.sprite.Sprite, object):
         Return False if stunned (do not continue turn)
         """
         # update timers
+        self.moving = False
         if self.animtimer == self.animtimermax:
             self.animtimer = 0
             self.action = None
@@ -403,15 +404,14 @@ class NPC(pygame.sprite.Sprite, object):
             else:
                 return False
         # reset variables
-        self.moving = False
         return True
 
     def update(self):
         """Process actions for the sprite each frame,
         Includes AI directives and animations.
         """
-        self.tick()
-        self.brain.think()
+        if not self.tick():
+            self.brain.think()
         self.animate()
         self.attacked = False
         return
