@@ -46,6 +46,19 @@ class Obstacle(pygame.sprite.Sprite):
             if self.breakable:
                 self.kill()
                 globalvars.backgroundQ.add(Obstacle("rubbish", "terrain", self.rect.topleft, solid=False))
+                random.seed()
+                chance = random.randint(1,100)
+                itemname = None
+                if chance < 2:
+                    itemname = "potion"
+                elif chance < 4:
+                    itemname = "chest"
+                elif chance < 20:
+                    itemname = "coin"
+                if item is not None:
+                    item = Item(itemname)
+                    item.rect.center = self.rect.center
+                    globalvars.itemQ.add(item)
             return True
         return False
 
