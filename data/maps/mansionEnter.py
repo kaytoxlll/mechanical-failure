@@ -6,10 +6,13 @@
 #self.type = "house"
 #self.type = "sewer"
 self.type = "rich"
-#self.type = "garden"
 
 #self.script = ["doors"]
-#self.script = [""]
+self.script = ["Thief: Hey you, not you again!",
+               "We're hittin' Mr. Stingh's house hard...",
+               "...so you can't get what he's got in there!",
+               "Our secret base will be totally secure!",
+               "And now, I ain't gonna let you stop us!"]
 
 #self.npcname = ""
 #self.npcref = ""
@@ -18,9 +21,9 @@ self.type = "rich"
 #self.sign = ""
 
 self.east = ""
-self.west = "milenariaCenter"
-self.north = "milenariaNE"
-self.south = "milenariaSE"
+self.west = ""
+self.north = "mansionS1"
+self.south = "milenairaN"
 self.up = ""
 self.down = ""
 
@@ -31,12 +34,12 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W..............W",
              "W..............W",
              "W..............W",
-             "...............W",
-             "...............W",
+             "W..............W",
+             "W......t.......W",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
-             "WWWWWWWWWWWWWWWW",]
+             "WWWWWWW..WWWWWWW",]

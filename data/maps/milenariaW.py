@@ -16,7 +16,7 @@ self.npclines = ["Looking to get into Glavos?",
                  "I wish I could buy some potions there...",
                  "...but Mr. Stingh locked it up.",
                  "I heard he hid the key in the south-east,",
-                 "Somewhere near the gardens."]
+                 "Somewhere in the gardens."]
 
 self.sign = "<--Glavos"
 

@@ -18,7 +18,7 @@ self.type = "rich"
 
 self.east = "milenariaNE"
 self.west = "milenariaNW"
-self.north = "mansionEnter"
+self.north = "mansionSouth"
 self.south = "milenairaCenter"
 self.up = ""
 self.down = ""
@@ -26,16 +26,16 @@ self.down = ""
 self.grid = ["WWWWWWW..WWWWWWW",
              "W..............W",
              "W..............W",
+             "W..U........U..W",
              "W..............W",
              "W..............W",
-             "W..............W",
-             "W..............W",
+             "W..U........U..W",
              "................",
              "................",
-             "WWWWWWWW.......W",
-             "WH.....W.......W",
-             "W......W.......W",
-             "W.....WW.......W",
-             "W.....d........W",
+             "W..............W",
+             "WH.......H.....W",
+             "W..............W",
+             "W..............W",
+             "W..............W",
              "W..............W",
              "WWWWWWW..WWWWWWW",]
