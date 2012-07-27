@@ -16,7 +16,7 @@ self.npclines = ["That no-good husband of mine!",
                  "If I had my wrench I'd wallop him good...",
                  "...but it's locked in my house and I lost the key."]
 
-self.sign = "Anna's House"
+self.sign = "Anna's House -->"
 
 self.east = "glavosHouse"
 self.west = "start2"
