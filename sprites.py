@@ -77,6 +77,18 @@ class Obstacle(pygame.sprite.Sprite):
                     return s.examine()
         return True
 
+class SavePoint(Obstacle):
+    """When hero activates it, save the game"""
+    def __init__(self, name, reference, mapname, pos=(0,0), solid=True):
+        Obstacle.__init__(self, name, reference, pos, solid)
+        self.mapname = mapname
+
+    def examine(self):
+        if not menu.dialogue("Do you want to save the game?"):
+            return True
+        menu.save("save1.py", self.mapname)
+        menu.dialogue("Save complete!")
+
 class Floor(Obstacle):
     def __init__(self, name, reference, pos=(0,0), solid=False):
         Obstacle.__init__(self, name, reference, pos, solid)

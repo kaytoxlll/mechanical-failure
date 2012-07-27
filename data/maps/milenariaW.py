@@ -40,6 +40,6 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W.....U..U..U..W",
              "W..............W",
              "W....WWWWWWWWWWW",
-             "W............<.W",
+             "W........!...<.W",
              "W..............W",
              "WWWWWWWWWWWWWWWW",]

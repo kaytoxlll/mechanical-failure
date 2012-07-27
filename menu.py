@@ -2,6 +2,8 @@
 # Licensed under the GNU GPL v.2
 # See license.txt for licence information
 
+from os import getcwd, listdir
+from os.path import join
 import sys
 import pygame
 import sprites
@@ -147,3 +149,31 @@ def dialogue(text):
                         return False
                 elif nextbox.rect.collidepoint(x,y):
                     return True
+
+def save(filename, currentmapname):
+    """Save the current game state's hero info to the file"""
+    path = join(getcwd(), "savedata", filename)
+    savefile = open(path, 'w')
+    savefile.write("globalvars.hero.startloc = '" + currentmapname + "'\n")
+    pos = "(" + str(globalvars.hero.rect.centerx) + "," + str(globalvars.hero.rect.centery) + ")"
+    savefile.write("globalvars.hero.rect.center = " + pos + "\n")
+    savefile.write("globalvars.hero.name = '" + globalvars.hero.name + "'\n")
+    savefile.write("globalvars.hero.hpmax = " + str(globalvars.hero.hpmax) + "\n")
+    savefile.write("globalvars.hero.hp = " + str(globalvars.hero.hp) + "\n")
+    savefile.write("globalvars.hero.weapon = '" + globalvars.hero.weapon + "'\n")
+    savefile.write("globalvars.hero.gun = '" + globalvars.hero.gun + "'\n")
+    savefile.write("globalvars.hero.potions = " + str(globalvars.hero.potions) + "\n")
+    savefile.write("globalvars.hero.ammo = " + str(globalvars.hero.ammo) + "\n")
+    savefile.write("globalvars.hero.bombs = " + str(globalvars.hero.bombs) + "\n")
+    savefile.write("globalvars.hero.coins = " + str(globalvars.hero.coins) + "\n")
+    savefile.write("globalvars.hero.keys = " + str(globalvars.hero.keys) + "\n")
+    savefile.close()
+
+def load(filename):
+    """Execute the filename as a Python script, expecting that it will
+    modify globalvars.hero
+    """
+    path = join(getcwd(), "savedata", filename)
+    savefile = open(path, 'r')
+    for line in savefile:
+        exec line
