@@ -12,7 +12,7 @@ self.type = "slum"
 self.npcname = "Sharon"
 self.npcref = "woman"
 self.npclines = ["Thinking of entering the sewer?",
-                 "Well, I don't recommend it, rats are vicious",
+                 "Well, I don't recommend it, rats are vicious.",
                  "Don't even think about it without a weapon!"]
 
 self.sign = "Sewer west entrance (Danger! Rats!!)"

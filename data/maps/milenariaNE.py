@@ -22,7 +22,7 @@ self.npclines = ["Have you heard about the Scarlet Hand?",
 #self.sign = ""
 
 self.east = "passageW1"
-self.west = "milenariaNW"
+self.west = "milenariaN"
 self.north = ""
 self.south = "milenariaE"
 self.up = ""
@@ -32,15 +32,15 @@ self.grid = ["WWWWWWWWWWWWWWWW",
              "WH.......H.....W",
              "W..............W",
              "W..............W",
-             "W..............W",
+             "W.......U.....UW",
              "W..............W",
              "W...n....H.....W",
              "...............E", #E
              "...............E", #E
-             "W..UMU.........W",
-             "W..M~M.........W",
-             "W..~P~...H.....W",
-             "W..U~U.........W",
-             "W..............W",
+             "W..UMU..U......W",
+             "W..M~M...GG.GG.W",
+             "W..~I~...GG.GG.W",
+             "W..U~U......GG.W",
+             "W........GGGGG.W",
              "W..............W",
              "WWWWWWW..WWWWWWW",]

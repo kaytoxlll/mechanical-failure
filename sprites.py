@@ -55,7 +55,7 @@ class Obstacle(pygame.sprite.Sprite):
                     itemname = "chest"
                 elif chance < 20:
                     itemname = "coin"
-                if item is not None:
+                if itemname is not None:
                     item = Item(itemname)
                     item.rect.center = self.rect.center
                     globalvars.itemQ.add(item)
@@ -69,7 +69,7 @@ class Obstacle(pygame.sprite.Sprite):
         if self.name == "vendingmachine":
             newrect = self.rect.move(0, -TILESIZE)
             for s in globalvars.solidGroup:
-                if s is not self and newrect.colliderect(s.rect):
+                if newrect.colliderect(s.rect) and type(s) == ShopItem:
                     return s.examine()
         elif self.name == "counter":
             for s in globalvars.solidGroup:
@@ -423,7 +423,7 @@ class NPC(pygame.sprite.Sprite, object):
         """Process actions for the sprite each frame,
         Includes AI directives and animations.
         """
-        if not self.tick():
+        if self.tick():
             self.brain.think()
         self.animate()
         self.attacked = False
