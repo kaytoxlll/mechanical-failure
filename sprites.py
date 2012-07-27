@@ -20,23 +20,36 @@ import random
 class Obstacle(pygame.sprite.Sprite):
     """Base sprite class for map objects (i.e. barrels, etc)
     """
-    def __init__(self, name, reference, pos=(0,0), solid=True, breakable=False):
+    def __init__(self, name, reference, pos=(0,0), solid=True, breakable=False, animate=False):
         pygame.sprite.Sprite.__init__(self)
         #global images
         self.ref = reference # i.e. terrain (directory)
         self.text = []
         self.name = name # i.e. barrel (file name)
-        self.image = globalvars.images[self.ref + self.name]
+        self.animate = animate
+        self.append = ""
+        if animate:
+            self.append = "1"
+        self.image = globalvars.images[self.ref + self.name + self.append]
         self.rect = self.image.get_rect()
         self.rect.topleft = pos # i.e. (0,0) or (128, 64)
         self.solid = solid # boolean
         self.breakable = breakable
+        self.timer = random.randint(20, 100)
 
     def update(self):
         """Do what you do, which is probably nothing.
         Return any new sprites created as a group.
         """
-        pass
+        if self.animate:
+            self.timer -= 1
+            if self.timer == 0:
+                self.timer = random.randint(20, 100)
+                if self.append == "1":
+                    self.append = "2"
+                else:
+                    self.append = "1"
+                self.image = globalvars.images[self.ref + self.name + self.append]
 
     def hit(self, attack, frompoint):
         """Just got hit by an attack.

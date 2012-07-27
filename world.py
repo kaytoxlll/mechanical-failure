@@ -24,7 +24,7 @@ script() returns True when it no longer needs to run.
 KEY = {".":'None',
        "!":'SavePoint("savepoint", "terrain", self.name)',
        "G":'Floor(self.floor2, "terrain")',
-       "~":'Obstacle(self.water, "terrain", solid=False)',
+       "~":'Obstacle(self.water, "terrain", solid=False, animate=True)',
        "W":'Obstacle(self.wall, "terrain")', 
        "B":'Obstacle("barrel" + str(mod), "terrain", breakable=True)',
        "O":'Obstacle("box" + str(mod), "terrain", breakable=True)',
@@ -32,9 +32,9 @@ KEY = {".":'None',
        "U":'Obstacle("bush" + str(mod), "terrain")',
        "H":'Obstacle(self.house + str(mod), "terrain")',
        "C":'Obstacle("counter", "terrain")',
-       "S":'Obstacle("sludge", "terrain", solid=False)',
-       "M":'Obstacle("moat", "terrain", solid=False)',
-       "I":'Obstacle("lillypads", "terrain", solid=False)',
+       "S":'Obstacle("sludge", "terrain", solid=False, animate=True)',
+       "M":'Obstacle("moat", "terrain", solid=False, animate=True)',
+       "I":'Obstacle("lillypads", "terrain", solid=False, animate=True)',
        "D":'Moveable("doorwide", "terrain")',
        "d":'Moveable("doortall", "terrain")',
        "L":'Locked("lockwide", "terrain")',
@@ -251,6 +251,7 @@ class World():
 
     def update(self):
         """Update all the mob sprites, run script"""
+        self.currentmap.obstacles.update()
         self.currentmap.mobs.update()
         if not self.currentmap.scriptdone:
             self.currentmap.scriptdone = self.currentmap.script()
