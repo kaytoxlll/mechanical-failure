@@ -209,6 +209,7 @@ class Attacking(State):
            reach.colliderect(globalvars.hero.rect):
             self.npc.mattack()
             self.attacktimes -= 1
+            self.stuntimer = 1
 
     def checkConditions(self):
         """If the hero moves out of range, change to seeking.
@@ -224,5 +225,5 @@ class Attacking(State):
         return None
 
     def entryActions(self):
-        seed()
-        self.attacktimes = randint(1, 3)
+        #seed()
+        self.attacktimes = 1 #randint(1, 3)
