@@ -117,7 +117,7 @@ class Transition(Obstacle):
             return menu.dialogue("Climb up?")
         elif self.name == "ladderdown":
             return menu.dialogue("Climb down?")
-        elif self.name == "zone":
+        elif self.name == "zone" or self.name == "zone2":
             return menu.dialogue("Enter?")
 
 class Sign(Obstacle):
@@ -371,7 +371,7 @@ class NPC(pygame.sprite.Sprite, object):
         for s in globalvars.solidGroup:
             if newrect.colliderect(s.rect) and self.name is not s.name and \
                globalvars.attackGroup.has(s) is not True:
-                if s.name == "zone":
+                if s.name == "zone" or s.name == "zone2":
                     return "north"
                 self.moving = False
                 return s.name
