@@ -14,11 +14,11 @@ self.npcname = "Anna"
 self.npcref = "woman"
 self.npclines = ["That no-good husband of mine!",
                  "If I had my wrench I'd wallop him good...",
-                 "...but it's locked in my house and I lost the key."]
+                 "...but it's locked in my closet and I lost the key."]
 
-self.sign = "Anna's House -->"
+#self.sign = ""
 
-self.east = "glavosHouse"
+self.east = "glavosCenter"
 self.west = "start2"
 self.north = "glavosNW"
 self.south = "glavosSW"
@@ -31,8 +31,8 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W...........~~.W",
              "W..............W",
              "W..............W",
-             "W............#.W",
-             "...............l",
+             "W..............W",
+             "................",
              "...........n....",
              "W..............W",
              "WH.............W",

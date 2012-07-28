@@ -16,25 +16,25 @@ self.type = "house"
 #self.sign = ""
 
 self.east = ""
-self.west = "glavosW"
+self.west = ""
 self.north = ""
-self.south = ""
+self.south = "glavosCenter"
 self.up = ""
 self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
              "W..............W",
+             "W.C........C...W",
+             "W..............W",
+             "W...U......U...W",
+             "W..............W",
+             "W...........WWWW",
+             "W...........l..W",
+             "W.............wW",
+             "W...........WWWW",
+             "W..............W",
+             "W..............W",
+             "W..............W",
              "W.C.......C....W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "...............W",
-             "...........w...W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W.C.......C....W",
-             "W..............W",
-             "WWWWWWWWWWWWWWWW",]
+             "W.....W..W.....W",
+             "WWWWWWW..WWWWWWW",]

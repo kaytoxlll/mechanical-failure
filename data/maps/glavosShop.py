@@ -16,9 +16,9 @@ self.npclines = ["Lost and found? That's upstairs."]
 #self.sign = ""
 
 self.east = ""
-self.west = "glavosSE"
+self.west = ""
 self.north = ""
-self.south = ""
+self.south = "glavosSE"
 self.up = "glavosShopU"
 self.down = ""
 
@@ -29,12 +29,12 @@ self.grid = ["WWWWWWWWWWWWWWWW",
              "W..........n...W",
              "W..............W",
              "W..............W",
-             "...............W",
-             "...............W",
              "W..............W",
              "W..............W",
-             "W.B..O.........W",
-             "W...O........>.W",
-             "W..O...........W",
              "W..............W",
-             "WWWWWWWWWWWWWWWW",]
+             "W..........WW..W",
+             "W.B..O.....W...W",
+             "W...O......W..>W",
+             "W..O.......W...W",
+             "W.....W..W.W...W",
+             "WWWWWWW..WWWWWWW",]

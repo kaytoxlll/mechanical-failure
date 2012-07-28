@@ -25,7 +25,9 @@ KEY = {".":'None',
        "!":'SavePoint("savepoint", "terrain", self.name)',
        "G":'Floor(self.floor2, "terrain")',
        "~":'Obstacle(self.water, "terrain", solid=False, animate=True)',
-       "W":'Obstacle(self.wall, "terrain")', 
+       "W":'Obstacle(self.wall, "terrain")',
+       "X":'Obstacle("housezone", "terrain")', # 8x4
+       "N":'Obstacle("window", "terrain")',
        "B":'Obstacle("barrel" + str(mod), "terrain", breakable=True)',
        "O":'Obstacle("box" + str(mod), "terrain", breakable=True)',
        "T":'Obstacle("toxicbarrel" + str(mod), "terrain")',
@@ -44,6 +46,7 @@ KEY = {".":'None',
        "V":'Obstacle("vendingmachine", "terrain")',
        "<":'Transition("ladderdown", "terrain", "down")',
        ">":'Transition("ladderup", "terrain", "up")',
+       "Z":'Transition("zone", "terrain", "north")', 
        "P":'ShopItem("potion", 20)',
        "A":'ShopItem("ammo", 10)',
        "Q":'ShopItem("bomb", 50)',
@@ -75,6 +78,7 @@ class Map():
             self.floor = "stone"
             self.floor2 = "grass"
             self.wall = "brick"
+            self.wall2 = "beams"
             self.water = "water"
             self.house = "house"
         elif self.type == "house":
@@ -94,6 +98,7 @@ class Map():
             self.floor = "pastelstone"
             self.floor2 = "grass"
             self.wall = "pastelbrick"
+            self.wall2 = "beams"
             self.water = "water"
             self.house = "pastelhouse"
         elif self.type == "garden":
@@ -156,6 +161,7 @@ class Map():
                 elif isinstance(sprite, Transition):
                     sprite.rect.topleft = (x,y)
                     self.obstacles.add(sprite)
+                    self.backgroundGroup.add(sprite)
                 elif isinstance(sprite, Obstacle):
                     sprite.rect.topleft = (x,y)
                     self.obstacles.add(sprite)
@@ -211,7 +217,14 @@ class World():
             globalvars.hero.rect.topleft = (CENTERX-TILESIZE/2, CENTERYEND-TILESIZE)
         elif herofromdirection == "south": # starts north
             self.currentmap = self.maps[self.currentmap.south]
-            globalvars.hero.rect.topleft = (CENTERX-TILESIZE/2, CENTERYSTART)
+            zone = False
+            for s in self.currentmap.obstacles:
+                if s.name == "zone":
+                    globalvars.hero.rect.topleft = s.rect.move(0, TILESIZE).topleft
+                    zone = True
+                    break
+            if not zone:
+                globalvars.hero.rect.topleft = (CENTERX-TILESIZE/2, CENTERYSTART)
         elif herofromdirection == "east": # starts west
             self.currentmap = self.maps[self.currentmap.east]
             globalvars.hero.rect.topleft = (CENTERXSTART, CENTERY-TILESIZE/2)

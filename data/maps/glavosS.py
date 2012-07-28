@@ -19,12 +19,12 @@ self.npclines = ["Those careless dockworkers...",
 
 self.east = "glavosSE"
 self.west = "glavosSW"
-self.north = ""
+self.north = "glavosCenter"
 self.south = ""
 self.up = ""
 self.down = ""
 
-self.grid = ["WWWWWWWWWWWWWWWW",
+self.grid = ["WWWWWWW..WWWWWWW",
              "WH.......H.....W",
              "W..............W",
              "W..............W",
