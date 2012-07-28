@@ -5,6 +5,8 @@
 self.type = "slum"
 #self.type = "house"
 #self.type = "sewer"
+#self.type = "rich"
+#self.type = "garden"
 
 #self.script = ["doors"]
 #self.script = [""]
@@ -13,28 +15,28 @@ self.type = "slum"
 #self.npcref = ""
 #self.npclines = [""]
 
-self.sign = "Sally's Item Shop"
+self.sign = "Anna's House"
 
 self.east = ""
-self.west = "glavosS"
-self.north = "glavosShop"
-self.south = ""
-self.up = "glavosE"
+self.west = "glavosW"
+self.north = "glavosHouse"
+self.south = "glavosS"
+self.up = ""
 self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
-             "W.O............W",
-             "WO...........B.W",
-             "W...X.........BW",
+             "W...X..........W",
              "W..............W",
              "W..............W",
              "W......Z.......W",
-             ".....#.........W",
+             "W.....U..U.....W",
+             "W....#.........W",
              "...............W",
+             "...............W",
+             "WH........H....W",
              "W..............W",
              "W..............W",
              "W..............W",
-             "W........B.....W",
-             "W..........B...W",
-             "W..B...........W",
-             "MMMMMMMMMMMMMMMM",]
+             "W..............W",
+             "W..............W",
+             "WWWWWWW..WWWWWWW"]

@@ -19,9 +19,9 @@ self.npclines = ["Boy do I hate living in Glavos...",
 self.sign = "<-- Glavos      Milenaria -->"
 
 self.east = "milenariaW"
-self.west = ""
+self.west = "glavosCenter"
 self.north = "glavosNE"
-self.south = "glavosSE"
+self.south = ""
 self.up = ""
 self.down = ""
 
@@ -32,12 +32,12 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W..............W",
              "W..............W",
              "W............#.W",
-             "W..............d",
-             "W...............",
+             "...............d",
+             "................",
              "WH.............W",
              "W............n.W",
              "W..............W",
              "W..............W",
              "W..........MMM.W",
              "W..............W",
-             "WWWWWWW..WWWWWWW",]
+             "WWWWWWWWWWWWWWWW",]
