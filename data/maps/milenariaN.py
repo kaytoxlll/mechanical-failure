@@ -18,7 +18,7 @@ self.type = "rich"
 
 self.east = "milenariaNE"
 self.west = "milenariaNW"
-self.north = "mansionSouth"
+self.north = "mansionEnter"
 self.south = "milenariaCenter"
 self.up = ""
 self.down = ""

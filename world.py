@@ -26,6 +26,7 @@ KEY = {".":'None',
        "G":'Floor(self.floor2, "terrain")',
        "~":'Obstacle(self.water, "terrain", solid=False, animate=True)',
        "W":'Obstacle(self.wall, "terrain")',
+       "w":'Obstacle(self.wall2, "terrain")',
        "X":'Obstacle("housezone", "terrain")', # 8x4
        "N":'Obstacle("window", "terrain")',
        "B":'Obstacle("barrel" + str(mod), "terrain", breakable=True)',
@@ -46,7 +47,8 @@ KEY = {".":'None',
        "V":'Obstacle("vendingmachine", "terrain")',
        "<":'Transition("ladderdown", "terrain", "down")',
        ">":'Transition("ladderup", "terrain", "up")',
-       "Z":'Transition("zone", "terrain", "north")', 
+       "Z":'Transition("zone", "terrain", "north")',
+       "z":'Transition("zone2", "terrain", "north")',
        "P":'ShopItem("potion", 20)',
        "A":'ShopItem("ammo", 10)',
        "Q":'ShopItem("bomb", 50)',
@@ -57,7 +59,7 @@ KEY = {".":'None',
        "c":'Item("coin")',
        "h":'Item("chest")',
        "k":'Item("key")',
-       "w":'Item("wrench")',
+       "x":'Item("wrench")',
        "g":'Item("gun")',
        "r":'Rat()',
        "t":'Thief()',
@@ -108,6 +110,20 @@ class Map():
             self.wall = "pastelbrick"
             self.water = "water"
             self.house = "pastelhouse"
+        elif self.type == "courtyard":
+            self.song = "garden.mp3"
+            self.floor = "pastelstone"
+            self.floor2 = "grass"
+            self.wall = "purplebrick"
+            self.wall2 = "pastelbrick"
+            self.water = "water"
+        elif self.type == "mansion":
+            self.song = "shop.mp3"
+            self.floor = "beams"
+            self.floor2 = "slab"
+            self.wall = "purplebrick"
+            self.wall2 = "pastelbrick"
+            self.water = "water"
         # set script variables
         self.scripttext = []
         if self.script is not None:
@@ -219,7 +235,7 @@ class World():
             self.currentmap = self.maps[self.currentmap.south]
             zone = False
             for s in self.currentmap.obstacles:
-                if s.name == "zone":
+                if s.name == "zone" or s.name == "zone2":
                     globalvars.hero.rect.topleft = s.rect.move(0, TILESIZE).topleft
                     zone = True
                     break

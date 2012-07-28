@@ -73,7 +73,7 @@ while True:
 
     # update the groups from the queues
     globalvars.solidGroup.add(globalvars.solidQ)
-    world.currentmap.backgroundGroup.add(globalvars.backgroundQ)
+    world.currentmap.surfaceGroup.add(globalvars.backgroundQ)
     globalvars.attackGroup.add(globalvars.attackQ)
     globalvars.solidGroup.add(globalvars.attackQ)
     globalvars.solidQ.empty()
