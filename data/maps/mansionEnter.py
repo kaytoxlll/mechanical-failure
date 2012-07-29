@@ -11,7 +11,7 @@ self.type = "courtyard"
 self.script = ["doors"]
 self.script2 = ["Thief: Hey you, not you again!",
                "We're hittin' Mr. Stingh's house hard...",
-               "...so you can't get what he's got in there!",
+               "...so you can't get what e's got in there!",
                "Our secret base will be totally secure!",
                "And now, I ain't gonna let you stop us!"]
 
@@ -24,7 +24,7 @@ self.script2 = ["Thief: Hey you, not you again!",
 self.east = ""
 self.west = ""
 self.north = "mansionS1"
-self.south = "milenairaN"
+self.south = "milenariaN"
 self.up = ""
 self.down = ""
 

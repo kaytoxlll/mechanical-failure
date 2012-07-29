@@ -10,9 +10,10 @@ self.type = "rich"
 #self.script = ["doors"]
 #self.script = [""]
 
-#self.npcname = ""
-#self.npcref = ""
-#self.npclines = [""]
+self.npcname = "Angela"
+self.npcref = "woman"
+self.npclines = ["I saw some tough looking fellahs go north...",
+                 "...toward Mr. Stingh's house.  Looked like trouble."]
 
 #self.sign = ""
 
@@ -28,7 +29,7 @@ self.grid = ["WWWWWWW..WWWWWWW",
              "W..............W",
              "W..U........U..W",
              "W..............W",
-             "W..............W",
+             "W........n.....W",
              "W..U........U..W",
              "................",
              "................",

@@ -21,19 +21,19 @@ self.type = "mansion"
 self.east = ""
 self.west = ""
 self.north = ""
-self.south = ""
+self.south = "mansionW2"
 self.up = ""
 self.down = ""
 
-self.grid = ["WWWWWWW..WWWWWWW",
+self.grid = ["WWWWWWWNNWWWWWWW",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
-             "................",
-             "................",
+             "N..............W",
+             "N..............W",
              "W..............W",
              "W..............W",
              "W..............W",

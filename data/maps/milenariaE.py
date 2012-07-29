@@ -11,9 +11,10 @@ self.type = "rich"
 #self.script = ["doors"]
 #self.script = [""]
 
-#self.npcname = ""
-#self.npcref = ""
-#self.npclines = [""]
+self.npcname = "Dan"
+self.npcref = "thief"
+self.npclines = ["Have you been the the southern garden yet?",
+                 "We Milenarians have a fondness for gardening."]
 
 #self.sign = ""
 
@@ -25,18 +26,18 @@ self.up = ""
 self.down = ""
 
 self.grid = ["WWWWWWW..WWWWWWW",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "...............W",
-             "...............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
+             "WH.............W",
+             "W.........UGGU.W",
+             "W.........GGGG.W",
+             "W.........GGGG.W",
+             "W.........GGGG.W",
+             "W.........UGGU..W",
+             "..........GGGG.W",
+             ".........nGGGG.W",
+             "W.........GGGG.W",
+             "WH........UGGU.W",
+             "W.........GGGG.W",
+             "W.........GGGG.W",
+             "W.........GGGG.W",
+             "W.........UGGU.W",
              "WWWWWWW..WWWWWWW",]

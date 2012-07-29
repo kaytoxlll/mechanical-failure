@@ -18,22 +18,22 @@ self.type = "mansion"
 
 #self.sign = ""
 
-self.east = ""
+self.east = "mansionNE2"
 self.west = ""
 self.north = ""
-self.south = ""
+self.south = "mansionCenter2"
 self.up = ""
 self.down = ""
 
-self.grid = ["WWWWWWW..WWWWWWW",
+self.grid = ["WWWWWWWNNWWWWWWW",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
              "W..............W",
-             "................",
-             "................",
+             "W...............",
+             "W...............",
              "W..............W",
              "W..............W",
              "W..............W",
