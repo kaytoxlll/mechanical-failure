@@ -10,7 +10,7 @@ self.type = "slum"
 #self.script = [""]
 
 self.npcname = "Daniel"
-self.npcref = "thief"
+self.npcref = "richman"
 self.npclines = ["What are you doing?!",
                  "You ruined the perfect hiding spot!",
                  "Now my wife will find me for sure..."]

@@ -11,8 +11,8 @@ self.type = "rich"
 #self.script = ["doors"]
 #self.script = [""]
 
-self.npcname = "Dan"
-self.npcref = "thief"
+self.npcname = "Daisy"
+self.npcref = "woman"
 self.npclines = ["Have you been the the southern garden yet?",
                  "We Milenarians have a fondness for gardening."]
 
