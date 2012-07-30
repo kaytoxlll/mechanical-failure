@@ -11,7 +11,7 @@ self.type = "rich"
 #self.script = [""]
 
 self.npcname = "Hopkins"
-self.npcref = "richman"
+self.npcref = "man"
 self.npclines = ["Have you heard about the Scarlet Hand?",
                  "That group of thieves gives me the shivers.",
                  "Their leader, Shadow, always wears black.",
