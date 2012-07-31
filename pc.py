@@ -16,7 +16,7 @@ class PC(sprites.NPC):
     """
     def __init__(self, name, pos):
         sprites.NPC.__init__(self, name, "hero", pos)
-        self.startloc = "milenariaCenter"
+        self.startloc = "mansionS1"
         self.speed = 2.5
         self.hpmax = 30
         self.hp = self.hpmax
