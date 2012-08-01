@@ -9,8 +9,11 @@
 #self.type = "garden"
 self.type = "mansion"
 
-#self.script = ["doors"]
-#self.script = [""]
+self.script = ["doors"]
+self.script2 = ["Thief: Alright boys, we got Stingh trapped!",
+                "...",
+                "Hey, what'r you doing here?!",
+                "Get 'im boys!"]
 
 #self.npcname = ""
 #self.npcref = ""
@@ -25,19 +28,19 @@ self.south = "mansionSW2"
 self.up = ""
 self.down = ""
 
-self.grid = ["WWWWWWW..WWWWWWW",
+self.grid = ["WWWWWWWD.WWWWWWW",
+             "W..........t...W",
              "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "N..............W",
-             "N..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
+             "W..WWW....WWW..W",
+             "W..W........W..W",
+             "W..W.t......W..W",
+             "W..........t...W",
+             "N......WW......W",
+             "N......WW......W",
+             "W......t.......W",
+             "W..W........W..W",
+             "W..W........W..W",
+             "W..WWW....WWW..W",
              "W..............W",
              "W..............W",
              "WWWWWWW..WWWWWWW"]
