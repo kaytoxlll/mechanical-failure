@@ -17,7 +17,7 @@ self.type = "slum"
 
 self.sign = "Anna's House"
 
-self.east = ""
+self.east = "glavosE"
 self.west = "glavosW"
 self.north = "glavosHouse"
 self.south = "glavosS"
@@ -31,8 +31,8 @@ self.grid = ["WWWWWWWWWWWWWWWW",
              "W......Z.......W",
              "W.....U..U.....W",
              "W....#.........W",
-             "...............W",
-             "...............W",
+             "................",
+             "................",
              "WH........H....W",
              "W..............W",
              "W..............W",
