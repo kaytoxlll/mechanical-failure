@@ -26,7 +26,7 @@ self.up = ""
 self.down = ""
 
 self.grid = ["WWWWWWWD.WWWWWWW",
-             "W..............W",
+             "W....U....U....W",
              "W.t......c.c...W",
              "W.........c....W",
              "W..............W",
