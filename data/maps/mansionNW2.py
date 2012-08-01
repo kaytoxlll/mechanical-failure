@@ -37,8 +37,8 @@ self.down = ""
 
 self.grid = ["WWWWWWWNNWWWWWWW",
              "W..............W",
-             "W..............W",
-             "W..............W",
+             "W..oooo.#..Q...W",
+             "W..oooo....V...W",
              "W..............W",
              "WWWWWWWL.WWWWWWW",
              "WU.............W",
