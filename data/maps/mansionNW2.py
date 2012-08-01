@@ -12,11 +12,21 @@ self.type = "mansion"
 #self.script = ["doors"]
 #self.script = [""]
 
-#self.npcname = ""
-#self.npcref = ""
-#self.npclines = [""]
+self.npcname = "Stingh"
+self.npcref = "richman"
+self.npclines = ["Oh thank goodness, you saved me!",
+                 "Those villans would have robbed me blind.",
+                 "...",
+                 "I suppose some reward is in order...",
+                 "...er, *ahem*",
+                 "Perhaps my thanks will suffice?",
+                 "I'm sorry, now is no time to be selfish.",
+                 "Take this key, it opens my private vault.",
+                 "In there you will find my favorite toy: bombs!",
+                 "They are useful for smiting the commoners.",
+                 "...no offence..."]
 
-#self.sign = ""
+self.sign = "Tip: Press Q to place a bomb, then run!"
 
 self.east = ""
 self.west = ""
@@ -30,13 +40,13 @@ self.grid = ["WWWWWWWNNWWWWWWW",
              "W..............W",
              "W..............W",
              "W..............W",
-             "W..............W",
-             "W..............W",
+             "WWWWWWWL.WWWWWWW",
+             "WU.............W",
+             "N..........RFF.W",
              "N..............W",
-             "N..............W",
+             "WU.............W",
              "W..............W",
-             "W..............W",
-             "W..............W",
+             "W...nk.....=...W",
              "W..............W",
              "W..............W",
              "W..............W",

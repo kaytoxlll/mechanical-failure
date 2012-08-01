@@ -9,8 +9,10 @@
 #self.type = "garden"
 self.type = "mansion"
 
-#self.script = ["doors"]
-#self.script = [""]
+self.script = ["doors"]
+self.script2 = [globalvars.hero.name + ": Wow, this guy must be loaded!",
+                "I wonder what reward I can get...",
+                "...when I finish taking care of these thieves."]
 
 #self.npcname = ""
 #self.npcref = ""
@@ -27,17 +29,17 @@ self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
              "W.....R..R.....W",
-             "W.U..........U.W",
+             "W.U......c.c.U.W",
+             "W.....t...c....W",
              "W..............W",
+             "W...=....=..t..W",
              "W..............W",
-             "W...=....=.....W",
-             "W..............W",
-             "................",
+             "d..............d",
              "................",
              "W..............W",
              "W..............W",
              "W...FF....FF...W",
              "W..............W",
-             "W.U..........U.W",
-             "W..............W",
-             "WWWWWWW..WWWWWWW"]
+             "W.U....GG....U.W",
+             "W.....GGGG.....W",
+             "WWWWWWWGGWWWWWWW"]

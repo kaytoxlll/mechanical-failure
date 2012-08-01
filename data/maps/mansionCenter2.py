@@ -9,7 +9,7 @@
 #self.type = "garden"
 self.type = "mansion"
 
-#self.script = ["doors"]
+self.script = ["doors"]
 #self.script = [""]
 
 #self.npcname = ""
@@ -25,19 +25,19 @@ self.south = ""
 self.up = ""
 self.down = ""
 
-self.grid = ["WWWWWWW..WWWWWWW",
+self.grid = ["WWWWWWWD.WWWWWWW",
              "W..............W",
+             "W..FR......FR..W",
+             "W.....t.......pW",
              "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
+             "W..FR......FR..W",
              "W..............W",
              "W...............",
              "W...............",
              "W..............W",
+             "W..FR......FR..W",
              "W..............W",
              "W..............W",
-             "W..............W",
-             "W..............W",
-             "W..............W",
+             "Wt.FR..c...FR..W",
+             "W.......a......W",
              "WWWWWWWWWWWWWWWW"]
