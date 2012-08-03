@@ -16,7 +16,6 @@ import pygame
 
 # initialization
 pygame.mixer.init()
-clock = pygame.time.Clock()
 pygame.display.set_caption("Mechanical Failure")
 pygame.display.set_icon(globalvars.images["misc" + "logo"])
 
@@ -35,6 +34,10 @@ while True:
         if len(savelist) > 1:
             if menu.dialogue("Do you want to load the saved game?"):
                 menu.load("save1.py")
+            else:
+                menu.get_name()
+        else:
+            menu.get_name()
         # set up groups
         world = World()
         globalvars.newgame = False
@@ -97,4 +100,4 @@ while True:
     world.draw(globalvars.window)
     globalvars.heroGroup.draw(globalvars.window)
     pygame.display.update()
-    clock.tick(FPS)
+    globalvars.clock.tick(FPS)

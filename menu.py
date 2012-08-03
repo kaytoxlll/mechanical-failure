@@ -27,6 +27,59 @@ class Button(pygame.sprite.Sprite):
         self.image.blit(textSurface, (x,y))
         self.rect.topleft = pos
 
+def get_name():
+    """Prompt the user to enter a name, read in the input,
+    assign the value to globalvars.hero.name
+    """
+    bigbox = pygame.Surface((CENTERWIDTH, CENTERHEIGHT/2,))
+    bigboxrect = bigbox.get_rect()
+    pygame.draw.rect(bigbox, WHITE, bigboxrect, 10)
+    bigboxrect.topleft = (CENTERXSTART, CENTERHEIGHT/2)
+
+    message = FONT.render("Please enter your name:", True, WHITE, BLACK)
+    messagerect = message.get_rect()
+    messagerect.topleft = (CENTERXSTART+TILESIZE, CENTERHEIGHT/2+TILESIZE)
+
+    nametext = ""
+
+    donebutton = Button("DONE", (CENTERXSTART+TILESIZE, CENTERYEND-BOXSIZE))
+    spriteGroup = pygame.sprite.Group(donebutton)
+
+    while True:
+        # update the screen
+        globalvars.window.blit(bigbox, bigboxrect)
+        globalvars.window.blit(message, messagerect)
+        
+        inputsofar = FONT.render(nametext, True, WHITE, BLACK)
+        inputsofar_rect = inputsofar.get_rect()
+        inputsofar_rect.topleft = (CENTERXSTART+TILESIZE, CENTERHEIGHT/2 + BOXSIZE)
+        globalvars.window.blit(inputsofar, inputsofar_rect)
+        spriteGroup.draw(globalvars.window)
+        pygame.display.update()
+        # handle game events
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+                elif event.key == K_BACKSPACE:
+                    nametext = nametext[:-1]
+                elif event.key == K_RETURN:
+                    globalvars.hero.name = nametext
+                    return
+                elif len(nametext) <= 20 and event.key >= K_SPACE and event.key <= K_z:
+                    nametext = nametext + event.unicode
+            elif event.type == MOUSEBUTTONDOWN:
+                globalvars.hero.attacktimer = 1
+                (x,y) = pygame.mouse.get_pos()
+                if donebutton.rect.collidepoint(x,y):
+                    globalvars.hero.name = nametext
+                    return
+        globalvars.clock.tick(FPS)
+
 def draw_hud():
     """Draw the hero's stats to the side of the screen."""
     # blank screen
@@ -75,7 +128,7 @@ def draw_hud():
     hudlist = []
     for s in globalvars.solidGroup:
         if isinstance(s, sprites.NPC) and s is not globalvars.hero:
-            hudlist.append(s.name + " hp: " + str(s.hp))
+            hudlist.append(s.name + " HP: " + str(s.hp))
     for i in hudlist:
         textSurface = FONTSMALL.render(i, True, WHITE, BLACK)
         textRect = textSurface.get_rect()
@@ -149,6 +202,7 @@ def dialogue(text):
                         return False
                 elif nextbox.rect.collidepoint(x,y):
                     return True
+        globalvars.clock.tick(FPS)
 
 def save(filename, currentmapname):
     """Save the current game state's hero info to the file"""
