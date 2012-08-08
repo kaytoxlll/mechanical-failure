@@ -21,7 +21,7 @@ self.npclines = ["Have you heard about the Scarlet Hand?",
 
 #self.sign = ""
 
-self.east = "passageW1"
+self.east = "passage"
 self.west = "milenariaN"
 self.north = ""
 self.south = "milenariaE"

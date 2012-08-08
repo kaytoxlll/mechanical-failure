@@ -66,6 +66,7 @@ KEY = {".":'None',
        "g":'Item("gun")',
        "r":'Rat()',
        "t":'Thief()',
+       "s":'Boss()',
        "n":'NPC(self.npcname, self.npcref, (0,0), self.npclines)'}
        
 class Map():
