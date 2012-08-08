@@ -9,10 +9,10 @@ self.type = "sewer"
 #self.type = "garden"
 #self.type = "mansion"
 
-#self.script = ["doors"]
-self.script = [globalvars.hero.name + ": Found you Shadow!",
-               "Give me back my wallet!",
-               "Shadow: Impudent vermin, take it if you can!"]
+self.script = ["doors"]
+self.script2 = [globalvars.hero.name + ": Found you Shadow!",
+                "Give me back my wallet!",
+                "Shadow: Impudent vermin, take it if you can!"]
 
 #self.npcname = ""
 #self.npcref = ""
@@ -28,14 +28,14 @@ self.up = ""
 self.down = ""
 
 self.grid = ["WWWWWWWWWWWWWWWW",
-             "W......OO..t...W",
+             "W.o....OO..t...W",
              "W.BBB..........W",
-             "W........BBBB..W",
+             "W..t.....BBBB..W",
              "W....OOO.......W",
-             "W.BBB..........W",
-             "W......s..O....W",
+             "W.BBB.WEEW.....W",
+             "W.....ds.dO....W",
              "W.........O....W",
-             "W...BB.....O...W",
+             "W...BBWWWW.O...W",
              "W..t........O..W",
              "W......OOO.....W",
              "W..BB..........W",
