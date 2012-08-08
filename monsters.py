@@ -6,6 +6,7 @@ from constants import *
 from sprites import *
 from brain import *
 from random import seed, randint
+import sys
 
 class Rat(NPC):
     def __init__(self, pos=(0,0)):
@@ -52,3 +53,27 @@ class Thief(NPC):
             self.drop("ammo")
         elif dropchance < 70:
             self.drop("coin")
+
+class Boss(NPC):
+    def __init__(self, pos=(0,0)):
+        NPC.__init__(self, "Shadow", "boss", pos)
+        self.text = ["Die, punk!"]
+        self.speed = 3.5
+        self.hp = 40
+        self.str = 2
+        self.dex = 0
+        self.weapon = "sword"
+        self.sfxhurt = "malehurt.wav"
+        self.sfxdead = "maledead.wav"
+        self.brain = FighterBrain(self)
+
+    def die(self):
+        menu.dialogue(globalvars.hero.name + ": Take that!")
+        menu.dialogue(self.name + ": Argh...")
+        menu.dialogue(self.name + " has died.")
+        menu.dialogue(globalvars.hero.name + " has retrieved his wallet.")
+        menu.dialogue("The end.")
+        menu.dialogue("Thanks for playing!")
+        pygame.quit()
+        sys.exit()
+    
