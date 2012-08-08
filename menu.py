@@ -7,6 +7,7 @@ from os.path import join
 import sys
 import pygame
 import sprites
+import music
 from pygame.locals import *
 from constants import *
 import globalvars
@@ -26,6 +27,28 @@ class Button(pygame.sprite.Sprite):
         y -= textSurface.get_height()/2
         self.image.blit(textSurface, (x,y))
         self.rect.topleft = pos
+
+def title():
+    """Display the title screen, replace with black when user
+    hits a key.  Also plays title music.
+    """
+    box = globalvars.images["misctitle"]
+    box_rect = box.get_rect()
+    box_rect.topleft = (0,0)
+    globalvars.window.blit(box, box_rect)
+    pygame.display.update()
+    song = music.MusicPlayer("title.mp3")
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == KEYDOWN:
+                blackbox = pygame.Surface((CENTERWIDTH+BORDERWIDTH*2, CENTERHEIGHT))
+                blackbox.fill(BLACK)
+                globalvars.window.blit(blackbox, (0,0))
+                return
+        globalvars.clock.tick(FPS)
 
 def get_name():
     """Prompt the user to enter a name, read in the input,

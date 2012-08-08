@@ -19,6 +19,8 @@ pygame.mixer.init()
 pygame.display.set_caption("Mechanical Failure")
 pygame.display.set_icon(globalvars.images["misc" + "logo"])
 
+menu.title()
+
 while True:
     if globalvars.newgame:
         # load save game
