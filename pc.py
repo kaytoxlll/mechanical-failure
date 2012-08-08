@@ -16,21 +16,21 @@ class PC(sprites.NPC):
     """
     def __init__(self, name, pos):
         sprites.NPC.__init__(self, name, "hero", pos)
-        self.startloc = "milenariaNE"
+        self.startloc = "start"
         self.speed = 2.5
         self.hpmax = 30
         self.hp = self.hpmax
         self.str = 3
         self.dex = 3
-        self.weapon = "wrench"
-        self.gun = "gun"
+        self.weapon = None
+        self.gun = None
         self.sfxhurt = "malehurt.wav"
         self.sfxdead = "maledead.wav"
         self.potions = 3
-        self.ammo = 20
-        self.bombs = 50
-        self.coins = 50
-        self.keys = 1
+        self.ammo = 0
+        self.bombs = 0
+        self.coins = 0
+        self.keys = 0
         self.potiontimer = 0
         self.potiontimermax = POTIONTIMER
         self.bombtimermax = 360
@@ -116,7 +116,8 @@ class PC(sprites.NPC):
         if item.name == "potion":
             self.potions += 1
         elif item.name == "powerbar":
-            self.hpmax += 10
+            if self.hpmax < 101:
+                self.hpmax += 10
             self.hp = self.hpmax
         elif item.name == "ammo":
             self.ammo += 10

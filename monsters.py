@@ -36,7 +36,7 @@ class Thief(NPC):
         self.text = ["Gimme your money!"]
         self.speed = 2.5
         self.hp = 20
-        self.str = 2
+        self.str = 3
         self.dex = 0
         self.weapon = "sword"
         self.sfxhurt = "malehurt.wav"
@@ -59,8 +59,8 @@ class Boss(NPC):
         NPC.__init__(self, "Shadow", "boss", pos)
         self.text = ["Die, punk!"]
         self.speed = 3.5
-        self.hp = 40
-        self.str = 2
+        self.hp = 60
+        self.str = 5
         self.dex = 0
         self.weapon = "sword"
         self.sfxhurt = "malehurt.wav"

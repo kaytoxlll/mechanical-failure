@@ -237,8 +237,10 @@ def save(filename, currentmapname):
     savefile.write("globalvars.hero.name = '" + globalvars.hero.name + "'\n")
     savefile.write("globalvars.hero.hpmax = " + str(globalvars.hero.hpmax) + "\n")
     savefile.write("globalvars.hero.hp = " + str(globalvars.hero.hp) + "\n")
-    savefile.write("globalvars.hero.weapon = '" + globalvars.hero.weapon + "'\n")
-    savefile.write("globalvars.hero.gun = '" + globalvars.hero.gun + "'\n")
+    if globalvars.hero.weapon is not None:
+        savefile.write("globalvars.hero.weapon = '" + globalvars.hero.weapon + "'\n")
+    if globalvars.hero.gun is not None:
+        savefile.write("globalvars.hero.gun = '" + globalvars.hero.gun + "'\n")
     savefile.write("globalvars.hero.potions = " + str(globalvars.hero.potions) + "\n")
     savefile.write("globalvars.hero.ammo = " + str(globalvars.hero.ammo) + "\n")
     savefile.write("globalvars.hero.bombs = " + str(globalvars.hero.bombs) + "\n")
